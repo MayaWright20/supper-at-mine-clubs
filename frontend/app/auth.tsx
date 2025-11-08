@@ -83,6 +83,7 @@ export default function SignIn() {
 const styles = StyleSheet.create({
   safeAreaView:{
     flex: 1,
+    backgroundColor: COLORS.CREAM_0
   },
   backCTA: {
     alignSelf: "flex-start",
