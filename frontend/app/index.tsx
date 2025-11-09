@@ -1,37 +1,30 @@
-import { router } from  "expo-router";
 import { StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
-
-import { setStorageItemAsync } from "@/store/store";
-import { AUTH_ROUTE } from "@/types";
+import { authHandler } from "@/utils/auth";
 import { COLORS } from "@/costants/colors";
+import { useStore } from "@/store/store";
+import { useEffect } from "react";
 
 export default function Index() {
+  const setIsAuthScreen = useStore((state: any)=> state.setIsAuthScreen);
 
-  const authHandler = (isLogin: string) => {
-    setStorageItemAsync(AUTH_ROUTE, isLogin);
-    router.navigate("/auth");
-  };
+  useEffect(()=> {
+      setIsAuthScreen(false);
+  },[setIsAuthScreen])
 
   return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.btnWrapper}>
-          <CTA title={"Log in"} onPress={()=> authHandler("true")} />
-          <CTA title={"Sign up"} onPress={()=> authHandler("false")} />
-        </View>
-      </SafeAreaView>
+    <View style={styles.btnWrapper}>
+      <CTA title={"Log in"} onPress={()=> authHandler("true", "/auth")} />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.RED_0
-  },
   btnWrapper: {
     flex: 1,
     justifyContent: "flex-end",
+    marginBottom: 0,
+    backgroundColor: COLORS.RED_0
   }
 });

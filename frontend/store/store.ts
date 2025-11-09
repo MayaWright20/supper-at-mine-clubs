@@ -1,6 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from 'zustand';
-import { createJSONStorage, persist } from "zustand/middleware";
 import  { useEffect, useCallback, useReducer } from 'react';
 import * as SecureStore from 'expo-secure-store';
 
@@ -9,6 +7,8 @@ type UseStateHook<T> = [[boolean, T | null], (value: T | null) => void];
 interface StoreState {
   authCTATitle: string;
   setAuthCTATitle: (title: string) => void;
+  isAuthScreen: boolean;
+  setAuthScreen: (isAuthScreen: boolean) => void;
   authRoute: boolean;
   setAuthRoute: (isLogin: boolean) => void;
 }
@@ -16,8 +16,10 @@ interface StoreState {
 export const useStore = create<StoreState | any>((set, get) => ({
   authCTATitle: 'Sign up',
   setAuthCTATitle: (title: string) => set(() => ({ authCTATitle: title })),
+  isAuthScreen: false,
+  setIsAuthScreen: (isAuthScreen: boolean) => set(() => ({ isAuthScreen })),
   authRoute: false,
-  setAuthRoute: (isLogin: boolean) => set(() => ({ authRoute : isLogin })),
+  setAuthRoute: (authRoute: boolean) => set(() => ({ authRoute })),
 }));
 
 
@@ -46,14 +48,14 @@ export function useStorageState(key: string): UseStateHook<string> {
       SecureStore.getItemAsync(key).then((value: any) => {
         setStorage(value);
       });
-  }, [key]);
+  }, [key, setStorage]);
 
   const setStorageHandler = useCallback(
     (value: any) => {
       setStorage(value);
       setStorageItemAsync(key, value);
     },
-    [key]
+    [key, setStorage]
   );
 
   return [storage, setStorageHandler];

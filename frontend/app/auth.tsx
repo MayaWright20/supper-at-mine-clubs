@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -7,7 +7,7 @@ import CTA from "@/components/buttons/cta";
 import TextInputComponent, { AutoCapitalize } from "@/components/inputs/text-input";
 
 import { COLORS } from "@/costants/colors";
-import { useStorageState } from "@/store/store";
+import { useStorageState, useStore } from "@/store/store";
 import { AUTH_ROUTE } from "@/types";
 
 // import { useSession } from '../ctx';
@@ -79,12 +79,20 @@ export default function SignIn() {
     email: "",
     password: "",
   });
-  const [storage, setStorageHandler] = useStorageState(AUTH_ROUTE);
+  const [storage] = useStorageState(AUTH_ROUTE);
   const formItems = useMemo(() => AUTH_ITEMS[`${storage[1]}`], [storage]);
+  const setAuthCTATitle = useStore((state: any)=> state.setAuthCTATitle);
+  const setIsAuthScreen = useStore((state: any)=> state.setIsAuthScreen);
 
   const backCta = () => {
+    setAuthCTATitle("Sign up")
     router.navigate("/");
   };
+
+  useEffect(()=> {
+    setAuthCTATitle(storage[1] === "true" ? "Login" : "Sign up");
+    setIsAuthScreen(true);
+  },[storage])
 
   const authHandler = async() => {
     console.log("formData", formData)
@@ -108,10 +116,6 @@ export default function SignIn() {
             );
           })}
       </View>
-      <CTA
-        title={storage[1] === "true" ? "Login" : "Sign up"}
-        onPress={authHandler}
-      />
     </SafeAreaView>
   );
 }
