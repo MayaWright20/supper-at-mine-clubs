@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: "stretch",
     textAlign: "right",
-    marginRight: 10
+    marginRight: 20
   },
   icon: {
     marginLeft: 5
