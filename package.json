@@ -15,8 +15,8 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"cd backend && nodemon index.js\" \"cd frontend && npx expo start\"",
-    "dev:ios": "concurrently \"cd backend && nodemon index.js\" \"cd frontend && npx expo start --ios\"",
+    "dev": "concurrently \"cd backend && npx nodemon server.js\" \"cd frontend && npx expo start\"",
+    "dev:ios": "concurrently \"cd backend && npx nodemon server.js\" \"cd frontend && npx expo start --ios\"",
     "frontend": "cd frontend && npx expo start --ios",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
