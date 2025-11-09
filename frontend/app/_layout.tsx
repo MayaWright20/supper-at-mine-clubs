@@ -10,7 +10,7 @@ import { AUTH_FORM, useStore } from "@/store/store";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { useEffect, useRef } from "react";
 import { COLORS } from "@/costants/colors";
-import { SHADOW } from "@/costants/styles";
+import { SHADOW, SHADOW_PINK_0 } from "@/costants/styles";
 
 const videoSource = require("../assets/videos/Fuzz.mp4");
 
@@ -97,7 +97,6 @@ function RootNavigator() {
           <VideoView
             style={styles.pictureContainer}
             player={player}
-            allowsFullscreen={true}
             contentFit="cover"
             nativeControls={false}
           />
@@ -146,5 +145,6 @@ const styles = StyleSheet.create({
   },
   cta: {
     ...SHADOW,
+    ...SHADOW_PINK_0
   },
 });
