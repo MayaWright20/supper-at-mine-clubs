@@ -26,13 +26,7 @@ export default function TextInputComponent({
   autoCapitalize
 }: Props) {
   const onChangeTextHandler = (input: string) => {
-    // if(isLowerCase){
-    //   onChangeText(input.toLowerCase());
-    //   console.log("input -  ", input.toLowerCase())
-    // }else{
       onChangeText(input);
-    // }
-    
   };
 
   return (
