@@ -1,16 +1,16 @@
 import { router } from "expo-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
-import TextInputComponent, {
+import  TextInputComponent,{
   AutoCapitalize,
 } from "@/components/inputs/text-input";
 
 import { COLORS } from "@/costants/colors";
 import { useStorageState, useStore } from "@/store/store";
-import { AUTH_ROUTE, AuthSignupForm } from "@/types";
+import { AUTH_ROUTE } from "@/types";
 
 // import { useSession } from '../ctx';
 
@@ -66,21 +66,16 @@ const AUTH_ITEMS: AUTH_ITEM = {
 
 export default function SignIn() {
   //   const { signIn } = useSession();
-  // const [formData, setFormData] = useState<AuthSignupForm>({
-  //   name: "",
-  //   username: "",
-  //   email: "",
-  //   password: "",
-  // });
   const [storage] = useStorageState(AUTH_ROUTE);
   const formItems = useMemo(() => AUTH_ITEMS[`${storage[1]}`], [storage]);
   const setAuthCTATitle = useStore((state: any) => state.setAuthCTATitle);
   const setIsAuthScreen = useStore((state: any) => state.setIsAuthScreen);
   const authForm = useStore((state: any) => state.authForm);
   const setAuthForm = useStore((state: any) => state.setAuthForm);
-
+  
   const backCta = () => {
     setAuthCTATitle("Sign up");
+    setIsAuthScreen(false)
     router.navigate("/");
   };
 

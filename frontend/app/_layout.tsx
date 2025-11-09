@@ -6,11 +6,13 @@ import CTA from "@/components/buttons/cta";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
 import { authHandler } from "@/utils/auth";
-import { useStore } from "@/store/store";
-import { COLORS } from "@/costants/colors";
+import { AUTH_FORM, useStore } from "@/store/store";
+import { useVideoPlayer, VideoView } from "expo-video";
+import { useEffect, useRef } from "react";
+
+const videoSource = require("../assets/videos/Fuzz.mp4");
 
 export default function RootLayout() {
-  // Set up the auth context and render your layout inside of it.
   return (
     <>
       <SplashScreenController />
@@ -23,14 +25,47 @@ function RootNavigator() {
   const authCTATitle = useStore((state: any) => state.authCTATitle);
   const isAuthScreen = useStore((state: any) => state.isAuthScreen);
   const authForm = useStore((state: any) => state.authForm);
+  const setIsAuthScreen = useStore((state: any) => state.setIsAuthScreen);
+  const setAuthForm = useStore((state: any) => state.setAuthForm);
+
+  const isReversed = useRef(false);
 
   const authBtnHandler = () => {
-    if(!isAuthScreen){
+    if (!isAuthScreen) {
       authHandler("false", "/auth");
-    }else{
-      console.log("form", authForm)
+      setIsAuthScreen(false);
+    } else {
+      console.log("form", authForm);
     }
   };
+
+  const player = useVideoPlayer(videoSource, (player) => {
+    player.loop = false;
+    player.play();
+  });
+
+  const handleVideoEnd = () => {
+    if (isReversed.current) {
+      player.currentTime = 0;
+      player.playbackRate = 1;
+      isReversed.current = false;
+    } else {
+      player.currentTime = player.duration || 0;
+      player.playbackRate = -1;
+      isReversed.current = true;
+    }
+    player.play();
+  };
+
+  useEffect(() => {
+    setIsAuthScreen(false);
+    setAuthForm(AUTH_FORM);
+  }, [setIsAuthScreen]);
+
+  useEffect(() => {
+    const subscription = player.addListener("playToEnd", handleVideoEnd);
+    return () => subscription?.remove();
+  }, [player]);
 
   return (
     <>
@@ -55,12 +90,24 @@ function RootNavigator() {
           <Stack.Screen name="(app)" />
         </Stack.Protected>
       </Stack>
-      <SafeAreaView
-        style={[
-          styles.safeAreaView,
-          { backgroundColor: isAuthScreen ? COLORS.CREAM_0 : COLORS.RED_0 },
-        ]}
-      >
+      {!isAuthScreen && (
+        <>
+          <VideoView
+            style={styles.pictureContainer}
+            player={player}
+            allowsFullscreen={true}
+            contentFit="cover"
+            nativeControls={false}
+          />
+          <SafeAreaView style={styles.safeAreaView}>
+            <CTA
+              title={"Log in"}
+              onPress={() => authHandler("true", "/auth")}
+            />
+          </SafeAreaView>
+        </>
+      )}
+      <SafeAreaView style={styles.authBtnSafeAreaView}>
         <CTA onPress={authBtnHandler} title={authCTATitle} />
       </SafeAreaView>
     </>
@@ -69,6 +116,20 @@ function RootNavigator() {
 
 const styles = StyleSheet.create({
   safeAreaView: {
+    paddingBottom: "-100%",
+  },
+  authBtnSafeAreaView: {
     paddingTop: "-100%",
+  },
+  pictureContainer: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  container: {
+    flex: 1,
+  },
+  image: {
+    ...StyleSheet.absoluteFillObject,
+    width: "100%",
+    height: "100%",
   },
 });
