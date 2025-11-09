@@ -3,12 +3,19 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { COLORS } from "@/costants/colors";
 import { PADDING } from "@/costants/styles";
 
+export enum AutoCapitalize {
+  none = 'none', 
+  sentences = 'sentences', 
+  words = 'words', 
+  characters = 'characters',
+}
+
 interface Props {
   backgroundColor?: string;
   color?: string;
   label: string;
   onChangeText: (input: string) => void;
-  isLowerCase: boolean;
+  autoCapitalize?: AutoCapitalize | undefined;
 }
 
 export default function TextInputComponent({
@@ -16,14 +23,15 @@ export default function TextInputComponent({
   color = "white",
   label,
   onChangeText,
-  isLowerCase
+  autoCapitalize
 }: Props) {
   const onChangeTextHandler = (input: string) => {
-    if(isLowerCase){
-      onChangeText(input.toLowerCase());
-    }else{
+    // if(isLowerCase){
+    //   onChangeText(input.toLowerCase());
+    //   console.log("input -  ", input.toLowerCase())
+    // }else{
       onChangeText(input);
-    }
+    // }
     
   };
 
@@ -35,6 +43,7 @@ export default function TextInputComponent({
       <TextInput
         onChangeText={onChangeTextHandler}
         style={[styles.textInput, { color: backgroundColor }]}
+        autoCapitalize={autoCapitalize}
       />
     </View>
   );

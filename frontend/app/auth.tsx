@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
-import TextInputComponent from "@/components/inputs/text-input";
+import TextInputComponent, { AutoCapitalize } from "@/components/inputs/text-input";
 
 import { COLORS } from "@/costants/colors";
 import { useStorageState } from "@/store/store";
@@ -24,7 +24,7 @@ interface AuthSignupForm extends AuthForm {
 interface AuthItem {
   label: string;
   id: string;
-  isLowercase?: boolean;
+  autoCapitalize: AutoCapitalize;
 }
 
 type AUTH_ITEM = Record<string, AuthItem[]>;
@@ -35,11 +35,12 @@ const AUTH_ITEMS: AUTH_ITEM = {
     {
       id: "username",
       label: "Username | Email",
-      isLowercase: true
+      autoCapitalize: AutoCapitalize.none
     },
     {
       id: "password",
       label: "Password",
+      autoCapitalize: AutoCapitalize.none
     },
   ],
   false: [
@@ -47,20 +48,22 @@ const AUTH_ITEMS: AUTH_ITEM = {
     {
       id: "name",
       label: "Name",
+      autoCapitalize: AutoCapitalize.words
     },
     {
       id: "username",
       label: "Username",
-      isLowercase: true
+      autoCapitalize: AutoCapitalize.none
     },
     {
       id: "email",
       label: "Email",
-      isLowercase: true
+      autoCapitalize: AutoCapitalize.none
     },
     {
       id: "password",
       label: "Password",
+      autoCapitalize: AutoCapitalize.none
     },
   ],
 };
@@ -92,6 +95,7 @@ export default function SignIn() {
           formItems.map((item, index) => {
             return (
               <TextInputComponent
+                autoCapitalize={item.autoCapitalize}
                 onChangeText={(value) => setFormData(prev => ({...prev, [item.id]: value }))}
                 key={index}
                 backgroundColor={COLORS.RED_0}
