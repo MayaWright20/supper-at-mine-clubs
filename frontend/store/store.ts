@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useEffect, useCallback, useReducer } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import { AuthSignupForm } from '@/types';
+import { AuthRoutes, AuthSignupForm } from '@/types';
 
 type UseStateHook<T> = [[boolean, T | null], (value: T | null) => void];
 
@@ -12,18 +12,18 @@ export const AUTH_FORM: AuthSignupForm = {
   password: '',
 };
 
-interface StoreState {
-  authCTATitle: string;
-  setAuthCTATitle: (title: string) => void;
+export interface StoreState {
+  authCTATitle: AuthRoutes;
+  setAuthCTATitle: (authCTATitle: AuthRoutes) => void;
   isAuthBgCol: boolean;
-  setAuthScreen: (isAuthBgCol: boolean) => void;
+  setIsAuthBgCol: (isAuthBgCol: boolean) => void;
   authForm: AuthSignupForm;
   setAuthForm: (authForm: AuthSignupForm) => void;
 }
 
 export const useStore = create<StoreState | any>((set, get) => ({
   authCTATitle: 'Sign up',
-  setAuthCTATitle: (title: string) => set(() => ({ authCTATitle: title })),
+  setAuthCTATitle: (authCTATitle: AuthRoutes) => set(() => ({ authCTATitle })),
   isAuthBgCol: false,
   setIsAuthBgCol: (isAuthBgCol: boolean) => set(() => ({ isAuthBgCol })),
   authForm: AUTH_FORM,

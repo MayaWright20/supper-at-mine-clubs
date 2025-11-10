@@ -7,7 +7,7 @@ import CTA from '@/components/buttons/cta';
 import TextInputComponent, { AutoCapitalize } from '@/components/inputs/text-input';
 
 import { COLORS } from '@/costants/colors';
-import { useStore } from '@/store/store';
+import { AUTH_FORM, StoreState, useStore } from '@/store/store';
 import { AuthRoutes } from '@/types';
 
 // import { useSession } from '../ctx';
@@ -19,7 +19,7 @@ interface AuthItem {
   secureTextEntry?: boolean;
 }
 
-type AUTH_ITEM = Record<string, AuthItem[]>;
+type AUTH_ITEM = Record<AuthRoutes.LOGIN | AuthRoutes.SING_UP, AuthItem[]>;
 
 const AUTH_ITEMS: AUTH_ITEM = {
   Login: [
@@ -62,17 +62,18 @@ const AUTH_ITEMS: AUTH_ITEM = {
 
 export default function SignIn() {
   //   const { signIn } = useSession();
-  const authCTATitle = useStore((state: any) => state.authCTATitle);
-  const setAuthCTATitle = useStore((state: any) => state.setAuthCTATitle);
-  const setIsAuthBgCol = useStore((state: any) => state.setIsAuthBgCol);
-  const authForm = useStore((state: any) => state.authForm);
-  const setAuthForm = useStore((state: any) => state.setAuthForm);
+  const authCTATitle = useStore((state: StoreState) => state.authCTATitle);
+  const setAuthCTATitle = useStore((state: StoreState) => state.setAuthCTATitle);
+  const setIsAuthBgCol = useStore((state: StoreState) => state.setIsAuthBgCol);
+  const authForm = useStore((state: StoreState) => state.authForm);
+  const setAuthForm = useStore((state: StoreState) => state.setAuthForm);
 
   const formItems = useMemo(() => AUTH_ITEMS[`${authCTATitle}`], [authCTATitle]);
 
   const backCta = () => {
     setAuthCTATitle(AuthRoutes.SING_UP);
     setIsAuthBgCol(false);
+    setAuthForm(AUTH_FORM);
     router.navigate('/');
   };
 

@@ -5,7 +5,7 @@ import { SplashScreenController } from '@/components/splash-screen';
 import CTA from '@/components/buttons/cta';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
-import { AUTH_FORM, useStore } from '@/store/store';
+import { AUTH_FORM, StoreState, useStore } from '@/store/store';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { useEffect, useRef } from 'react';
 import { COLORS } from '@/costants/colors';
@@ -24,12 +24,12 @@ export default function RootLayout() {
 }
 
 function RootNavigator() {
-  const authCTATitle = useStore((state: any) => state.authCTATitle);
-  const setAuthCTATitle = useStore((state: any) => state.setAuthCTATitle);
-  const isAuthBgCol = useStore((state: any) => state.isAuthBgCol);
-  const setIsAuthBgCol = useStore((state: any) => state.setIsAuthBgCol);
-  const authForm = useStore((state: any) => state.authForm);
-  const setAuthForm = useStore((state: any) => state.setAuthForm);
+  const authCTATitle = useStore((state: StoreState) => state.authCTATitle);
+  const setAuthCTATitle = useStore((state: StoreState) => state.setAuthCTATitle);
+  const isAuthBgCol = useStore((state: StoreState) => state.isAuthBgCol);
+  const setIsAuthBgCol = useStore((state: StoreState) => state.setIsAuthBgCol);
+  const authForm = useStore((state: StoreState) => state.authForm);
+  const setAuthForm = useStore((state: StoreState) => state.setAuthForm);
 
   const isReversed = useRef(false);
 
@@ -42,13 +42,12 @@ function RootNavigator() {
       navigateToAuth();
       setIsAuthBgCol(false);
     } else {
-      console.log('form', authForm);
       if (authCTATitle === 'Login') {
-        console.log('Log in');
+        console.log('Log in', authForm);
       }
 
       if (authCTATitle === 'Sign up') {
-        console.log('sign up');
+        console.log('sign up', authForm);
       }
     }
   };
@@ -128,7 +127,10 @@ function RootNavigator() {
         </>
       )}
       <SafeAreaView
-        style={[styles.authBtnSafeAreaView, { backgroundColor: isAuthBgCol && COLORS.CREAM_0 }]}>
+        style={[
+          styles.authBtnSafeAreaView,
+          { backgroundColor: isAuthBgCol ? COLORS.CREAM_0 : undefined },
+        ]}>
         <CTA style={!isAuthBgCol && styles.cta} onPress={authBtnHandler} title={authCTATitle} />
       </SafeAreaView>
     </>
