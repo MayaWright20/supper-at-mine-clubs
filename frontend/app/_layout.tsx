@@ -62,7 +62,7 @@ function RootNavigator() {
   useEffect(() => {
     setIsAuthScreen(false);
     setAuthForm(AUTH_FORM);
-  }, [setIsAuthScreen]);
+  }, [setIsAuthScreen, setAuthForm]);
 
   useEffect(() => {
     const subscription = player.addListener("playToEnd", handleVideoEnd);
