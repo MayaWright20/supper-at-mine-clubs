@@ -1,4 +1,4 @@
-export const AUTH_ROUTE = "AUTH_ROUTE";
+export const AUTH_ROUTE = 'AUTH_ROUTE';
 
 export interface AuthForm {
   username: string;
@@ -8,4 +8,9 @@ export interface AuthForm {
 export interface AuthSignupForm extends AuthForm {
   name: string;
   email: string;
+}
+
+export enum AuthRoutes {
+  LOGIN = 'Login',
+  SING_UP = 'Sign up',
 }

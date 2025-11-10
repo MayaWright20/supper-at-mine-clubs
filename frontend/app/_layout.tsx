@@ -1,16 +1,16 @@
-import { Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
 
 // import { SessionProvider } from '../ctx';
 import { SplashScreenController } from '@/components/splash-screen';
 import CTA from '@/components/buttons/cta';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
-import { authHandler } from '@/utils/auth';
 import { AUTH_FORM, useStore } from '@/store/store';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { useEffect, useRef } from 'react';
 import { COLORS } from '@/costants/colors';
 import { SHADOW } from '@/costants/styles';
+import { AuthRoutes } from '@/types';
 
 const videoSource = require('../assets/videos/Fuzz.mp4');
 
@@ -25,6 +25,7 @@ export default function RootLayout() {
 
 function RootNavigator() {
   const authCTATitle = useStore((state: any) => state.authCTATitle);
+  const setAuthCTATitle = useStore((state: any) => state.setAuthCTATitle);
   const isAuthScreen = useStore((state: any) => state.isAuthScreen);
   const authForm = useStore((state: any) => state.authForm);
   const setIsAuthScreen = useStore((state: any) => state.setIsAuthScreen);
@@ -32,13 +33,29 @@ function RootNavigator() {
 
   const isReversed = useRef(false);
 
+  const navigateToAuth = () => {
+    router.navigate('/auth');
+  };
+
   const authBtnHandler = () => {
     if (!isAuthScreen) {
-      authHandler('false', '/auth');
+      navigateToAuth();
       setIsAuthScreen(false);
     } else {
       console.log('form', authForm);
+      if (authCTATitle === 'Login') {
+        console.log('Log in');
+      }
+
+      if (authCTATitle === 'Sign up') {
+        console.log('sign up');
+      }
     }
+  };
+
+  const loginHandler = () => {
+    navigateToAuth();
+    setAuthCTATitle(AuthRoutes.LOGIN);
   };
 
   const player = useVideoPlayer(videoSource, (player) => {
@@ -103,8 +120,8 @@ function RootNavigator() {
           />
           <SafeAreaView style={styles.safeAreaView}>
             <CTA
-              title={'Log in'}
-              onPress={() => authHandler('true', '/auth')}
+              title={AuthRoutes.LOGIN}
+              onPress={loginHandler}
               style={!isAuthScreen && styles.cta}
             />
           </SafeAreaView>

@@ -7,8 +7,8 @@ import CTA from '@/components/buttons/cta';
 import TextInputComponent, { AutoCapitalize } from '@/components/inputs/text-input';
 
 import { COLORS } from '@/costants/colors';
-import { useStorageState, useStore } from '@/store/store';
-import { AUTH_ROUTE } from '@/types';
+import { useStore } from '@/store/store';
+import { AuthRoutes } from '@/types';
 
 // import { useSession } from '../ctx';
 
@@ -22,8 +22,7 @@ interface AuthItem {
 type AUTH_ITEM = Record<string, AuthItem[]>;
 
 const AUTH_ITEMS: AUTH_ITEM = {
-  true: [
-    // Login
+  Login: [
     {
       id: 'username',
       label: 'Username | Email',
@@ -36,8 +35,7 @@ const AUTH_ITEMS: AUTH_ITEM = {
       secureTextEntry: true,
     },
   ],
-  false: [
-    // Sign up
+  'Sign up': [
     {
       id: 'name',
       label: 'Name',
@@ -64,23 +62,23 @@ const AUTH_ITEMS: AUTH_ITEM = {
 
 export default function SignIn() {
   //   const { signIn } = useSession();
-  const [storage] = useStorageState(AUTH_ROUTE);
-  const formItems = useMemo(() => AUTH_ITEMS[`${storage[1]}`], [storage]);
+  const authCTATitle = useStore((state: any) => state.authCTATitle);
   const setAuthCTATitle = useStore((state: any) => state.setAuthCTATitle);
   const setIsAuthScreen = useStore((state: any) => state.setIsAuthScreen);
   const authForm = useStore((state: any) => state.authForm);
   const setAuthForm = useStore((state: any) => state.setAuthForm);
 
+  const formItems = useMemo(() => AUTH_ITEMS[`${authCTATitle}`], [authCTATitle]);
+
   const backCta = () => {
-    setAuthCTATitle('Sign up');
+    setAuthCTATitle(AuthRoutes.SING_UP);
     setIsAuthScreen(false);
     router.navigate('/');
   };
 
   useEffect(() => {
-    setAuthCTATitle(storage[1] === 'true' ? 'Login' : 'Sign up');
     setIsAuthScreen(true);
-  }, [storage, setAuthCTATitle, setIsAuthScreen]);
+  }, [setAuthCTATitle, setIsAuthScreen]);
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
