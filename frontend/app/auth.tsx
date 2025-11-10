@@ -64,7 +64,7 @@ export default function SignIn() {
   //   const { signIn } = useSession();
   const authCTATitle = useStore((state: any) => state.authCTATitle);
   const setAuthCTATitle = useStore((state: any) => state.setAuthCTATitle);
-  const setIsAuthScreen = useStore((state: any) => state.setIsAuthScreen);
+  const setIsAuthBgCol = useStore((state: any) => state.setIsAuthBgCol);
   const authForm = useStore((state: any) => state.authForm);
   const setAuthForm = useStore((state: any) => state.setAuthForm);
 
@@ -72,13 +72,13 @@ export default function SignIn() {
 
   const backCta = () => {
     setAuthCTATitle(AuthRoutes.SING_UP);
-    setIsAuthScreen(false);
+    setIsAuthBgCol(false);
     router.navigate('/');
   };
 
   useEffect(() => {
-    setIsAuthScreen(true);
-  }, [setAuthCTATitle, setIsAuthScreen]);
+    setIsAuthBgCol(true);
+  }, [setAuthCTATitle, setIsAuthBgCol]);
 
   return (
     <SafeAreaView style={styles.safeAreaView}>

@@ -1,22 +1,22 @@
 import { create } from 'zustand';
-import  { useEffect, useCallback, useReducer } from 'react';
+import { useEffect, useCallback, useReducer } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { AuthSignupForm } from '@/types';
 
 type UseStateHook<T> = [[boolean, T | null], (value: T | null) => void];
 
 export const AUTH_FORM: AuthSignupForm = {
-  name: "",
-  username: "",
-  email: "",
-  password: ""
-}
+  name: '',
+  username: '',
+  email: '',
+  password: '',
+};
 
 interface StoreState {
   authCTATitle: string;
   setAuthCTATitle: (title: string) => void;
-  isAuthScreen: boolean;
-  setAuthScreen: (isAuthScreen: boolean) => void;
+  isAuthBgCol: boolean;
+  setAuthScreen: (isAuthBgCol: boolean) => void;
   authForm: AuthSignupForm;
   setAuthForm: (authForm: AuthSignupForm) => void;
 }
@@ -24,38 +24,34 @@ interface StoreState {
 export const useStore = create<StoreState | any>((set, get) => ({
   authCTATitle: 'Sign up',
   setAuthCTATitle: (title: string) => set(() => ({ authCTATitle: title })),
-  isAuthScreen: false,
-  setIsAuthScreen: (isAuthScreen: boolean) => set(() => ({ isAuthScreen })),
+  isAuthBgCol: false,
+  setIsAuthBgCol: (isAuthBgCol: boolean) => set(() => ({ isAuthBgCol })),
   authForm: AUTH_FORM,
   setAuthForm: (authForm: AuthSignupForm) => set(() => ({ authForm })),
 }));
 
-
-function useAsyncState<T>(
-  initialValue: [boolean, T | null] = [true, null],
-): UseStateHook<T> {
+function useAsyncState<T>(initialValue: [boolean, T | null] = [true, null]): UseStateHook<T> {
   return useReducer(
     (state: [boolean, T | null], action: T | null = null): [boolean, T | null] => [false, action],
-    initialValue
+    initialValue,
   ) as UseStateHook<T>;
 }
 
 export async function setStorageItemAsync(key: string, value: any) {
-    if (value == null) {
-      await SecureStore.deleteItemAsync(key);
-    } else {
-      await SecureStore.setItemAsync(key, value);
-    }
+  if (value == null) {
+    await SecureStore.deleteItemAsync(key);
+  } else {
+    await SecureStore.setItemAsync(key, value);
+  }
 }
 
 export function useStorageState(key: string): UseStateHook<string> {
-
   const [storage, setStorage] = useAsyncState<string>();
- 
+
   useEffect(() => {
-      SecureStore.getItemAsync(key).then((value: any) => {
-        setStorage(value);
-      });
+    SecureStore.getItemAsync(key).then((value: any) => {
+      setStorage(value);
+    });
   }, [key, setStorage]);
 
   const setStorageHandler = useCallback(
@@ -63,7 +59,7 @@ export function useStorageState(key: string): UseStateHook<string> {
       setStorage(value);
       setStorageItemAsync(key, value);
     },
-    [key, setStorage]
+    [key, setStorage],
   );
 
   return [storage, setStorageHandler];
