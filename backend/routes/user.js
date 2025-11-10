@@ -4,9 +4,7 @@ import {
   getMyProfile,
   login,
   logout,
-  readAllFavourites,
   signUp,
-  updateFavourites,
 } from "../controllers/user.js";
 import { isAuthenticated } from "../middleware/auth.js";
 

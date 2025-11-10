@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import express from "express";
 import helmet from "helmet";
 import user from "./routes/user.js";
+import { errorMiddleware } from "./middleware/error.js";
 
 config({
   path: "../config.env",

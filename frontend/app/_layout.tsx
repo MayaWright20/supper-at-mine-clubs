@@ -46,19 +46,6 @@ function RootNavigator() {
     player.play();
   });
 
-  // const handleVideoEnd = () => {
-  //   if (isReversed.current) {
-  //     player.currentTime = 0;
-  //     player.playbackRate = 1;
-  //     isReversed.current = false;
-  //   } else {
-  //     player.currentTime = player.duration || 0;
-  //     player.playbackRate = -1;
-  //     isReversed.current = true;
-  //   }
-  //   player.play();
-  // };
-
   useEffect(() => {
     setIsAuthScreen(false);
     setAuthForm(AUTH_FORM);
