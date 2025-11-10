@@ -14,12 +14,12 @@ const schema = new mongoose.Schema({
   email: {
     type: String,
     unique: [true, "Email already registed"],
-    required: [true, "Please enter your email"],
-    validator: [validator.isEmail, "Invalid credentials"],
+    required: [true, "Please enter email"],
+    validator: [validator.isEmail, "Invalid email"],
   },
   password: {
     type: String,
-    required: [true, "Invalid credentials"],
+    required: [true, "Please enter password"],
     validator: [
       validator.isStrongPassword,
       "Too easy! Please enter a stronger password",
