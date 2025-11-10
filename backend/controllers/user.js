@@ -1,18 +1,38 @@
+import { asyncError } from "../middleware/error.js";
 import { User } from "../models/user.js";
+import ErrorHandler from "../utils/error.js";
+import { cookieOptions, sendToken } from "../utils/feature.js";
 
-export const signup = async(req, res, next) => {
-    const {name, username, email, password} = req.body;
+export const signUp = asyncError(async (req, res, next) => {
+  const { name, email, password, username, phone } = req.body;
 
-    let user = await User.findOne({
-        $or: [
-            { email: email || username },
-            { username: email || username },
-        ]
-    });
+  let user = await User.findOne({
+    $or: [{ email: email || username }, { username: email || username }],
+  });
 
-    // if(user) return next(new ErrorHandler("User already exists", 400));
-    if(user) return console.log("Already have that person")
+  if (user) return next(new ErrorHandler("User already exists", 400));
 
-    user = await User.create({name, username, email, password});
-    console.log('created')
-};
+  user = await User.create({ name, email, password, username, phone });
+
+  sendToken(user, res, "Welcome!", 201);
+});
+
+export const login = asyncError(async (req, res, next) => {
+  const { email, password, username } = req.body;
+
+  const user = await User.findOne({
+    $or: [{ email: email || username }, { username: email || username }],
+  }).select("+password");
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  const isMatched = await user.comparePassword(password);
+
+  if (!isMatched) {
+    return next(new ErrorHandler("Incorrect Details", 400));
+  }
+
+  sendToken(user, res, `Hey ${user.name}`, 200);
+});
