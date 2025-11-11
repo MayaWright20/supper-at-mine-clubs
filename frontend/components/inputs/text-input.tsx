@@ -4,7 +4,7 @@ import Octicons from '@expo/vector-icons/Octicons';
 
 import { COLORS } from '@/costants/colors';
 import { PADDING } from '@/costants/styles';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { AutoCapitalize } from '@/types';
 
 interface Props {
@@ -30,21 +30,31 @@ export default function TextInputComponent({
   errorMessage,
   showErrorMessage,
 }: Props) {
-  const [showSecureText, setShowSecureText] = useState(true);
+  const [showSecureText, setShowSecureText] = useState(false);
+  const [timer, setTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   const onChangeTextHandler = (input: string) => {
     onChangeText(input.trim());
   };
 
-  const toggleSecureText = () => {
+  const toggleSecureText = useCallback(() => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    if (showSecureText) {
-      setShowSecureText((prev) => !prev);
-      setTimeout(() => {
-        setShowSecureText((prev) => !prev);
+
+    if (!showSecureText) {
+      setShowSecureText(true);
+      const newTimer = setTimeout(() => {
+        setShowSecureText(false);
+        setTimer(null);
       }, 5000);
+      setTimer(newTimer);
+    } else {
+      if (timer) {
+        clearTimeout(timer);
+        setTimer(null);
+      }
+      setShowSecureText(false);
     }
-  };
+  }, [showSecureText, timer]);
 
   return (
     <>
@@ -56,7 +66,7 @@ export default function TextInputComponent({
           {secureTextEntry && (
             <Octicons
               style={styles.icon}
-              name={showSecureText ? 'eye-closed' : 'eye'}
+              name={showSecureText ? 'eye' : 'eye-closed'}
               size={20}
               color={color}
             />
@@ -67,11 +77,11 @@ export default function TextInputComponent({
           onChangeText={onChangeTextHandler}
           style={[styles.textInput, { color }]}
           autoCapitalize={autoCapitalize}
-          secureTextEntry={secureTextEntry && showSecureText}
+          secureTextEntry={secureTextEntry && !showSecureText}
           cursorColor={backgroundColor}
         />
       </View>
-      {showErrorMessage && <Text style={[styles.errorLabel, { color }]}>asdf{errorMessage}</Text>}
+      {showErrorMessage && <Text style={[styles.errorLabel, { color }]}>{errorMessage}</Text>}
     </>
   );
 }
