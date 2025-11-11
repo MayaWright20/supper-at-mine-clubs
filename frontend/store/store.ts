@@ -17,7 +17,7 @@ import {
 
 type UseStateHook<T> = [[boolean, T | null], (value: T | null) => void];
 
-// Order of AUTH_FORM cannot change see _layout fieldsToValidate function
+// Order of AUTH_FORM cannot change see _layout.tsx fieldsToValidate function
 export const AUTH_FORM: ErrorStateValue[] = [
   {
     id: 'name',

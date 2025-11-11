@@ -21,16 +21,6 @@ export interface ErrorStateValue extends TextInput {
   showErrorMessage: boolean;
 }
 
-export interface AuthForm {
-  username: ErrorStateValue;
-  password: ErrorStateValue;
-}
-
-export interface AuthSignupForm extends AuthForm {
-  name: ErrorStateValue;
-  email: ErrorStateValue;
-}
-
 export enum AuthRoutes {
   LOGIN = 'Login',
   SING_UP = 'Sign up',

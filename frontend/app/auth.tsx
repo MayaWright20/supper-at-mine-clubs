@@ -8,107 +8,9 @@ import TextInputComponent from '@/components/inputs/text-input';
 
 import { COLORS } from '@/costants/colors';
 import { AUTH_FORM, StoreState, useStore } from '@/store/store';
-import { AuthRoutes, AutoCapitalize, ErrorStateValue } from '@/types';
-import {
-  EMAIL_VALIDATOR,
-  HAS_LOWERCASE,
-  HAS_NUMBER,
-  HAS_SPECIAL_CHAR,
-  HAS_UPPERCASE,
-  MIN_LENGTH_12,
-  NAME_VALIDATOR,
-  USER_NAME_VALIDATOR,
-} from '@/costants/regex';
+import { AuthRoutes, ErrorStateValue } from '@/types';
 
 // import { useSession } from '../ctx';
-
-interface AuthItem {
-  label: string;
-  id: string;
-  autoCapitalize: AutoCapitalize;
-  secureTextEntry?: boolean;
-}
-
-type AUTH_ITEM = Record<AuthRoutes.LOGIN | AuthRoutes.SING_UP, AuthItem[]>;
-
-// const AUTH_ITEMS: AUTH_ITEM = {
-//   Login: [
-//     {
-//       id: 'username',
-//       label: 'Username | Email',
-//       autoCapitalize: AutoCapitalize.none,
-//     },
-//     {
-//       id: 'password',
-//       label: 'Password',
-//       autoCapitalize: AutoCapitalize.none,
-//       secureTextEntry: true,
-//     },
-//   ],
-//   'Sign up': [
-//     {
-//       id: 'name',
-//       label: 'Name',
-//       autoCapitalize: AutoCapitalize.words,
-//     },
-//     {
-//       id: 'username',
-//       label: 'Username',
-//       autoCapitalize: AutoCapitalize.none,
-//     },
-//     {
-//       id: 'email',
-//       label: 'Email',
-//       autoCapitalize: AutoCapitalize.none,
-//     },
-//     {
-//       id: 'password',
-//       label: 'Password',
-//       autoCapitalize: AutoCapitalize.none,
-//       secureTextEntry: true,
-//     },
-//   ],
-// };
-
-// // Order of AUTH_FORM_INITIAL_STATE cannot change see _layout fieldsToValidate function
-// export const AUTH_FORM: ErrorStateValue[] = [
-//   {
-//     id: 'name',
-//     label: 'name',
-//     value: '',
-//     errorMessage: 'name error message',
-//     validator: [NAME_VALIDATOR],
-//     showErrorMessage: false,
-//     autoCapitalize: AutoCapitalize.words,
-//   },
-//   {
-//     id: 'username',
-//     label: 'Username',
-//     value: '',
-//     errorMessage: 'username error message',
-//     validator: [USER_NAME_VALIDATOR],
-//     showErrorMessage: false,
-//     autoCapitalize: AutoCapitalize.none,
-//   },
-//   {
-//     id: 'email',
-//     label: 'Email',
-//     value: '',
-//     errorMessage: 'email error message',
-//     validator: [EMAIL_VALIDATOR],
-//     showErrorMessage: false,
-//     autoCapitalize: AutoCapitalize.none,
-//   },
-//   {
-//     id: 'password',
-//     label: 'Password',
-//     value: '',
-//     errorMessage: 'password error message',
-//     validator: [HAS_UPPERCASE, HAS_LOWERCASE, HAS_NUMBER, HAS_SPECIAL_CHAR, MIN_LENGTH_12],
-//     showErrorMessage: false,
-//     autoCapitalize: AutoCapitalize.none,
-//   },
-// ];
 
 export default function SignIn() {
   //   const { signIn } = useSession();
@@ -118,10 +20,21 @@ export default function SignIn() {
   const authForm = useStore((state: StoreState) => state.authForm);
   const setAuthForm = useStore((state: StoreState) => state.setAuthForm);
 
+  const resetForm = () => {
+    const updatedForm = authForm.map((field) => {
+      return {
+        ...field,
+        value: '',
+        showErrorMessage: false,
+      };
+    });
+    setAuthForm(updatedForm);
+  };
+
   const backCta = () => {
     setAuthCTATitle(AuthRoutes.SING_UP);
     setIsAuthBgCol(false);
-    setAuthForm(AUTH_FORM);
+    resetForm();
     router.navigate('/');
   };
 
@@ -159,16 +72,6 @@ export default function SignIn() {
                 value={formField?.value || ''}
                 onChangeText={(value) => {
                   updateFormHandler(item, value);
-                  // const updatedForm = authForm.map((field) => {
-                  //   if (field.id === item.id) {
-                  //     return {
-                  //       ...field,
-                  //       value: value,
-                  //     };
-                  //   }
-                  //   return field;
-                  // });
-                  // setAuthForm(updatedForm);
                 }}
                 key={index}
                 color={COLORS.RED_0}
