@@ -73,7 +73,6 @@ function RootNavigator() {
 
       if (isValid) {
         console.log('Form is valid, proceeding with authentication...');
-        // TODO: Add actual authentication logic here
       }
 
       console.log('islogin', isLogin);

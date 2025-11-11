@@ -1,6 +1,5 @@
-import { StoreState } from '@/store/store';
+import { StoreState, useStore } from '@/store/store';
 import { ErrorStateValue } from '@/types';
-import { useStore } from '@/store/store';
 import { useCallback } from 'react';
 
 export default function useAuthForm() {

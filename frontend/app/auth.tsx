@@ -19,7 +19,6 @@ export default function SignIn() {
   const setAuthCTATitle = useStore((state: StoreState) => state.setAuthCTATitle);
   const setIsAuthBgCol = useStore((state: StoreState) => state.setIsAuthBgCol);
   const authForm = useStore((state: StoreState) => state.authForm);
-  const setAuthForm = useStore((state: StoreState) => state.setAuthForm);
 
   const { resetForm, updateFormHandler } = useAuthForm();
 
