@@ -76,10 +76,15 @@ export const useStore = create<StoreState | any>((set, get) => ({
   setIsAuthBgCol: (isAuthBgCol: boolean) => set(() => ({ isAuthBgCol })),
   authForm: AUTH_FORM,
   setAuthForm: (authForm: ErrorStateValue[]) => set(() => ({ authForm })),
-  updateAuthFormField: (fieldId: string, value: string) =>
+  updateAuthFormField: (
+    fieldId: string,
+    value?: string,
+    showErrorMessage?: boolean,
+    errorMessage?: string,
+  ) =>
     set((state: { authForm: ErrorStateValue[] }) => ({
       authForm: state.authForm.map((field: ErrorStateValue) =>
-        field.id === fieldId ? { ...field, value, showErrorMessage: false } : field,
+        field.id === fieldId ? { ...field, value, showErrorMessage, errorMessage } : field,
       ),
     })),
   resetAuthForm: () =>

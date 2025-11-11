@@ -9,7 +9,6 @@ import TextInputComponent from '@/components/inputs/text-input';
 import { COLORS } from '@/costants/colors';
 import { AUTH_FORM, StoreState, useStore } from '@/store/store';
 import { AuthRoutes } from '@/types';
-import useAuthForm from '@/hooks/useAuthForm';
 
 // import { useSession } from '../ctx';
 
@@ -19,13 +18,13 @@ export default function SignIn() {
   const setAuthCTATitle = useStore((state: StoreState) => state.setAuthCTATitle);
   const setIsAuthBgCol = useStore((state: StoreState) => state.setIsAuthBgCol);
   const authForm = useStore((state: StoreState) => state.authForm);
-
-  const { resetForm, updateFormHandler } = useAuthForm();
+  const updateAuthFormField = useStore((state: StoreState) => state.updateAuthFormField);
+  const resetAuthForm = useStore((state: StoreState) => state.resetAuthForm);
 
   const backCta = () => {
     setAuthCTATitle(AuthRoutes.SING_UP);
     setIsAuthBgCol(false);
-    resetForm();
+    resetAuthForm();
     router.navigate('/');
   };
 
@@ -48,7 +47,7 @@ export default function SignIn() {
                 autoCapitalize={item.autoCapitalize}
                 value={formField?.value || ''}
                 onChangeText={(value) => {
-                  updateFormHandler(item, value);
+                  updateAuthFormField(item.id, value);
                 }}
                 key={index}
                 color={COLORS.RED_0}
