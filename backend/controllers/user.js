@@ -17,7 +17,7 @@ export const login = asyncError(async (req, res, next) => {
   const isMatched = await user.comparePassword(password);
 
   if (!isMatched) {
-    return next(new ErrorHandler("Incorrect Details", 400));
+    return next(new ErrorHandler("Invalid credentials", 400));
   }
 
   sendToken(user, res, `Hey ${user.name}`, 200);
