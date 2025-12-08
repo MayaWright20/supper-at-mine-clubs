@@ -32,6 +32,17 @@ export const createSupper = asyncError(async (req, res, next) => {
   });
 });
 
+export const getAllSuppers = asyncError(async (req, res, next) => {
+  const allSuppers = await Supper.find();
+
+  console.log("in get supper", allSuppers);
+
+  res.status(200).json({
+    success: true,
+    allSuppers,
+  });
+});
+
 export const getSupper = asyncError(async (req, res, next) => {
   const supper = await Supper.findById(req.supper._id);
 

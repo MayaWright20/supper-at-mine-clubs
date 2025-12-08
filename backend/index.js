@@ -34,6 +34,8 @@ app.get("/", (req, res, next) => {
       "DELETE /api/v1/user/delete",
       "POST /suppers",
       "POST /api/v1/suppers",
+      "GET /suppers",
+      "GET /api/v1/suppers",
     ],
   });
 });

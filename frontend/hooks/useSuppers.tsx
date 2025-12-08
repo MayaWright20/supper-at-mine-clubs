@@ -29,7 +29,24 @@ export default function useSupper() {
     }
   };
 
+  const getAllSupper = async () => {
+    try {
+      const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/suppers`, {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      });
+
+      if (response.data.success) {
+        console.log('This is successful get', response.data.allSuppers);
+      }
+    } catch (err: any) {
+      console.log('Unsuccessful geyt', err.message);
+    }
+  };
+
   return {
     createSupper,
+    getAllSupper,
   };
 }
