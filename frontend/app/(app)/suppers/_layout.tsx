@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 
-import { SCREEN_NAMES } from "@/constants/screens";
+import { SCREEN_NAMES } from "@/routes/screens";
 
 export default function Layout() {
   return (

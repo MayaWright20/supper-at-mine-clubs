@@ -5,8 +5,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CTA from "@/components/buttons/cta";
 import AnimatedTextInput from "@/components/inputs/text-input";
 import { COLORS } from "@/constants/colors";
-import { ROUTES } from "@/constants/routes";
-import { PAGE_BACKGROUND_COL, SCREEN_STYLES } from "@/constants/styles";
+import { SCREEN_STYLES } from "@/constants/styles";
+import { ROUTES } from "@/routes/routes";
 
 export default function Index() {
   const goToCreateSupper = () => {
@@ -47,10 +47,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   headerItem: {
-    flex: 1,
-  },
-  screen: {
-    backgroundColor: PAGE_BACKGROUND_COL,
     flex: 1,
   },
   searchBar: {
