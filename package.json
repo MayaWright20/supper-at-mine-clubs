@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
+  "homepage": "https://github.com/MayaWright20/identity-circle#readme",
+  "bugs": {
+    "url": "https://github.com/MayaWright20/identity-circle/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MayaWright20/identity-circle.git"
+  },
   "author": "Maya Wright",
   "type": "commonjs",
   "main": "index.js",
