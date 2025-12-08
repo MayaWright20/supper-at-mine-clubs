@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Pressable, StyleSheet, Text, TextInput, ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
@@ -29,6 +30,7 @@ interface Props {
   containerStyle?: ViewStyle;
   placeholder?: string;
   onBlur?: () => void;
+  secureTextEntry?: boolean;
 }
 
 export default function AnimatedTextInput({
@@ -44,10 +46,12 @@ export default function AnimatedTextInput({
   containerStyle,
   placeholder,
   onBlur,
+  secureTextEntry,
 }: Props) {
   const inputRef = useRef<TextInput>(null);
 
   const [isAnimated, setIsAnimated] = useState<boolean>(false);
+  const [isSecureTextHidden, setIsSecureTextHidden] = useState(true);
 
   const translateY = useSharedValue(TRANSLATE_Y_NOT_ANIMATED);
   const translateX = useSharedValue(TRANSLATE_X_NOT_ANIMATED);
@@ -111,6 +115,15 @@ export default function AnimatedTextInput({
     }
   };
 
+  const toggleSecureText = () => {
+    setIsSecureTextHidden((prev) => !prev);
+    if (isSecureTextHidden) {
+      setTimeout(() => {
+        setIsSecureTextHidden(true);
+      }, 5000);
+    }
+  };
+
   useEffect(() => {
     if (value?.trim() === '' || value === undefined) {
       setIsAnimatingHandler(false);
@@ -130,7 +143,9 @@ export default function AnimatedTextInput({
         placeholder={isAnimated ? undefined : placeholder}
         textAlign={isAnimated ? 'left' : 'right'}
         onBlur={onBlurAnimation}
+        secureTextEntry={secureTextEntry && isSecureTextHidden}
       />
+
       <Animated.View
         style={[
           styles.labelWrapper,
@@ -151,6 +166,18 @@ export default function AnimatedTextInput({
           ]}>
           {label}
         </Animated.Text>
+        {secureTextEntry && (
+          <Pressable
+            style={styles.iconWrapper}
+            onPress={toggleSecureText}
+            android_ripple={{ color: 'transparent' }}>
+            <MaterialCommunityIcons
+              name={isSecureTextHidden ? 'eye-off-outline' : 'eye-outline'}
+              size={isAnimated ? 7 : FONT_SIZE_NOT_ANIMATED}
+              color={color}
+            />
+          </Pressable>
+        )}
       </Animated.View>
       {showErrorMessage && <Text style={[styles.errorLabel, { color }]}>{`${errorMessage}`}</Text>}
     </Pressable>
@@ -173,9 +200,11 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     borderWidth: 1,
     flexDirection: 'row',
-    marginBottom: 10,
     overflow: 'hidden',
     position: 'absolute',
+  },
+  iconWrapper: {
+    paddingRight: 7,
   },
   textInput: {
     backgroundColor: 'white',

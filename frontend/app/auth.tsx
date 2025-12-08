@@ -7,8 +7,9 @@ import CTA from '@/components/buttons/cta';
 import AnimatedTextInput from '@/components/inputs/text-input';
 
 import { COLORS } from '@/constants/colors';
-import { AUTH_FORM, StoreState, useStore } from '@/store/store';
+import { StoreState, useStore } from '@/store/store';
 import { AuthRoutes } from '@/types';
+import { AUTH_FORM } from '@/utils/auth';
 
 export default function SignIn() {
   //   const { signIn } = useSession();

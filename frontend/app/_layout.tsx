@@ -8,11 +8,12 @@ import CTA from '@/components/buttons/cta';
 import { SplashScreenController } from '@/components/splash-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
-import { AUTH_FORM, StoreState, usePersistStore, useStore } from '@/store/store';
+import { StoreState, usePersistStore, useStore } from '@/store/store';
 import { COLORS } from '@/constants/colors';
 import { SHADOW } from '@/constants/styles';
 import { AuthRoutes, FormData } from '@/types';
 import { isRegExValid, regexErrorMessage } from '@/utils/regex';
+import { AUTH_FORM } from '@/utils/auth';
 
 const videoSource = require('../assets/videos/Fuzz.mp4');
 
