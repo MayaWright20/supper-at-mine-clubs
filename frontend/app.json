@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mayagwright20.identitycircle",
+      "bundleIdentifier": "com.mayagwright20.supper-at-mine-clubs",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
