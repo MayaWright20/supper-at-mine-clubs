@@ -1,6 +1,18 @@
 export type FormData = Record<string, string>;
 export type UseStateHook<T> = [string, (value: T | null) => void];
 
+export interface TextInputComponentProps {
+  backgroundColor?: string;
+  color?: string;
+  label: string;
+  value?: string;
+  onChangeText: (input: string) => void;
+  autoCapitalize?: AutoCapitalize;
+  secureTextEntry?: boolean;
+  errorMessage?: string;
+  showErrorMessage?: boolean;
+}
+
 export enum AutoCapitalize {
   none = 'none',
   sentences = 'sentences',

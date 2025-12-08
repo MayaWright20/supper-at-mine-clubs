@@ -4,13 +4,11 @@ import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import CTA from '@/components/buttons/cta';
-import TextInputComponent from '@/components/inputs/text-input';
+import AnimatedTextInput from '@/components/inputs/text-input';
 
 import { COLORS } from '@/constants/colors';
 import { AUTH_FORM, StoreState, useStore } from '@/store/store';
 import { AuthRoutes } from '@/types';
-
-// import { useSession } from '../ctx';
 
 export default function SignIn() {
   //   const { signIn } = useSession();
@@ -43,7 +41,8 @@ export default function SignIn() {
             if (isLogin === AuthRoutes.LOGIN && (item.id === 'name' || item.id === 'email')) return;
 
             return (
-              <TextInputComponent
+              <AnimatedTextInput
+                borderColor={COLORS.RED_0}
                 autoCapitalize={item.autoCapitalize}
                 value={formField?.value || ''}
                 onChangeText={(value) => {
@@ -79,5 +78,6 @@ const styles = StyleSheet.create({
   form: {
     flex: 1,
     marginTop: 20,
+    marginHorizontal: 5,
   },
 });
