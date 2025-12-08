@@ -77,6 +77,8 @@ export const usePersistStore = create()(
     (set, get) => ({
       sessionToken: null,
       setSessionToken: (sessionToken: null | string) => set({ sessionToken }),
+      user: null,
+      setUser: (user: any) => set({ user }),
     }),
     {
       name: 'session',

@@ -9,6 +9,8 @@ export default function useProfile() {
   const resetAuthForm = useStore((state: StoreState) => state.resetAuthForm);
   const setIsAuthBgCol = useStore((state: StoreState) => state.setIsAuthBgCol);
   const setAuthCTATitle = useStore((state: StoreState) => state.setAuthCTATitle);
+  const user = usePersistStore((state: any) => state.user);
+  const setUser = usePersistStore((state: any) => state.setUser);
 
   const getProfile = async (token: string) => {
     try {
@@ -19,6 +21,7 @@ export default function useProfile() {
       });
       if (response.status === 200) {
         setSessionToken(token);
+        setUser(response.data.user);
       }
     } catch (err: any) {
       console.log(err.response.data.message);
@@ -78,5 +81,6 @@ export default function useProfile() {
     signUp,
     login,
     logOut,
+    user,
   };
 }
