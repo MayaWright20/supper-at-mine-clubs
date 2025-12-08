@@ -1,13 +1,17 @@
-import { StoreState, usePersistStore, useStore } from '@/store/store';
-import { AuthRoutes, FormData } from '@/types/types';
-import axios from 'axios';
-import useSession from './useSession';
+import { StoreState, usePersistStore, useStore } from "@/store/store";
+import { AuthRoutes, FormData } from "@/types/types";
+import axios from "axios";
+import useSession from "./useSession";
 
 export default function useProfile() {
-  const updateAuthFormField = useStore((state: StoreState) => state.updateAuthFormField);
+  const updateAuthFormField = useStore(
+    (state: StoreState) => state.updateAuthFormField
+  );
   const resetAuthForm = useStore((state: StoreState) => state.resetAuthForm);
   const setIsAuthBgCol = useStore((state: StoreState) => state.setIsAuthBgCol);
-  const setAuthCTATitle = useStore((state: StoreState) => state.setAuthCTATitle);
+  const setAuthCTATitle = useStore(
+    (state: StoreState) => state.setAuthCTATitle
+  );
   const user = usePersistStore((state: any) => state.user);
   const setUser = usePersistStore((state: any) => state.setUser);
 
@@ -15,11 +19,14 @@ export default function useProfile() {
 
   const getProfile = async (token: string) => {
     try {
-      const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/user/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.EXPO_PUBLIC_URL}/user/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.status === 200) {
         setSessionToken(token);
         setUser(response.data.user);
@@ -31,7 +38,10 @@ export default function useProfile() {
 
   const signUp = async (formData: FormData, isLogin: boolean) => {
     try {
-      const response = await axios.post(`${process.env.EXPO_PUBLIC_URL}/user/signup`, formData);
+      const response = await axios.post(
+        `${process.env.EXPO_PUBLIC_URL}/user/signup`,
+        formData
+      );
 
       if (response.data.success) {
         const token = response.data.token;
@@ -39,34 +49,45 @@ export default function useProfile() {
       }
     } catch (err: any) {
       updateAuthFormField(
-        isLogin ? 'password' : err.response.data.id,
+        isLogin ? "password" : err.response.data.id,
         undefined,
         true,
-        err.response?.data?.message,
+        err.response?.data?.message
       );
     }
   };
 
   const login = async (formData: FormData) => {
     try {
-      const response = await axios.post(`${process.env.EXPO_PUBLIC_URL}/user/login`, formData);
+      const response = await axios.post(
+        `${process.env.EXPO_PUBLIC_URL}/user/login`,
+        formData
+      );
 
       if (response.data.success) {
         const token = response.data.token;
         getProfile(token);
       }
     } catch (err: any) {
-      updateAuthFormField('password', undefined, true, err.response?.data?.message);
+      updateAuthFormField(
+        "password",
+        undefined,
+        true,
+        err.response?.data?.message
+      );
     }
   };
 
   const logOut = async () => {
     try {
-      const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/user/logout`, {
-        headers: {
-          Authorization: `Bearer ${sessionToken}`,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.EXPO_PUBLIC_URL}/user/logout`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionToken}`,
+          },
+        }
+      );
       if (response.status === 200) {
         resetAuthForm();
         setIsAuthBgCol(false);
@@ -74,7 +95,7 @@ export default function useProfile() {
         setSessionToken(null);
       }
     } catch (err: any) {
-      console.log('This error logout', err.response.data.message);
+      console.log("This error logout", err.response.data.message);
     }
   };
 
