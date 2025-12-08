@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "identity-circle",
-    "slug": "identity-circle",
+    "name": "supper-at-mine-clubs",
+    "slug": "supper-at-mine-clubs",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "identity-circle",
+    "scheme": "supper-at-mine-clubs",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

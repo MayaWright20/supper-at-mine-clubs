@@ -41,5 +41,5 @@ export enum AuthRoutes {
 
 export enum Storage {
   SESSION = 'session',
-  APP_NAME = 'identity-circle',
+  APP_NAME = 'supper-at-mine-clubs',
 }

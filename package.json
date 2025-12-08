@@ -1,15 +1,15 @@
 {
-  "name": "identity-circle",
+  "name": "supper-at-mine-clubs",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
-  "homepage": "https://github.com/MayaWright20/identity-circle#readme",
+  "homepage": "https://github.com/MayaWright20/supper-at-mine-clubs#readme",
   "bugs": {
-    "url": "https://github.com/MayaWright20/identity-circle/issues"
+    "url": "https://github.com/MayaWright20/supper-at-mine-clubs/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MayaWright20/identity-circle.git"
+    "url": "git+https://github.com/MayaWright20/supper-at-mine-clubs.git"
   },
   "author": "Maya Wright",
   "type": "commonjs",
