@@ -1,8 +1,6 @@
 import CTA from '@/components/buttons/cta';
 import useProfile from '@/hooks/useProfile';
-import useSession from '@/hooks/useSession';
 import useSupper from '@/hooks/useSuppers';
-import axios from 'axios';
 import { Text, View } from 'react-native';
 
 export default function Index() {

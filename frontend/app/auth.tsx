@@ -12,7 +12,6 @@ import { AuthRoutes } from '@/types';
 import { AUTH_FORM } from '@/utils/auth';
 
 export default function SignIn() {
-  //   const { signIn } = useSession();
   const isLogin = useStore((state: StoreState) => state.authCTATitle);
   const setAuthCTATitle = useStore((state: StoreState) => state.setAuthCTATitle);
   const setIsAuthBgCol = useStore((state: StoreState) => state.setIsAuthBgCol);
