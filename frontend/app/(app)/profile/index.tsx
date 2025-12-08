@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 
 import CTA from "@/components/buttons/cta";
+import { SCREEN_STYLES } from "@/constants/styles";
 import useProfile from "@/hooks/useProfile";
 import useSupper from "@/hooks/useSuppers";
 
@@ -9,7 +10,7 @@ export default function Index() {
   const { createSupper, getAllSupper } = useSupper();
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={SCREEN_STYLES.screen}>
       <CTA title={"Create Supper Club"} onPress={createSupper} />
       <CTA title={"GET Club"} onPress={getAllSupper} />
       <Text>{user.name}</Text>

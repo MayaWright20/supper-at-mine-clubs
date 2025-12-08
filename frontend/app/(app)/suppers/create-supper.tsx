@@ -1,16 +1,19 @@
 import { router } from "expo-router";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
+import { SCREEN_STYLES } from "@/constants/styles";
 
 export default function createSupper() {
   const goBack = () => {
     router.back();
   };
+
   return (
-    <View>
+    <SafeAreaView style={SCREEN_STYLES.screen}>
       <Text>create supper</Text>
       <CTA title={"Go back"} onPress={goBack} />
-    </View>
+    </SafeAreaView>
   );
 }

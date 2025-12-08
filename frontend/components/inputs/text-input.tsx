@@ -2,6 +2,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Pressable,
+  StyleProp,
   StyleSheet,
   Text,
   TextInput,
@@ -12,6 +13,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+
+import { COLORS } from "@/constants/colors";
 
 const ANIMATION_DURATION = 600;
 
@@ -41,12 +44,13 @@ interface Props {
   placeholder?: string;
   onBlur?: () => void;
   secureTextEntry?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 export default function AnimatedTextInput({
-  backgroundColor = "white",
-  borderColor,
-  color = "white",
+  backgroundColor = COLORS.PINK_0,
+  borderColor = COLORS.RED_0,
+  color = COLORS.RED_0,
   label,
   value,
   onChangeText,
@@ -57,6 +61,7 @@ export default function AnimatedTextInput({
   placeholder,
   onBlur,
   secureTextEntry,
+  style,
 }: Props) {
   const inputRef = useRef<TextInput>(null);
 
@@ -74,29 +79,29 @@ export default function AnimatedTextInput({
         toggled ? TRANSLATE_Y_ANIMATED : TRANSLATE_Y_NOT_ANIMATED,
         {
           duration: ANIMATION_DURATION,
-        },
+        }
       );
       translateX.value = withTiming(
         toggled ? TRANSLATE_X_ANIMATED : TRANSLATE_X_NOT_ANIMATED,
         {
           duration: ANIMATION_DURATION,
-        },
+        }
       );
       labelPadding.value = withTiming(
         toggled ? LABEL_PADDING_ANIMATED : LABEL_PADDING_NOT_ANIMATED,
         {
           duration: ANIMATION_DURATION,
-        },
+        }
       );
 
       fontSize.value = withTiming(
         toggled ? FONT_SIZE_ANIMATED : FONT_SIZE_NOT_ANIMATED,
         {
           duration: ANIMATION_DURATION,
-        },
+        }
       );
     },
-    [translateY, translateX, labelPadding, fontSize],
+    [translateY, translateX, labelPadding, fontSize]
   );
 
   const animatedLabelWrapperStyle = useAnimatedStyle(() => ({
@@ -154,7 +159,7 @@ export default function AnimatedTextInput({
 
   return (
     <Pressable
-      style={containerStyle}
+      style={[containerStyle, style]}
       onPress={() => setIsAnimatingHandler(true)}
     >
       <TextInput

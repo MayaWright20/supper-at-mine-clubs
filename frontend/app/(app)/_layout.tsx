@@ -1,22 +1,32 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 
+import { COLORS } from "@/constants/colors";
+import { PAGE_BACKGROUND_COL } from "@/constants/styles";
+
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "black",
-        headerShown: true,
+        tabBarActiveTintColor: COLORS.PINK_0,
+        tabBarInactiveTintColor: COLORS.PINK_0,
+        tabBarStyle: {
+          backgroundColor: PAGE_BACKGROUND_COL,
+        },
+        headerStyle: {
+          backgroundColor: PAGE_BACKGROUND_COL,
+        },
       }}
     >
       <Tabs.Screen
         name="suppers"
         options={{
           title: "suppers",
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "home-sharp" : "home-outline"}
-              color={"black"}
+              color={COLORS.PINK_1}
               size={24}
             />
           ),
@@ -29,7 +39,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "heart-sharp" : "heart-outline"}
-              color={focused ? "red" : "black"}
+              color={focused ? "red" : COLORS.PINK_1}
               size={24}
             />
           ),
@@ -43,7 +53,7 @@ export default function TabsLayout() {
             <Ionicons
               name={focused ? "person" : "person-outline"}
               size={24}
-              color="black"
+              color={COLORS.PINK_1}
             />
           ),
         }}
