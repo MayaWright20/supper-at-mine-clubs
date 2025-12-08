@@ -8,7 +8,7 @@ import AnimatedTextInput from '@/components/inputs/text-input';
 
 import { COLORS } from '@/constants/colors';
 import { StoreState, useStore } from '@/store/store';
-import { AuthRoutes } from '@/types';
+import { AuthRoutes } from '@/types/types';
 import { AUTH_FORM } from '@/utils/auth';
 
 export default function SignIn() {

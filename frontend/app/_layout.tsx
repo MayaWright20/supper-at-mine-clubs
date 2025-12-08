@@ -11,7 +11,7 @@ import { StyleSheet } from 'react-native';
 import { StoreState, usePersistStore, useStore } from '@/store/store';
 import { COLORS } from '@/constants/colors';
 import { SHADOW } from '@/constants/styles';
-import { AuthRoutes, FormData } from '@/types';
+import { AuthRoutes, FormData } from '@/types/types';
 import { isRegExValid, regexErrorMessage } from '@/utils/regex';
 import { AUTH_FORM } from '@/utils/auth';
 

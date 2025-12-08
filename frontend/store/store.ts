@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { AuthRoutes, ErrorStateValue } from '@/types';
+import { AuthRoutes, ErrorStateValue } from '@/types/types';
 import { AUTH_FORM } from '@/utils/auth';
 
 export interface StoreState {
