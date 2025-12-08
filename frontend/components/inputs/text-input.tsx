@@ -1,7 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Pressable, StyleSheet, Text, TextInput, ViewStyle } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  ViewStyle,
+} from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 const ANIMATION_DURATION = 600;
 
@@ -15,7 +25,7 @@ const FONT_SIZE_NOT_ANIMATED = 14;
 const TRANSLATE_X_NOT_ANIMATED = 5;
 const LABEL_PADDING_NOT_ANIMATED = 10;
 
-type AutoCapitalize = 'none' | 'sentences' | 'words' | 'characters';
+type AutoCapitalize = "none" | "sentences" | "words" | "characters";
 
 interface Props {
   backgroundColor?: string;
@@ -34,9 +44,9 @@ interface Props {
 }
 
 export default function AnimatedTextInput({
-  backgroundColor = 'white',
+  backgroundColor = "white",
   borderColor,
-  color = 'white',
+  color = "white",
   label,
   value,
   onChangeText,
@@ -60,12 +70,18 @@ export default function AnimatedTextInput({
 
   const updateAnimations = useCallback(
     (toggled: boolean) => {
-      translateY.value = withTiming(toggled ? TRANSLATE_Y_ANIMATED : TRANSLATE_Y_NOT_ANIMATED, {
-        duration: ANIMATION_DURATION,
-      });
-      translateX.value = withTiming(toggled ? TRANSLATE_X_ANIMATED : TRANSLATE_X_NOT_ANIMATED, {
-        duration: ANIMATION_DURATION,
-      });
+      translateY.value = withTiming(
+        toggled ? TRANSLATE_Y_ANIMATED : TRANSLATE_Y_NOT_ANIMATED,
+        {
+          duration: ANIMATION_DURATION,
+        },
+      );
+      translateX.value = withTiming(
+        toggled ? TRANSLATE_X_ANIMATED : TRANSLATE_X_NOT_ANIMATED,
+        {
+          duration: ANIMATION_DURATION,
+        },
+      );
       labelPadding.value = withTiming(
         toggled ? LABEL_PADDING_ANIMATED : LABEL_PADDING_NOT_ANIMATED,
         {
@@ -73,15 +89,21 @@ export default function AnimatedTextInput({
         },
       );
 
-      fontSize.value = withTiming(toggled ? FONT_SIZE_ANIMATED : FONT_SIZE_NOT_ANIMATED, {
-        duration: ANIMATION_DURATION,
-      });
+      fontSize.value = withTiming(
+        toggled ? FONT_SIZE_ANIMATED : FONT_SIZE_NOT_ANIMATED,
+        {
+          duration: ANIMATION_DURATION,
+        },
+      );
     },
     [translateY, translateX, labelPadding, fontSize],
   );
 
   const animatedLabelWrapperStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }, { translateX: translateX.value }],
+    transform: [
+      { translateY: translateY.value },
+      { translateX: translateX.value },
+    ],
     padding: labelPadding.value,
   }));
 
@@ -110,7 +132,7 @@ export default function AnimatedTextInput({
       setIsAnimatingHandler(false);
     }
 
-    if (value?.trim() === '' || value === undefined) {
+    if (value?.trim() === "" || value === undefined) {
       setIsAnimatingHandler(false);
     }
   };
@@ -125,13 +147,16 @@ export default function AnimatedTextInput({
   };
 
   useEffect(() => {
-    if (value?.trim() === '' || value === undefined) {
+    if (value?.trim() === "" || value === undefined) {
       setIsAnimatingHandler(false);
     }
   }, [value]);
 
   return (
-    <Pressable style={containerStyle} onPress={() => setIsAnimatingHandler(true)}>
+    <Pressable
+      style={containerStyle}
+      onPress={() => setIsAnimatingHandler(true)}
+    >
       <TextInput
         ref={inputRef}
         value={value && value}
@@ -141,7 +166,7 @@ export default function AnimatedTextInput({
         cursorColor={backgroundColor}
         onPress={() => setIsAnimatingHandler(true)}
         placeholder={isAnimated ? undefined : placeholder}
-        textAlign={isAnimated ? 'left' : 'right'}
+        textAlign={isAnimated ? "left" : "right"}
         onBlur={onBlurAnimation}
         secureTextEntry={secureTextEntry && isSecureTextHidden}
       />
@@ -154,32 +179,37 @@ export default function AnimatedTextInput({
             backgroundColor,
           },
           animatedLabelWrapperStyle,
-        ]}>
+        ]}
+      >
         <Animated.Text
           style={[
             {
               color,
-              fontWeight: isAnimated ? 'bold' : '500',
+              fontWeight: isAnimated ? "bold" : "500",
             },
             styles.label,
             animatedTextStyle,
-          ]}>
+          ]}
+        >
           {label}
         </Animated.Text>
         {secureTextEntry && (
           <Pressable
             style={styles.iconWrapper}
             onPress={toggleSecureText}
-            android_ripple={{ color: 'transparent' }}>
+            android_ripple={{ color: "transparent" }}
+          >
             <MaterialCommunityIcons
-              name={isSecureTextHidden ? 'eye-off-outline' : 'eye-outline'}
+              name={isSecureTextHidden ? "eye-off-outline" : "eye-outline"}
               size={isAnimated ? 7 : FONT_SIZE_NOT_ANIMATED}
               color={color}
             />
           </Pressable>
         )}
       </Animated.View>
-      {showErrorMessage && <Text style={[styles.errorLabel, { color }]}>{`${errorMessage}`}</Text>}
+      {showErrorMessage && (
+        <Text style={[styles.errorLabel, { color }]}>{`${errorMessage}`}</Text>
+      )}
     </Pressable>
   );
 }
@@ -189,32 +219,32 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 2,
     marginRight: 20,
-    textAlign: 'right',
-  },
-  label: {
-    paddingHorizontal: 5,
-    textTransform: 'capitalize',
-  },
-  labelWrapper: {
-    alignItems: 'center',
-    borderRadius: 100,
-    borderWidth: 1,
-    flexDirection: 'row',
-    overflow: 'hidden',
-    position: 'absolute',
+    textAlign: "right",
   },
   iconWrapper: {
     paddingRight: 7,
   },
+  label: {
+    paddingHorizontal: 5,
+    textTransform: "capitalize",
+  },
+  labelWrapper: {
+    alignItems: "center",
+    borderRadius: 100,
+    borderWidth: 1,
+    flexDirection: "row",
+    overflow: "hidden",
+    position: "absolute",
+  },
   textInput: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 50,
     borderWidth: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 5,
     marginVertical: 5,
     paddingHorizontal: 25,
     paddingVertical: 15,
-    position: 'relative',
+    position: "relative",
   },
 });

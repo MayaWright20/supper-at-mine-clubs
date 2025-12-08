@@ -1,4 +1,4 @@
-import { SplashScreen } from 'expo-router';
+import { SplashScreen } from "expo-router";
 // import { useSession } from './ctx';
 
 SplashScreen.preventAutoHideAsync();

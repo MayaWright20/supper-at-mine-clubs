@@ -1,8 +1,14 @@
-import { StyleProp, StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native";
 
-import { COLORS } from '@/constants/colors';
-import { PADDING } from '@/constants/styles';
+import { COLORS } from "@/constants/colors";
+import { PADDING } from "@/constants/styles";
 
 interface Props {
   title: string;
@@ -33,9 +39,10 @@ export default function CTA({
         style,
         {
           backgroundColor,
-          paddingHorizontal: isSmall ? PADDING.SMALL_PADDING : 'auto',
+          paddingHorizontal: isSmall ? PADDING.SMALL_PADDING : "auto",
         },
-      ]}>
+      ]}
+    >
       <Text style={[styles.title, { color: color }]}>{title}</Text>
     </TouchableOpacity>
   );
@@ -44,12 +51,12 @@ export default function CTA({
 const styles = StyleSheet.create({
   container: {
     borderRadius: 50,
-    padding: 12,
     margin: 5,
+    padding: 12,
   },
   title: {
-    textAlign: 'center',
-    fontWeight: 'bold',
     fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

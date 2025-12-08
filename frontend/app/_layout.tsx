@@ -1,21 +1,20 @@
-import { router, Stack } from 'expo-router';
-import { useVideoPlayer, VideoView } from 'expo-video';
-import { useEffect, useMemo, useRef } from 'react';
+import { router, Stack } from "expo-router";
+import { useVideoPlayer, VideoView } from "expo-video";
+import { useEffect, useMemo, useRef } from "react";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import useProfile from '@/hooks/useProfile';
-import CTA from '@/components/buttons/cta';
+import CTA from "@/components/buttons/cta";
+import { SplashScreenController } from "@/components/splash-screen";
+import { COLORS } from "@/constants/colors";
+import { SHADOW } from "@/constants/styles";
+import useProfile from "@/hooks/useProfile";
+import { StoreState, usePersistStore, useStore } from "@/store/store";
+import { AuthRoutes, FormData } from "@/types/types";
+import { AUTH_FORM } from "@/utils/auth";
+import { isRegExValid, regexErrorMessage } from "@/utils/regex";
 
-import { SplashScreenController } from '@/components/splash-screen';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet } from 'react-native';
-import { StoreState, usePersistStore, useStore } from '@/store/store';
-import { COLORS } from '@/constants/colors';
-import { SHADOW } from '@/constants/styles';
-import { AuthRoutes, FormData } from '@/types/types';
-import { isRegExValid, regexErrorMessage } from '@/utils/regex';
-import { AUTH_FORM } from '@/utils/auth';
-
-const videoSource = require('../assets/videos/Fuzz.mp4');
+const videoSource = require("../assets/videos/Fuzz.mp4");
 
 export default function RootLayout() {
   return (
@@ -28,12 +27,16 @@ export default function RootLayout() {
 
 function RootNavigator() {
   const authCTATitle = useStore((state: StoreState) => state.authCTATitle);
-  const setAuthCTATitle = useStore((state: StoreState) => state.setAuthCTATitle);
+  const setAuthCTATitle = useStore(
+    (state: StoreState) => state.setAuthCTATitle,
+  );
   const isAuthBgCol = useStore((state: StoreState) => state.isAuthBgCol);
   const setIsAuthBgCol = useStore((state: StoreState) => state.setIsAuthBgCol);
   const authForm = useStore((state: StoreState) => state.authForm);
   const setAuthForm = useStore((state: StoreState) => state.setAuthForm);
-  const updateAuthFormField = useStore((state: StoreState) => state.updateAuthFormField);
+  const updateAuthFormField = useStore(
+    (state: StoreState) => state.updateAuthFormField,
+  );
 
   const sessionToken = usePersistStore((state: any) => state.sessionToken);
 
@@ -41,7 +44,10 @@ function RootNavigator() {
 
   const isReversed = useRef(false);
 
-  const isLogin = useMemo(() => authCTATitle === AuthRoutes.LOGIN, [authCTATitle]);
+  const isLogin = useMemo(
+    () => authCTATitle === AuthRoutes.LOGIN,
+    [authCTATitle],
+  );
   const fieldsToValidate = useMemo(
     // fieldsToValidate uses username and password for when validating login. See order in store.ts.
     () => (isLogin ? [authForm[1], authForm[3]] : authForm),
@@ -49,21 +55,23 @@ function RootNavigator() {
   );
 
   const navigateToAuth = () => {
-    router.navigate('/auth');
+    router.navigate("/auth");
   };
 
   const isFormValid = (): boolean => {
     let failedValidator: RegExp | null = null;
     for (const field of fieldsToValidate) {
       failedValidator =
-        field.validator.find((validator) => !isRegExValid(field.value, validator)) || null;
+        field.validator.find(
+          (validator) => !isRegExValid(field.value, validator),
+        ) || null;
 
       if (failedValidator) {
         updateAuthFormField(
-          isLogin ? 'password' : field.id,
+          isLogin ? "password" : field.id,
           undefined,
           true,
-          isLogin ? 'Invalid credentials' : regexErrorMessage(failedValidator),
+          isLogin ? "Invalid credentials" : regexErrorMessage(failedValidator),
         );
       }
       if (failedValidator) return false;
@@ -127,7 +135,7 @@ function RootNavigator() {
       player.play();
     };
 
-    const subscription = player.addListener('playToEnd', handleVideoEnd);
+    const subscription = player.addListener("playToEnd", handleVideoEnd);
 
     return () => subscription?.remove();
   }, [player]);
@@ -140,14 +148,14 @@ function RootNavigator() {
             name="index"
             options={{
               headerShown: false,
-              animation: 'slide_from_left',
+              animation: "slide_from_left",
             }}
           />
           <Stack.Screen
             name="auth"
             options={{
               headerShown: false,
-              animation: 'slide_from_bottom',
+              animation: "slide_from_bottom",
             }}
           />
         </Stack.Protected>
@@ -177,8 +185,13 @@ function RootNavigator() {
           style={[
             styles.authBtnSafeAreaView,
             { backgroundColor: isAuthBgCol ? COLORS.CREAM_0 : undefined },
-          ]}>
-          <CTA style={!isAuthBgCol && styles.cta} onPress={authBtnHandler} title={authCTATitle} />
+          ]}
+        >
+          <CTA
+            style={!isAuthBgCol && styles.cta}
+            onPress={authBtnHandler}
+            title={authCTATitle}
+          />
         </SafeAreaView>
       )}
     </>
@@ -186,16 +199,16 @@ function RootNavigator() {
 }
 
 const styles = StyleSheet.create({
-  safeAreaView: {
-    paddingBottom: '-100%',
-  },
   authBtnSafeAreaView: {
-    paddingTop: '-100%',
+    paddingTop: "-100%",
+  },
+  cta: {
+    ...SHADOW,
   },
   pictureContainer: {
     ...StyleSheet.absoluteFillObject,
   },
-  cta: {
-    ...SHADOW,
+  safeAreaView: {
+    paddingBottom: "-100%",
   },
 });
