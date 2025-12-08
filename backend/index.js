@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import express from "express";
 import helmet from "helmet";
 import user from "./routes/user.js";
+import supper from "./routes/supper.js";
 import { errorMiddleware } from "./middleware/error.js";
 
 config({
@@ -31,12 +32,16 @@ app.get("/", (req, res, next) => {
       "GET /api/v1/user/profile",
       "GET /api/v1/user/logout",
       "DELETE /api/v1/user/delete",
+      "POST /suppers",
+      "POST /api/v1/suppers",
     ],
   });
 });
 
 app.use("/api/v1/user", user);
 app.use("/user", user);
+app.use("/api/v1", supper);
+app.use("/", supper);
 
 app.use((req, res, next) => {
   res.status(404).json({

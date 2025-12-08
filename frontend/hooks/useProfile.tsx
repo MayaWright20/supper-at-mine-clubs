@@ -1,16 +1,17 @@
 import { StoreState, usePersistStore, useStore } from '@/store/store';
 import { AuthRoutes, FormData } from '@/types';
 import axios from 'axios';
+import useSession from './useSession';
 
 export default function useProfile() {
-  const sessionToken = usePersistStore((state: any) => state.sessionToken);
-  const setSessionToken = usePersistStore((state: any) => state.setSessionToken);
   const updateAuthFormField = useStore((state: StoreState) => state.updateAuthFormField);
   const resetAuthForm = useStore((state: StoreState) => state.resetAuthForm);
   const setIsAuthBgCol = useStore((state: StoreState) => state.setIsAuthBgCol);
   const setAuthCTATitle = useStore((state: StoreState) => state.setAuthCTATitle);
   const user = usePersistStore((state: any) => state.user);
   const setUser = usePersistStore((state: any) => state.setUser);
+
+  const { sessionToken, setSessionToken } = useSession();
 
   const getProfile = async (token: string) => {
     try {
