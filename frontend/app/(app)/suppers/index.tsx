@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     flex: 2,
-    marginLeft: 5,
+    marginRight: 5,
   },
 });

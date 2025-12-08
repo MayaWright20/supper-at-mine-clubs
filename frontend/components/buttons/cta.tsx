@@ -43,7 +43,7 @@ export default function CTA({
         },
       ]}
     >
-      <Text style={[styles.title, { color: color }]}>{title}</Text>
+      <Text style={[styles.title, { color }]}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -51,7 +51,7 @@ export default function CTA({
 const styles = StyleSheet.create({
   container: {
     borderRadius: 50,
-    margin: 5,
+    marginVertical: 5,
     padding: 12,
   },
   title: {

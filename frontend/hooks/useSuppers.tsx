@@ -1,16 +1,19 @@
-import axios from 'axios';
-import useSession from './useSession';
+import axios from "axios";
+
+import { Supper } from "@/types/types";
+
+import useSession from "./useSession";
 
 export default function useSupper() {
   const { sessionToken } = useSession();
 
-  const createSupper = async () => {
+  const createSupper = async ({ name, description }: Supper) => {
     try {
       const response = await axios.post(
         `${process.env.EXPO_PUBLIC_URL}/suppers`,
         {
-          name: 'test supper 1',
-          description: 'test supper description 1',
+          name,
+          description,
           availableSeats: 5,
           price: 40,
         },
@@ -18,30 +21,33 @@ export default function useSupper() {
           headers: {
             Authorization: `Bearer ${sessionToken}`,
           },
-        },
+        }
       );
 
       if (response.data.success) {
-        console.log('This is successful creation');
+        console.log("This is successful creation");
       }
     } catch (err: any) {
-      console.log('Unsuccessful creation', err.message);
+      console.log("Unsuccessful creation", err.message);
     }
   };
 
   const getAllSupper = async () => {
     try {
-      const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/suppers`, {
-        headers: {
-          Authorization: `Bearer ${sessionToken}`,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.EXPO_PUBLIC_URL}/suppers`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionToken}`,
+          },
+        }
+      );
 
       if (response.data.success) {
-        console.log('This is successful get', response.data.allSuppers);
+        console.log("This is successful get", response.data.allSuppers);
       }
     } catch (err: any) {
-      console.log('Unsuccessful geyt', err.message);
+      console.log("Unsuccessful geyt", err.message);
     }
   };
 

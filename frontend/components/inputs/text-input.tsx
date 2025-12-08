@@ -45,6 +45,7 @@ interface Props {
   onBlur?: () => void;
   secureTextEntry?: boolean;
   style?: StyleProp<ViewStyle>;
+  isTextArea?: boolean;
 }
 
 export default function AnimatedTextInput({
@@ -62,6 +63,7 @@ export default function AnimatedTextInput({
   onBlur,
   secureTextEntry,
   style,
+  isTextArea,
 }: Props) {
   const inputRef = useRef<TextInput>(null);
 
@@ -93,7 +95,6 @@ export default function AnimatedTextInput({
           duration: ANIMATION_DURATION,
         }
       );
-
       fontSize.value = withTiming(
         toggled ? FONT_SIZE_ANIMATED : FONT_SIZE_NOT_ANIMATED,
         {
@@ -166,7 +167,14 @@ export default function AnimatedTextInput({
         ref={inputRef}
         value={value && value}
         onChangeText={onChangeTextHandler}
-        style={[styles.textInput, { color, borderColor: borderColor }]}
+        style={[
+          styles.textInput,
+          {
+            color,
+            borderColor,
+            borderRadius: isTextArea && isAnimated ? 15 : 100,
+          },
+        ]}
         autoCapitalize={autoCapitalize}
         cursorColor={backgroundColor}
         onPress={() => setIsAnimatingHandler(true)}
@@ -174,8 +182,8 @@ export default function AnimatedTextInput({
         textAlign={isAnimated ? "left" : "right"}
         onBlur={onBlurAnimation}
         secureTextEntry={secureTextEntry && isSecureTextHidden}
+        multiline={isTextArea}
       />
-
       <Animated.View
         style={[
           styles.labelWrapper,

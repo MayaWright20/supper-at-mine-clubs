@@ -7,11 +7,10 @@ import useSupper from "@/hooks/useSuppers";
 
 export default function Index() {
   const { logOut, user } = useProfile();
-  const { createSupper, getAllSupper } = useSupper();
+  const { getAllSupper } = useSupper();
 
   return (
     <View style={SCREEN_STYLES.screen}>
-      <CTA title={"Create Supper Club"} onPress={createSupper} />
       <CTA title={"GET Club"} onPress={getAllSupper} />
       <Text>{user.name}</Text>
       <Text
