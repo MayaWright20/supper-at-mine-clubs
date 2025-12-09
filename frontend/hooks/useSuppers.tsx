@@ -1,11 +1,15 @@
 import axios from "axios";
+import { useCallback, useEffect } from "react";
 
+import { StoreState, useStore } from "@/store/store";
 import { Supper } from "@/types/types";
 
 import useSession from "./useSession";
 
 export default function useSupper() {
   const { sessionToken } = useSession();
+  const suppers = useStore((state: StoreState) => state.suppers);
+  const setSuppers = useStore((state: StoreState) => state.setSuppers);
 
   const createSupper = async ({ name, description }: Supper) => {
     try {
@@ -25,14 +29,14 @@ export default function useSupper() {
       );
 
       if (response.data.success) {
-        console.log("This is successful creation");
+        getAllSuppers();
       }
     } catch (err: any) {
       console.log("Unsuccessful creation", err.message);
     }
   };
 
-  const getAllSupper = async () => {
+  const getAllSuppers = useCallback(async () => {
     try {
       const response = await axios.get(
         `${process.env.EXPO_PUBLIC_URL}/suppers`,
@@ -44,15 +48,21 @@ export default function useSupper() {
       );
 
       if (response.data.success) {
-        console.log("This is successful get", response.data.allSuppers);
+        setSuppers(response.data.allSuppers);
       }
     } catch (err: any) {
       console.log("Unsuccessful geyt", err.message);
     }
-  };
+  }, [sessionToken, setSuppers]);
+
+  useEffect(() => {
+    getAllSuppers();
+  }, [getAllSuppers]);
 
   return {
     createSupper,
-    getAllSupper,
+    getAllSuppers,
+    suppers,
+    setSuppers,
   };
 }

@@ -1,11 +1,13 @@
-import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
-import { AuthRoutes, ErrorStateValue } from '@/types/types';
-import { AUTH_FORM } from '@/utils/auth';
+import { AuthRoutes, ErrorStateValue } from "@/types/types";
+import { AUTH_FORM } from "@/utils/auth";
 
 export interface StoreState {
+  suppers?: any;
+  setSuppers: (suppers: any) => void;
   authCTATitle: AuthRoutes;
   setAuthCTATitle: (authCTATitle: AuthRoutes) => void;
   isAuthBgCol: boolean;
@@ -21,8 +23,10 @@ export interface StoreState {
   resetAuthForm: () => void;
 }
 
-export const useStore = create<StoreState | any>((set, get) => ({
-  authCTATitle: 'Sign up',
+export const useStore = create<StoreState>((set, get) => ({
+  suppers: undefined,
+  setSuppers: (suppers: any) => set(() => ({ suppers })),
+  authCTATitle: AuthRoutes.SING_UP,
   setAuthCTATitle: (authCTATitle: AuthRoutes) => set(() => ({ authCTATitle })),
   isAuthBgCol: false,
   setIsAuthBgCol: (isAuthBgCol: boolean) => set(() => ({ isAuthBgCol })),
@@ -50,7 +54,7 @@ export const useStore = create<StoreState | any>((set, get) => ({
     set(() => ({
       authForm: AUTH_FORM.map((field) => ({
         ...field,
-        value: '',
+        value: "",
         showErrorMessage: false,
       })),
     })),
@@ -81,7 +85,7 @@ export const usePersistStore = create()(
       setUser: (user: any) => set({ user }),
     }),
     {
-      name: 'session',
+      name: "session",
       storage: createJSONStorage(() => sessionStorage),
     },
   ),
