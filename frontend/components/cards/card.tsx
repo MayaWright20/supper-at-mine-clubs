@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     elevation: 6,
     flex: 1,
-    maxWidth: "50%",
     overflow: "hidden",
     padding: 16,
     shadowColor: COLORS.RED_0,
