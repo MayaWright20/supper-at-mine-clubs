@@ -1,4 +1,4 @@
-export type FormData = Record<string, string>;
+export type AuthForm = Record<string, string>;
 export type UseStateHook<T> = [string, (value: T | null) => void];
 
 export interface TextInputComponentProps {
@@ -17,7 +17,7 @@ export enum AutoCapitalize {
   none = "none",
   sentences = "sentences",
   words = "words",
-  characters = "characters",
+  characters = "characters"
 }
 
 export interface TextInput {
@@ -36,12 +36,12 @@ export interface ErrorStateValue extends TextInput {
 
 export enum AuthRoutes {
   LOGIN = "Login",
-  SING_UP = "Sign up",
+  SING_UP = "Sign up"
 }
 
 export enum Storage {
   SESSION = "session",
-  APP_NAME = "supper-at-mine-clubs",
+  APP_NAME = "supper-at-mine-clubs"
 }
 
 export interface Supper {

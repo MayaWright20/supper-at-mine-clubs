@@ -20,6 +20,9 @@ module.exports = [
     rules: {
       "react-native/sort-styles": ["error", "asc", { ignoreClassNames: false }],
 
+      // Disable Prettier comma rule
+      "prettier/prettier": ["error", { trailingComma: "none" }],
+
       // IMPORT ORDER
       "import/order": [
         "error",

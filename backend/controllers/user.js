@@ -1,7 +1,10 @@
+import multer from "multer";
 import { asyncError } from "../middleware/error.js";
 import { User } from "../models/user.js";
 import ErrorHandler from "../utils/error.js";
 import { cookieOptions, sendToken } from "../utils/feature.js";
+
+const upload = multer({ dest: "uploads/" });
 
 export const login = asyncError(async (req, res, next) => {
   const { email, password, username } = req.body;
@@ -50,9 +53,13 @@ export const signUp = asyncError(async (req, res, next) => {
   let emailTaken = await User.findOne({ email: email });
   if (emailTaken) return next(new ErrorHandler("Email taken", 400, "email"));
 
+  if (!req.file) return next(new ErrorHandler("Please upload an avatar", 400));
+
+  const avatar = req.file.filename;
+
   if (user) return next(new ErrorHandler("User already signed in", 400));
 
-  user = await User.create({ name, email, password, username, phone });
+  user = await User.create({ name, email, password, username, phone, avatar });
 
   sendToken(user, res, "Welcome!", 201);
 });

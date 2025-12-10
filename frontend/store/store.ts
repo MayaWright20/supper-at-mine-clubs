@@ -18,7 +18,7 @@ export interface StoreState {
     fieldId: string,
     value?: string,
     showErrorMessage?: boolean,
-    errorMessage?: string,
+    errorMessage?: string
   ) => void;
   resetAuthForm: () => void;
 }
@@ -36,7 +36,7 @@ export const useStore = create<StoreState>((set, get) => ({
     fieldId: string,
     value?: string,
     showErrorMessage?: boolean,
-    errorMessage?: string,
+    errorMessage?: string
   ) =>
     set((state: { authForm: ErrorStateValue[] }) => ({
       authForm: state.authForm.map((field: ErrorStateValue) =>
@@ -45,19 +45,19 @@ export const useStore = create<StoreState>((set, get) => ({
               ...field,
               ...(value !== undefined && { value }),
               ...(showErrorMessage !== undefined && { showErrorMessage }),
-              ...(errorMessage !== undefined && { errorMessage }),
+              ...(errorMessage !== undefined && { errorMessage })
             }
-          : field,
-      ),
+          : field
+      )
     })),
   resetAuthForm: () =>
     set(() => ({
       authForm: AUTH_FORM.map((field) => ({
         ...field,
         value: "",
-        showErrorMessage: false,
-      })),
-    })),
+        showErrorMessage: false
+      }))
+    }))
 }));
 
 const sessionStorage = {
@@ -73,7 +73,7 @@ const sessionStorage = {
   },
   clearStore: async (): Promise<void> => {
     await AsyncStorage.clear();
-  },
+  }
 };
 
 export const usePersistStore = create()(
@@ -82,11 +82,11 @@ export const usePersistStore = create()(
       sessionToken: null,
       setSessionToken: (sessionToken: null | string) => set({ sessionToken }),
       user: null,
-      setUser: (user: any) => set({ user }),
+      setUser: (user: any) => set({ user })
     }),
     {
       name: "session",
-      storage: createJSONStorage(() => sessionStorage),
-    },
-  ),
+      storage: createJSONStorage(() => sessionStorage)
+    }
+  )
 );
