@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { StoreState, usePersistStore, useStore } from "@/store/store";
-import { AuthRoutes, FormData } from "@/types/types";
+import { AuthForm, AuthRoutes } from "@/types/types";
 
 import useSession from "./useSession";
 
@@ -38,11 +38,34 @@ export default function useProfile() {
     }
   };
 
-  const signUp = async (formData: FormData, isLogin: boolean) => {
+  const signUp = async (formValues: AuthForm, isLogin: boolean) => {
+    const data = new FormData();
+
+    Object.keys(formValues).forEach((key) => {
+      const value = formValues[key as keyof AuthForm];
+
+      if (!value) return;
+
+      if (key === "avatar") {
+        data.append("avatar", {
+          uri: value,
+          name: "avatar.jpg",
+          type: "image/jpeg"
+        } as any);
+      } else {
+        data.append(key, value);
+      }
+    });
+
     try {
       const response = await axios.post(
         `${process.env.EXPO_PUBLIC_URL}/user/signup`,
-        formData
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
       );
 
       if (response.data.success) {
@@ -50,12 +73,8 @@ export default function useProfile() {
         getProfile(token);
       }
     } catch (err: any) {
-      updateAuthFormField(
-        isLogin ? "password" : err.response.data.id,
-        undefined,
-        true,
-        err.response?.data?.message
-      );
+      // handle error
+      console.log(" sing up error");
     }
   };
 

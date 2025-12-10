@@ -1,4 +1,4 @@
-export type FormData = Record<string, string>;
+export type AuthForm = Record<string, string>;
 export type UseStateHook<T> = [string, (value: T | null) => void];
 
 export interface TextInputComponentProps {

@@ -7,11 +7,12 @@ import {
   signUp,
 } from "../controllers/user.js";
 import { isAuthenticated } from "../middleware/auth.js";
+import { upload } from "../middleware/upload.js";
 
 const router = express.Router();
 
 router.post("/login", login);
-router.post("/signup", signUp);
+router.post("/signup", upload.single("avatar"), signUp);
 
 router.get("/profile", isAuthenticated, getMyProfile);
 router.get("/logout", isAuthenticated, logout);

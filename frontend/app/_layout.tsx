@@ -10,7 +10,7 @@ import { COLORS } from "@/constants/colors";
 import { SHADOW } from "@/constants/styles";
 import useProfile from "@/hooks/useProfile";
 import { StoreState, usePersistStore, useStore } from "@/store/store";
-import { AuthRoutes, FormData } from "@/types/types";
+import { AuthForm, AuthRoutes } from "@/types/types";
 import { AUTH_FORM } from "@/utils/auth";
 import { isRegExValid, regexErrorMessage } from "@/utils/regex";
 
@@ -80,7 +80,7 @@ function RootNavigator() {
   };
 
   const getAuthFormData = () => {
-    const formData: FormData = {};
+    const formData: AuthForm = {};
 
     authForm.map((item) => {
       formData[item.id] = item.value;
@@ -98,7 +98,11 @@ function RootNavigator() {
         const formData = getAuthFormData();
 
         if (isLogin) {
-          login(formData);
+          const form = new FormData();
+          Object.entries(formData).forEach(([key, value]) => {
+            form.append(key, value);
+          });
+          login(form);
         } else {
           signUp(formData, isLogin);
         }

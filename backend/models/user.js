@@ -1,12 +1,16 @@
-import mongoose from "mongoose";
-import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
+import validator from "validator";
 
 const schema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please enter your name"],
+  },
+  avatar: {
+    type: String,
+    required: [true, "Please add a profile picture"],
   },
   username: {
     type: String,
