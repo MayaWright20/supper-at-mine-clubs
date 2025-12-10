@@ -7,12 +7,12 @@ import useSession from "./useSession";
 
 export default function useProfile() {
   const updateAuthFormField = useStore(
-    (state: StoreState) => state.updateAuthFormField,
+    (state: StoreState) => state.updateAuthFormField
   );
   const resetAuthForm = useStore((state: StoreState) => state.resetAuthForm);
   const setIsAuthBgCol = useStore((state: StoreState) => state.setIsAuthBgCol);
   const setAuthCTATitle = useStore(
-    (state: StoreState) => state.setAuthCTATitle,
+    (state: StoreState) => state.setAuthCTATitle
   );
   const user = usePersistStore((state: any) => state.user);
   const setUser = usePersistStore((state: any) => state.setUser);
@@ -25,9 +25,9 @@ export default function useProfile() {
         `${process.env.EXPO_PUBLIC_URL}/user/profile`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+            Authorization: `Bearer ${token}`
+          }
+        }
       );
       if (response.status === 200) {
         setSessionToken(token);
@@ -42,7 +42,7 @@ export default function useProfile() {
     try {
       const response = await axios.post(
         `${process.env.EXPO_PUBLIC_URL}/user/signup`,
-        formData,
+        formData
       );
 
       if (response.data.success) {
@@ -54,7 +54,7 @@ export default function useProfile() {
         isLogin ? "password" : err.response.data.id,
         undefined,
         true,
-        err.response?.data?.message,
+        err.response?.data?.message
       );
     }
   };
@@ -63,7 +63,7 @@ export default function useProfile() {
     try {
       const response = await axios.post(
         `${process.env.EXPO_PUBLIC_URL}/user/login`,
-        formData,
+        formData
       );
 
       if (response.data.success) {
@@ -75,7 +75,7 @@ export default function useProfile() {
         "password",
         undefined,
         true,
-        err.response?.data?.message,
+        err.response?.data?.message
       );
     }
   };
@@ -86,9 +86,9 @@ export default function useProfile() {
         `${process.env.EXPO_PUBLIC_URL}/user/logout`,
         {
           headers: {
-            Authorization: `Bearer ${sessionToken}`,
-          },
-        },
+            Authorization: `Bearer ${sessionToken}`
+          }
+        }
       );
       if (response.status === 200) {
         resetAuthForm();
@@ -105,6 +105,6 @@ export default function useProfile() {
     signUp,
     login,
     logOut,
-    user,
+    user
   };
 }

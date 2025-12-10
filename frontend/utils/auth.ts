@@ -6,47 +6,64 @@ import {
   HAS_UPPERCASE,
   MIN_LENGTH_12,
   NAME_VALIDATOR,
-  USER_NAME_VALIDATOR,
-} from '@/constants/regex';
-import { AutoCapitalize, ErrorStateValue } from '@/types/types';
+  NOT_NULL,
+  USER_NAME_VALIDATOR
+} from "@/constants/regex";
+import { AutoCapitalize, ErrorStateValue } from "@/types/types";
 
 // Order of AUTH_FORM cannot change see _layout.tsx fieldsToValidate function
 export const AUTH_FORM: ErrorStateValue[] = [
   {
-    id: 'name',
-    label: 'name',
-    value: '',
-    errorMessage: 'name error message',
+    id: "name",
+    label: "name",
+    value: "",
+    errorMessage: "name error message",
     validator: [NAME_VALIDATOR],
     showErrorMessage: false,
-    autoCapitalize: AutoCapitalize.words,
+    autoCapitalize: AutoCapitalize.words
   },
   {
-    id: 'username',
-    label: 'Username',
-    value: '',
-    errorMessage: 'username error message',
+    id: "username",
+    label: "Username",
+    value: "",
+    errorMessage: "username error message",
     validator: [USER_NAME_VALIDATOR],
     showErrorMessage: false,
-    autoCapitalize: AutoCapitalize.none,
+    autoCapitalize: AutoCapitalize.none
   },
   {
-    id: 'email',
-    label: 'Email',
-    value: '',
-    errorMessage: 'email error message',
+    id: "email",
+    label: "Email",
+    value: "",
+    errorMessage: "email error message",
     validator: [EMAIL_VALIDATOR],
     showErrorMessage: false,
-    autoCapitalize: AutoCapitalize.none,
+    autoCapitalize: AutoCapitalize.none
   },
   {
-    id: 'password',
-    label: 'Password',
-    value: '',
-    errorMessage: 'password error message',
-    validator: [HAS_UPPERCASE, HAS_LOWERCASE, HAS_NUMBER, HAS_SPECIAL_CHAR, MIN_LENGTH_12],
+    id: "password",
+    label: "Password",
+    value: "",
+    errorMessage: "password error message",
+    validator: [
+      HAS_UPPERCASE,
+      HAS_LOWERCASE,
+      HAS_NUMBER,
+      HAS_SPECIAL_CHAR,
+      MIN_LENGTH_12
+    ],
     showErrorMessage: false,
     autoCapitalize: AutoCapitalize.none,
-    secureTextEntry: true,
+    secureTextEntry: true
   },
+  {
+    id: "avatar",
+    label: "Profile Picture",
+    value: "",
+    errorMessage: "Add a profile picture",
+    validator: [NOT_NULL],
+    showErrorMessage: false,
+    autoCapitalize: AutoCapitalize.none,
+    secureTextEntry: false
+  }
 ];

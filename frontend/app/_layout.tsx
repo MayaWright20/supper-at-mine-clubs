@@ -28,14 +28,14 @@ export default function RootLayout() {
 function RootNavigator() {
   const authCTATitle = useStore((state: StoreState) => state.authCTATitle);
   const setAuthCTATitle = useStore(
-    (state: StoreState) => state.setAuthCTATitle,
+    (state: StoreState) => state.setAuthCTATitle
   );
   const isAuthBgCol = useStore((state: StoreState) => state.isAuthBgCol);
   const setIsAuthBgCol = useStore((state: StoreState) => state.setIsAuthBgCol);
   const authForm = useStore((state: StoreState) => state.authForm);
   const setAuthForm = useStore((state: StoreState) => state.setAuthForm);
   const updateAuthFormField = useStore(
-    (state: StoreState) => state.updateAuthFormField,
+    (state: StoreState) => state.updateAuthFormField
   );
 
   const sessionToken = usePersistStore((state: any) => state.sessionToken);
@@ -46,12 +46,12 @@ function RootNavigator() {
 
   const isLogin = useMemo(
     () => authCTATitle === AuthRoutes.LOGIN,
-    [authCTATitle],
+    [authCTATitle]
   );
   const fieldsToValidate = useMemo(
     // fieldsToValidate uses username and password for when validating login. See order in store.ts.
     () => (isLogin ? [authForm[1], authForm[3]] : authForm),
-    [isLogin, authForm],
+    [isLogin, authForm]
   );
 
   const navigateToAuth = () => {
@@ -63,7 +63,7 @@ function RootNavigator() {
     for (const field of fieldsToValidate) {
       failedValidator =
         field.validator.find(
-          (validator) => !isRegExValid(field.value, validator),
+          (validator) => !isRegExValid(field.value, validator)
         ) || null;
 
       if (failedValidator) {
@@ -71,7 +71,7 @@ function RootNavigator() {
           isLogin ? "password" : field.id,
           undefined,
           true,
-          isLogin ? "Invalid credentials" : regexErrorMessage(failedValidator),
+          isLogin ? "Invalid credentials" : regexErrorMessage(failedValidator)
         );
       }
       if (failedValidator) return false;
@@ -148,14 +148,14 @@ function RootNavigator() {
             name="index"
             options={{
               headerShown: false,
-              animation: "slide_from_left",
+              animation: "slide_from_left"
             }}
           />
           <Stack.Screen
             name="auth"
             options={{
               headerShown: false,
-              animation: "slide_from_bottom",
+              animation: "slide_from_bottom"
             }}
           />
         </Stack.Protected>
@@ -184,7 +184,7 @@ function RootNavigator() {
         <SafeAreaView
           style={[
             styles.authBtnSafeAreaView,
-            { backgroundColor: isAuthBgCol ? COLORS.CREAM_0 : undefined },
+            { backgroundColor: isAuthBgCol ? COLORS.CREAM_0 : undefined }
           ]}
         >
           <CTA
@@ -200,15 +200,15 @@ function RootNavigator() {
 
 const styles = StyleSheet.create({
   authBtnSafeAreaView: {
-    paddingTop: "-100%",
+    paddingTop: "-100%"
   },
   cta: {
-    ...SHADOW,
+    ...SHADOW
   },
   pictureContainer: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFillObject
   },
   safeAreaView: {
-    paddingBottom: "-100%",
-  },
+    paddingBottom: "-100%"
+  }
 });

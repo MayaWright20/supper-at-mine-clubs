@@ -16,3 +16,5 @@ export const HAS_NUMBER = /[0-9]/;
 export const HAS_SPECIAL_CHAR = /[^A-Za-z0-9]/;
 
 export const MIN_LENGTH_12 = /^.{12,}$/;
+
+export const NOT_NULL = /^.+$/;
