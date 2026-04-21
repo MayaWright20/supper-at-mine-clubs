@@ -1,3 +1,4 @@
+import { Image } from "expo-image";
 import { StyleSheet, Text, View } from "react-native";
 
 import { SCREEN_STYLES } from "@/constants/styles";
@@ -8,8 +9,12 @@ export default function Index() {
 
   return (
     <View style={SCREEN_STYLES.screen}>
-      <View style={styles.avatar}></View>
-      <Text>{user.name}</Text>
+      {user?.avatarUrl ? (
+        <Image source={{ uri: user.avatarUrl }} style={styles.avatar} />
+      ) : (
+        <View style={styles.avatar}></View>
+      )}
+      <Text>{user?.name}</Text>
       <Text
         onPress={() => {
           logOut();
@@ -30,6 +35,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     height: 150,
     marginVertical: 20,
+    overflow: "hidden",
     width: 150
   }
 });

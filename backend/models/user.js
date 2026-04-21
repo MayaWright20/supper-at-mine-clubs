@@ -12,6 +12,9 @@ const schema = new mongoose.Schema({
     type: String,
     required: [true, "Please add a profile picture"],
   },
+  avatarPublicId: {
+    type: String,
+  },
   username: {
     type: String,
     unique: [true, "Username taken"],
