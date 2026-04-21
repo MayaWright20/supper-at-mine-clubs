@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import { SCREEN_STYLES } from "@/constants/styles";
 import useProfile from "@/hooks/useProfile";
@@ -8,6 +8,7 @@ export default function Index() {
 
   return (
     <View style={SCREEN_STYLES.screen}>
+      <View style={styles.avatar}></View>
       <Text>{user.name}</Text>
       <Text
         onPress={() => {
@@ -19,3 +20,16 @@ export default function Index() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  avatar: {
+    alignSelf: "center",
+    backgroundColor: "white",
+    borderColor: "pink",
+    borderRadius: 100,
+    borderWidth: 2,
+    height: 150,
+    marginVertical: 20,
+    width: 150
+  }
+});
