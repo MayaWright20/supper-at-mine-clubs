@@ -95,7 +95,8 @@ export default function SignIn() {
 
 const styles = StyleSheet.create({
   backCTA: {
-    alignSelf: "flex-start"
+    alignSelf: "flex-start",
+    marginLeft: 6
   },
   form: {
     flex: 1,

@@ -200,7 +200,7 @@ function RootNavigator() {
           ]}
         >
           <CTA
-            style={!isAuthBgCol && styles.cta}
+            style={!isAuthBgCol ? styles.cta : styles.ctaAuth}
             onPress={authBtnHandler}
             title={authCTATitle}
           />
@@ -215,12 +215,17 @@ const styles = StyleSheet.create({
     paddingTop: "-100%"
   },
   cta: {
-    ...SHADOW
+    ...SHADOW,
+    marginHorizontal: 6
+  },
+  ctaAuth: {
+    marginHorizontal: 6
   },
   pictureContainer: {
     ...StyleSheet.absoluteFillObject
   },
   safeAreaView: {
+    // marginHorizontal: 12,
     paddingBottom: "-100%"
   }
 });
