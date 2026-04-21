@@ -2,6 +2,8 @@ import cookieParser from "cookie-parser";
 import { config } from "dotenv";
 import express from "express";
 import helmet from "helmet";
+import path from "path";
+import { fileURLToPath } from "url";
 import user from "./routes/user.js";
 import supper from "./routes/supper.js";
 import { errorMiddleware } from "./middleware/error.js";
@@ -11,10 +13,18 @@ config({
 });
 
 export const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  "/uploads",
+  express.static(path.resolve(__dirname, "./uploads"), {
+    crossOriginResourcePolicy: false,
+  })
+);
 
 app.get("/", (req, res, next) => {
   res.json({
