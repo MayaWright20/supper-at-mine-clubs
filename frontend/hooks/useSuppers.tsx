@@ -19,12 +19,12 @@ export default function useSupper() {
           name,
           description,
           availableSeats: 5,
-          price: 40,
+          price: 40
         },
         {
           headers: {
-            Authorization: `Bearer ${sessionToken}`,
-          },
+            Authorization: `Bearer ${sessionToken}`
+          }
         }
       );
 
@@ -42,8 +42,8 @@ export default function useSupper() {
         `${process.env.EXPO_PUBLIC_URL}/suppers`,
         {
           headers: {
-            Authorization: `Bearer ${sessionToken}`,
-          },
+            Authorization: `Bearer ${sessionToken}`
+          }
         }
       );
 
@@ -63,6 +63,6 @@ export default function useSupper() {
     createSupper,
     getAllSuppers,
     suppers,
-    setSuppers,
+    setSuppers
   };
 }
