@@ -45,10 +45,16 @@ export default function SignIn() {
     <SafeAreaView style={styles.safeAreaView}>
       <CTA isSmall style={styles.backCTA} title={"Back"} onPress={backCta} />
       <View style={styles.form}>
-        <View>
-          <Button title="Pick an image from camera roll" onPress={pickImage} />
-          {image && <Image source={{ uri: image }} style={styles.image} />}
-        </View>
+        {isLogin === AuthRoutes.SING_UP && (
+          <View>
+            <Button
+              title="Pick an image from camera roll"
+              onPress={pickImage}
+            />
+            {image && <Image source={{ uri: image }} style={styles.image} />}
+          </View>
+        )}
+
         {AUTH_FORM &&
           AUTH_FORM.map((item, index) => {
             const formField = authForm.find((field) => field.id === item.id);

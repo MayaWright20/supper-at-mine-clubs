@@ -82,7 +82,12 @@ export default function useProfile() {
     try {
       const response = await axios.post(
         `${process.env.EXPO_PUBLIC_URL}/user/login`,
-        formData
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
       );
 
       if (response.data.success) {

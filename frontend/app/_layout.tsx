@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CTA from "@/components/buttons/cta";
 import { SplashScreenController } from "@/components/splash-screen";
 import { COLORS } from "@/constants/colors";
+import { EMAIL_VALIDATOR } from "@/constants/regex";
 import { SHADOW } from "@/constants/styles";
 import useProfile from "@/hooks/useProfile";
 import { StoreState, usePersistStore, useStore } from "@/store/store";
@@ -60,11 +61,16 @@ function RootNavigator() {
 
   const isFormValid = (): boolean => {
     let failedValidator: RegExp | null = null;
+
     for (const field of fieldsToValidate) {
       failedValidator =
-        field.validator.find(
-          (validator) => !isRegExValid(field.value, validator)
-        ) || null;
+        field.validator.find((validator) => {
+          if (isLogin && field.id === "username" && field.value.includes("@")) {
+            return !isRegExValid(field.value, EMAIL_VALIDATOR);
+          }
+
+          return !isRegExValid(field.value, validator);
+        }) || null;
 
       if (failedValidator) {
         updateAuthFormField(
@@ -73,9 +79,10 @@ function RootNavigator() {
           true,
           isLogin ? "Invalid credentials" : regexErrorMessage(failedValidator)
         );
+        return false;
       }
-      if (failedValidator) return false;
     }
+
     return true;
   };
 
@@ -102,6 +109,7 @@ function RootNavigator() {
           Object.entries(formData).forEach(([key, value]) => {
             form.append(key, value);
           });
+
           login(form);
         } else {
           signUp(formData, isLogin);

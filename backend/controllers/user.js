@@ -10,7 +10,7 @@ export const login = asyncError(async (req, res, next) => {
   const { email, password, username } = req.body;
 
   const user = await User.findOne({
-    $or: [{ email: email || username }, { username: email || username }],
+    $or: [{ username: email || username }, { email: email || username }],
   }).select("+password");
 
   if (!user) {
