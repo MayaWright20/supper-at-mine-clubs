@@ -119,9 +119,35 @@ export default function useProfile() {
         setIsAuthBgCol(false);
         setAuthCTATitle(AuthRoutes.SING_UP);
         setSessionToken(null);
+        setUser(null);
       }
     } catch (err: any) {
       console.log("This error logout", err.response.data.message);
+    }
+  };
+
+  const deleteProfile = async () => {
+    try {
+      const response = await axios.delete(
+        `${process.env.EXPO_PUBLIC_URL}/user/delete`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionToken}`
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        resetAuthForm();
+        setIsAuthBgCol(false);
+        setAuthCTATitle(AuthRoutes.SING_UP);
+        setSessionToken(null);
+        setUser(null);
+      }
+    } catch (err: any) {
+      throw new Error(
+        err.response?.data?.message || "Could not delete profile"
+      );
     }
   };
 
@@ -129,6 +155,7 @@ export default function useProfile() {
     signUp,
     login,
     logOut,
+    deleteProfile,
     user
   };
 }

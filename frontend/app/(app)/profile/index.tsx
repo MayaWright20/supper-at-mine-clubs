@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 
 import CTA from "@/components/buttons/cta";
 import { COLORS } from "@/constants/colors";
@@ -7,8 +7,32 @@ import { SCREEN_STYLES } from "@/constants/styles";
 import useProfile from "@/hooks/useProfile";
 
 export default function Index() {
-  const { logOut, user } = useProfile();
+  const { deleteProfile, logOut, user } = useProfile();
   const memberSince = formatMemberSince(user?.createdAt, user?._id);
+
+  const deleteProfileHandler = () => {
+    Alert.alert(
+      "Delete profile?",
+      "This will permanently remove your account.",
+      [
+        {
+          style: "cancel",
+          text: "Cancel"
+        },
+        {
+          style: "destructive",
+          text: "Delete",
+          onPress: async () => {
+            try {
+              await deleteProfile();
+            } catch (error: any) {
+              Alert.alert("Could not delete profile", error.message);
+            }
+          }
+        }
+      ]
+    );
+  };
 
   return (
     <View style={SCREEN_STYLES.screen}>
@@ -28,6 +52,11 @@ export default function Index() {
           logOut();
         }}
         style={styles.button}
+      />
+      <CTA
+        isTransparent
+        title={"Delete profile"}
+        onPress={deleteProfileHandler}
       />
     </View>
   );

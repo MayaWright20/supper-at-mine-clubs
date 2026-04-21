@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  ViewStyle,
+  ViewStyle
 } from "react-native";
 
 import { COLORS } from "@/constants/colors";
@@ -17,6 +17,7 @@ interface Props {
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
   isSmall?: boolean;
+  isTransparent?: boolean;
 }
 
 export default function CTA({
@@ -26,6 +27,7 @@ export default function CTA({
   onPress,
   style,
   isSmall,
+  isTransparent
 }: Props) {
   const onPressHandler = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -38,9 +40,11 @@ export default function CTA({
         styles.container,
         style,
         {
-          backgroundColor,
-          paddingHorizontal: isSmall ? PADDING.SMALL_PADDING : "auto",
-        },
+          borderWidth: isTransparent ? 1 : 0,
+          borderColor: isTransparent ? COLORS.RED_0 : "transparent",
+          backgroundColor: isTransparent ? "transparent" : backgroundColor,
+          paddingHorizontal: isSmall ? PADDING.SMALL_PADDING : "auto"
+        }
       ]}
     >
       <Text style={[styles.title, { color }]}>{title}</Text>
@@ -52,11 +56,11 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 50,
     marginVertical: 5,
-    padding: 12,
+    padding: 12
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    textAlign: "center",
-  },
+    textAlign: "center"
+  }
 });
