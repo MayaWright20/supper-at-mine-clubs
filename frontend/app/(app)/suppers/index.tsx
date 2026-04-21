@@ -49,7 +49,7 @@ const AnimatedCard = ({ item, index }: { item: any; index: number }) => {
         maxWidth: "50%",
       }}
     >
-      <Card title={item.name} />
+      <Card title={item.name} image={item.images?.[0]} />
     </Animated.View>
   );
 };

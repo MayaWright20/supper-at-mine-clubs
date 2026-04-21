@@ -1,15 +1,18 @@
+import { Image } from "expo-image";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 
 import { COLORS } from "@/constants/colors";
 
 interface Props {
   title: string;
+  image?: string;
 }
 
-export default function Card({ title }: Props) {
+export default function Card({ title, image }: Props) {
   const { height } = useWindowDimensions();
   return (
     <View style={[styles.container, { height: height / 3 }]}>
+      {image ? <Image source={{ uri: image }} style={styles.image} /> : null}
       <Text style={styles.title}>{title}</Text>
     </View>
   );
@@ -32,6 +35,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.15,
     shadowRadius: 8,
+  },
+  image: {
+    borderRadius: 12,
+    height: 120,
+    marginBottom: 12,
+    width: "100%"
   },
   title: {
     color: COLORS.RED_0,

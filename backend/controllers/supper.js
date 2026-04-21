@@ -1,9 +1,10 @@
 import { asyncError } from "../middleware/error.js";
+import { uploadImageToCloudinary } from "../utils/cloudinary.js";
 import { Supper } from "../models/supper.js";
 import ErrorHandler from "../utils/error.js";
 
 export const createSupper = asyncError(async (req, res, next) => {
-  const { name, description, availableSeats, price, images } = req.body;
+  const { name, description, availableSeats, price } = req.body;
 
   if (!name || !description || !availableSeats || !price) {
     return next(
@@ -13,14 +14,25 @@ export const createSupper = asyncError(async (req, res, next) => {
       )
     );
   }
-  console.log("in create supper");
+
+  const uploadedImages = req.files?.length
+    ? await Promise.all(
+        req.files.map((file) =>
+          uploadImageToCloudinary({
+            buffer: file.buffer,
+            folder: "supper-at-mine-clubs/suppers",
+            mimetype: file.mimetype,
+          })
+        )
+      )
+    : [];
 
   const supper = await Supper.create({
     name,
     description,
     availableSeats,
     price: price || 0,
-    images: images || [],
+    images: uploadedImages.map((image) => image.secureUrl),
     createdBy: req.user._id,
     attendies: [],
   });
@@ -35,8 +47,6 @@ export const createSupper = asyncError(async (req, res, next) => {
 export const getAllSuppers = asyncError(async (req, res, next) => {
   const allSuppers = await Supper.find();
 
-  console.log("in get supper", allSuppers);
-
   res.status(200).json({
     success: true,
     allSuppers,
@@ -45,8 +55,6 @@ export const getAllSuppers = asyncError(async (req, res, next) => {
 
 export const getSupper = asyncError(async (req, res, next) => {
   const supper = await Supper.findById(req.supper._id);
-
-  console.log("in get supper");
 
   res.status(200).json({
     success: true,

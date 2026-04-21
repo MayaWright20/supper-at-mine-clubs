@@ -1,10 +1,13 @@
+import { Image } from "expo-image";
 import { router } from "expo-router";
+import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
 import AnimatedTextInput from "@/components/inputs/text-input";
+import { COLORS } from "@/constants/colors";
 import { FONTS, SCREEN_STYLES } from "@/constants/styles";
 import useSupper from "@/hooks/useSuppers";
 
@@ -16,11 +19,51 @@ export default function CreateSupper() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
+  const [images, setImages] = useState<string[]>([]);
 
   const { createSupper } = useSupper();
 
+  const pickSupperImages = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      Alert.alert(
+        "Permission required",
+        "Permission to access the media library is required."
+      );
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      allowsMultipleSelection: true,
+      mediaTypes: ["images"],
+      quality: 1,
+      selectionLimit: 5
+    });
+
+    if (!result.canceled) {
+      setImages(result.assets.map((asset) => asset.uri));
+    }
+  };
+
   const createSupperHandler = async () => {
-    await createSupper({ name, description });
+    if (!name.trim() || !(longDescription || description).trim()) {
+      Alert.alert("Missing details", "Please add a name and description.");
+      return;
+    }
+
+    try {
+      await createSupper({
+        name: name.trim(),
+        description: (longDescription || description).trim(),
+        imageUris: images
+      });
+      router.back();
+    } catch (error: any) {
+      Alert.alert("Could not create supper", error.message);
+    }
   };
 
   return (
@@ -44,6 +87,14 @@ export default function CreateSupper() {
           onChangeText={(value) => setLongDescription(value)}
           isTextArea
         />
+        <CTA title={"Add Supper Images"} onPress={pickSupperImages} />
+        {!!images.length && (
+          <View style={styles.imagePreviewRow}>
+            {images.map((image, index) => (
+              <Image key={image} source={{ uri: image }} style={styles.imagePreview} />
+            ))}
+          </View>
+        )}
         <CTA title={"Create Supper Club"} onPress={createSupperHandler} />
       </ScrollView>
     </SafeAreaView>
@@ -57,4 +108,16 @@ const styles = StyleSheet.create({
   scrollview: {
     flex: 1,
   },
+  imagePreview: {
+    backgroundColor: COLORS.PINK_0,
+    borderRadius: 12,
+    height: 110,
+    width: 110
+  },
+  imagePreviewRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 12,
+    marginVertical: 16
+  }
 });

@@ -47,4 +47,6 @@ export enum Storage {
 export interface Supper {
   name: string;
   description: string;
+  imageUris?: string[];
+  images?: string[];
 }
