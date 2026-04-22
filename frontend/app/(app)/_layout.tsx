@@ -11,51 +11,65 @@ export default function TabsLayout() {
         tabBarActiveTintColor: COLORS.PINK_0,
         tabBarInactiveTintColor: COLORS.PINK_0,
         tabBarStyle: {
-          backgroundColor: PAGE_BACKGROUND_COL,
+          backgroundColor: PAGE_BACKGROUND_COL
         },
         headerStyle: {
-          backgroundColor: PAGE_BACKGROUND_COL,
-        },
+          backgroundColor: PAGE_BACKGROUND_COL
+        }
       }}
     >
       <Tabs.Screen
-        name="suppers"
+        name="search"
         options={{
-          title: "suppers",
+          title: "Search",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={focused ? "home-sharp" : "home-outline"}
+              name={focused ? "search-sharp" : "search-outline"}
               color={COLORS.PINK_1}
               size={24}
             />
-          ),
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="my-suppers/index"
+        options={{
+          title: "My Suppers",
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name={focused ? "fast-food-sharp" : "fast-food-outline"}
+              color={COLORS.PINK_1}
+              size={24}
+            />
+          )
         }}
       />
       <Tabs.Screen
         name="favourites/index"
         options={{
-          title: "favourites",
+          title: "Favourites",
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "heart-sharp" : "heart-outline"}
               color={focused ? "red" : COLORS.PINK_1}
               size={24}
             />
-          ),
+          )
         }}
       />
+
       <Tabs.Screen
         name="profile/index"
         options={{
-          title: "profile",
+          title: "Profile",
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "person" : "person-outline"}
               size={24}
               color={COLORS.PINK_1}
             />
-          ),
+          )
         }}
       />
     </Tabs>

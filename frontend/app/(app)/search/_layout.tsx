@@ -6,17 +6,17 @@ export default function Layout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen
-        name={SCREEN_NAMES.HOME}
+        name={SCREEN_NAMES.SEARCH}
         options={{
           headerShown: false,
-          animation: "slide_from_left",
+          animation: "slide_from_left"
         }}
       />
       <Stack.Screen
         name={SCREEN_NAMES.CREATE_SUPPER}
         options={{
           headerShown: false,
-          animation: "slide_from_bottom",
+          animation: "slide_from_bottom"
         }}
       />
     </Stack>
