@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "commit": "cz",
+    "generate:api-types": "openapi-typescript ../backend/openapi.yaml -o ./types/types.ts",
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
@@ -70,6 +71,7 @@
     "eslint-plugin-react-native": "^5.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
+    "openapi-typescript": "^7.13.0",
     "prettier": "^3.7.4",
     "typescript": "~5.9.2"
   },

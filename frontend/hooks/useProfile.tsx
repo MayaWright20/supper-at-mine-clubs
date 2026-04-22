@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { StoreState, usePersistStore, useStore } from "@/store/store";
-import { AuthForm, AuthRoutes } from "@/types/types";
+import { AuthForm, AuthRoutes } from "@/types/typess";
 
 import useSession from "./useSession";
 
