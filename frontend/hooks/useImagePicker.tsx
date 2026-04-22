@@ -25,8 +25,6 @@ export default function useImagePicker(placeholder: ImageSource) {
       quality: 1
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImage(result.assets[0]);
     }
