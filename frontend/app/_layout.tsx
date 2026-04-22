@@ -11,7 +11,7 @@ import { EMAIL_VALIDATOR } from "@/constants/regex";
 import { SHADOW } from "@/constants/styles";
 import useProfile from "@/hooks/useProfile";
 import { StoreState, usePersistStore, useStore } from "@/store/store";
-import { AuthForm, AuthRoutes } from "@/types/types";
+import { AuthForm, AuthRoutes } from "@/types/typess";
 import { AUTH_FORM } from "@/utils/auth";
 import { isRegExValid, regexErrorMessage } from "@/utils/regex";
 

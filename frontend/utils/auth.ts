@@ -9,7 +9,7 @@ import {
   NOT_NULL,
   USER_NAME_VALIDATOR
 } from "@/constants/regex";
-import { AutoCapitalize, ErrorStateValue } from "@/types/types";
+import { AutoCapitalize, ErrorStateValue } from "@/types/typess";
 
 // Order of AUTH_FORM cannot change see _layout.tsx fieldsToValidate function
 export const AUTH_FORM: ErrorStateValue[] = [

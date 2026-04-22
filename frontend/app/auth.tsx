@@ -10,7 +10,7 @@ import AnimatedTextInput from "@/components/inputs/text-input";
 import { COLORS } from "@/constants/colors";
 import useImagePicker from "@/hooks/useImagePicker";
 import { StoreState, useStore } from "@/store/store";
-import { AuthRoutes } from "@/types/types";
+import { AuthRoutes } from "@/types/typess";
 import { AUTH_FORM } from "@/utils/auth";
 
 const defaultAvatar = require("../assets/images/masgot/masgot_wave.png");

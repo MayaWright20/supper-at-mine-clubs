@@ -1,0 +1,52 @@
+export type AuthForm = Record<string, string>;
+export type UseStateHook<T> = [string, (value: T | null) => void];
+
+export interface TextInputComponentProps {
+  backgroundColor?: string;
+  color?: string;
+  label: string;
+  value?: string;
+  onChangeText: (input: string) => void;
+  autoCapitalize?: AutoCapitalize;
+  secureTextEntry?: boolean;
+  errorMessage?: string;
+  showErrorMessage?: boolean;
+}
+
+export enum AutoCapitalize {
+  none = "none",
+  sentences = "sentences",
+  words = "words",
+  characters = "characters"
+}
+
+export interface TextInput {
+  id: string;
+  value: string;
+  label: string;
+  autoCapitalize?: AutoCapitalize;
+  secureTextEntry?: boolean;
+}
+
+export interface ErrorStateValue extends TextInput {
+  errorMessage: string;
+  validator: RegExp[];
+  showErrorMessage: boolean;
+}
+
+export enum AuthRoutes {
+  LOGIN = "Login",
+  SING_UP = "Sign up"
+}
+
+export enum Storage {
+  SESSION = "session",
+  APP_NAME = "supper-at-mine-clubs"
+}
+
+// export interface Supper {
+//   name: string;
+//   description: string;
+//   imageUris?: string[];
+//   images?: string[];
+// }

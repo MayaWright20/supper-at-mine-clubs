@@ -2,7 +2,7 @@ import axios from "axios";
 import { useCallback, useEffect } from "react";
 
 import { StoreState, useStore } from "@/store/store";
-import { Supper } from "@/types/types";
+import type { components } from "@/types/types";
 
 import useProfile from "./useProfile";
 import useSession from "./useSession";
@@ -18,7 +18,7 @@ export default function useSuppers() {
     name,
     description,
     imageUris = []
-  }: Supper) => {
+  }: components["schemas"]["Supper"]) => {
     const data = new FormData();
 
     data.append("name", name);
@@ -80,7 +80,7 @@ export default function useSuppers() {
     getAllSuppers();
   }, [getAllSuppers]);
 
-  const mySuppers = suppers
+  const mySuppers: components["schemas"]["Supper"][] = suppers
     ? suppers.filter((item) => {
         const createdById =
           typeof item.createdBy === "string"

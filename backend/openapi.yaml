@@ -1,0 +1,463 @@
+openapi: 3.0.3
+info:
+  title: Supper At Mine Clubs API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:4000
+    description: Local development server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Supper:
+      type: object
+      required:
+        - _id
+        - name
+        - description
+        - availableSeats
+        - price
+        - rating
+        - reviewCount
+        - dateCreated
+        - createdBy
+        - attendies
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        availableSeats:
+          type: number
+        price:
+          type: number
+        images:
+          type: array
+          items:
+            type: string
+        rating:
+          type: number
+        reviewCount:
+          type: number
+        dateCreated:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+        attendies:
+          type: array
+          items:
+            type: string
+
+    User:
+      type: object
+      required:
+        - _id
+        - name
+        - username
+        - email
+        - avatar
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        avatar:
+          type: string
+        avatarPublicId:
+          type: string
+          nullable: true
+        avatarUrl:
+          type: string
+          nullable: true
+
+    LoginRequest:
+      type: object
+      required:
+        - password
+      properties:
+        email:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+
+    SignupRequest:
+      type: object
+      required:
+        - name
+        - username
+        - email
+        - password
+        - avatar
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        avatar:
+          type: string
+          format: binary
+
+    UpdateAvatarRequest:
+      type: object
+      required:
+        - avatar
+      properties:
+        avatar:
+          type: string
+          format: binary
+
+    CreateSupperRequest:
+      type: object
+      required:
+        - name
+        - description
+        - availableSeats
+        - price
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        availableSeats:
+          type: string
+        price:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+            format: binary
+
+    AuthSuccessResponse:
+      type: object
+      required:
+        - success
+        - message
+        - token
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        token:
+          type: string
+
+    ProfileResponse:
+      type: object
+      required:
+        - success
+        - user
+      properties:
+        success:
+          type: boolean
+        user:
+          $ref: '#/components/schemas/User'
+
+    LogoutResponse:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
+    DeleteProfileResponse:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
+    UpdateAvatarResponse:
+      type: object
+      required:
+        - success
+        - message
+        - user
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+
+    GetAllSuppersResponse:
+      type: object
+      required:
+        - success
+        - allSuppers
+      properties:
+        success:
+          type: boolean
+        allSuppers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Supper'
+
+    CreateSupperResponse:
+      type: object
+      required:
+        - success
+        - message
+        - supper
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        supper:
+          $ref: '#/components/schemas/Supper'
+
+    ErrorResponse:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+        field:
+          type: string
+          nullable: true
+
+paths:
+  /user/login:
+    post:
+      summary: Log in a user
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSuccessResponse'
+        '400':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user/signup:
+    post:
+      summary: Sign up a new user
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSuccessResponse'
+        '400':
+          description: Validation or signup error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user/profile:
+    get:
+      summary: Get current user profile
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Profile fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user/profile/avatar:
+    put:
+      summary: Update current user avatar
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateAvatarRequest'
+      responses:
+        '200':
+          description: Profile picture updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAvatarResponse'
+        '400':
+          description: Missing avatar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user/logout:
+    get:
+      summary: Log out current user
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Logged out successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user/delete:
+    delete:
+      summary: Delete current user profile
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Profile deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteProfileResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /suppers:
+    get:
+      summary: Get all suppers
+      tags:
+        - Supper
+      responses:
+        '200':
+          description: Suppers fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllSuppersResponse'
+
+    post:
+      summary: Create a supper
+      tags:
+        - Supper
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateSupperRequest'
+      responses:
+        '201':
+          description: Supper created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSupperResponse'
+        '400':
+          description: Missing required supper fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
