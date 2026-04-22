@@ -14,7 +14,7 @@ module.exports = [
   {
     plugins: {
       // Don't redefine "import" (Expo already adds it)
-      "react-native": reactNativePlugin,
+      "react-native": reactNativePlugin
     },
 
     rules: {
@@ -33,36 +33,36 @@ module.exports = [
             "internal",
             "parent",
             "sibling",
-            "index",
+            "index"
           ],
           pathGroups: [
             // 1. React first
             {
               pattern: "react",
               group: "external",
-              position: "before",
+              position: "before"
             },
             // 2. React Native right after React
             {
               pattern: "react-native",
               group: "external",
-              position: "before",
+              position: "before"
             },
             // Other externals (expo-router, safe-area, etc) just treated as regular external
             {
               pattern: "@/**",
               group: "internal",
-              position: "after",
-            },
+              position: "after"
+            }
           ],
           // Let React / RN be handled by pathGroups and not re-sorted with other externals
           pathGroupsExcludedImportTypes: ["external", "internal"],
           alphabetize: { order: "asc", caseInsensitive: true },
-          "newlines-between": "always", // blank line between external & internal
-        },
-      ],
+          "newlines-between": "always" // blank line between external & internal
+        }
+      ]
     },
 
-    ignores: ["dist/*"],
-  },
+    ignores: ["dist/*"]
+  }
 ];

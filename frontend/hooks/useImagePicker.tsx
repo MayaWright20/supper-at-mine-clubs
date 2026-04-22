@@ -1,9 +1,10 @@
+import type { ImageSource } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import { Alert } from "react-native";
 
-export default function useImagePicker() {
-  const [image, setImage] = useState<string | null>(null);
+export default function useImagePicker(placeholder: ImageSource) {
+  const [image, setImage] = useState<ImageSource>(placeholder);
 
   const pickImage = async () => {
     const permissionResult =
@@ -27,7 +28,7 @@ export default function useImagePicker() {
     console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0]);
     }
   };
 

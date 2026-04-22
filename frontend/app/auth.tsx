@@ -1,7 +1,8 @@
-import { Image } from "expo-image";
+import { Asset } from "expo-asset";
+import { Image, ImageSource } from "expo-image";
 import { router } from "expo-router";
 import { useEffect } from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
@@ -11,6 +12,23 @@ import useImagePicker from "@/hooks/useImagePicker";
 import { StoreState, useStore } from "@/store/store";
 import { AuthRoutes } from "@/types/types";
 import { AUTH_FORM } from "@/utils/auth";
+
+const defaultAvatar = require("../assets/images/masgot/masgot_wave.png");
+
+function getImageUri(source: ImageSource) {
+  if (typeof source === "string") return source;
+
+  if (typeof source === "number") {
+    const asset = Asset.fromModule(source);
+    return asset.localUri || asset.uri;
+  }
+
+  if (source && typeof source === "object" && "uri" in source) {
+    return source.uri;
+  }
+
+  return "";
+}
 
 export default function SignIn() {
   const isLogin = useStore((state: StoreState) => state.authCTATitle);
@@ -24,7 +42,7 @@ export default function SignIn() {
   );
   const resetAuthForm = useStore((state: StoreState) => state.resetAuthForm);
 
-  const { pickImage, image } = useImagePicker();
+  const { pickImage, image } = useImagePicker(defaultAvatar);
 
   const backCta = () => {
     setAuthCTATitle(AuthRoutes.SING_UP);
@@ -38,7 +56,11 @@ export default function SignIn() {
   }, [setIsAuthBgCol]);
 
   useEffect(() => {
-    if (image) updateAuthFormField("avatar", image, false);
+    const imageUri = getImageUri(image);
+
+    if (imageUri) {
+      updateAuthFormField("avatar", imageUri, false);
+    }
   }, [image, updateAuthFormField]);
 
   return (
@@ -46,13 +68,10 @@ export default function SignIn() {
       <CTA isSmall style={styles.backCTA} title={"Back"} onPress={backCta} />
       <View style={styles.form}>
         {isLogin === AuthRoutes.SING_UP && (
-          <View>
-            <Button
-              title="Pick an image from camera roll"
-              onPress={pickImage}
-            />
-            {image && <Image source={{ uri: image }} style={styles.image} />}
-          </View>
+          <>
+            <Image placeholder={image} source={image} style={styles.image} />
+            <CTA title="Add profile picture" onPress={pickImage} />
+          </>
         )}
 
         {AUTH_FORM &&
@@ -104,7 +123,11 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   image: {
-    backgroundColor: "pink",
+    alignSelf: "center",
+    // backgroundColor: "white",
+    borderColor: COLORS.RED_0,
+    borderRadius: "100%",
+    borderWidth: 2,
     height: 200,
     width: 200
   },
