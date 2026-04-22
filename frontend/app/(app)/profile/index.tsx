@@ -1,16 +1,31 @@
 import { Image } from "expo-image";
 import { useEffect, useRef } from "react";
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View
+} from "react-native";
 
 import CTA from "@/components/buttons/cta";
+import Card from "@/components/cards/card";
 import { COLORS } from "@/constants/colors";
 import { SCREEN_STYLES } from "@/constants/styles";
 import useImagePicker from "@/hooks/useImagePicker";
 import useProfile from "@/hooks/useProfile";
+import useSuppers from "@/hooks/useSuppers";
 import { formatMemberSince } from "@/utils/dates";
 
 export default function Index() {
+  const { height, width } = useWindowDimensions();
+  const supperCardHeight = height * 0.1;
+  const supperCardWidth = width * 0.7;
+
   const { deleteProfile, logOut, updateProfilePicture, user } = useProfile();
+  const { mySuppers } = useSuppers();
   const { image, pickImage } = useImagePicker({ uri: user?.avatarUrl });
   const memberSince = formatMemberSince(user?.createdAt, user?._id);
   const currentAvatarRef = useRef(user?.avatarUrl);
@@ -69,6 +84,30 @@ export default function Index() {
         <Text style={styles.label}>Member profile</Text>
         <Text style={styles.memberSince}>Joined {memberSince}</Text>
       </View>
+      <Text style={styles.sectionTitle}>Your Suppers</Text>
+      <FlatList
+        data={mySuppers}
+        horizontal
+        contentContainerStyle={styles.suppersList}
+        ItemSeparatorComponent={() => <View style={styles.supperGap} />}
+        showsHorizontalScrollIndicator={false}
+        style={styles.suppersFlatList}
+        renderItem={({ item, index }) => (
+          <Card
+            key={index}
+            image={item.images?.[0]}
+            kicker={"Your supper"}
+            meta={"Shared table and local gathering"}
+            showTag={false}
+            style={[
+              styles.supperCard,
+              { height: supperCardHeight, width: supperCardWidth }
+            ]}
+            title={item.name}
+            variant={"horizontal"}
+          />
+        )}
+      />
       <CTA
         title={"Sign Out"}
         onPress={() => {
@@ -127,5 +166,24 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "700",
     marginBottom: 6
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: "700",
+    marginBottom: 0,
+    marginTop: 18
+  },
+  supperCard: {
+    alignSelf: "center"
+  },
+  supperGap: {
+    width: 8
+  },
+  suppersFlatList: {
+    marginTop: 0,
+    paddingTop: 0
+  },
+  suppersList: {
+    paddingRight: 16
   }
 });
