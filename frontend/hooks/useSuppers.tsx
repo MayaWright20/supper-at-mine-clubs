@@ -4,10 +4,13 @@ import { useCallback, useEffect } from "react";
 import { StoreState, useStore } from "@/store/store";
 import { Supper } from "@/types/types";
 
+import useProfile from "./useProfile";
 import useSession from "./useSession";
 
 export default function useSupper() {
   const { sessionToken } = useSession();
+  const { user } = useProfile();
+  const userId = user?._id;
   const suppers = useStore((state: StoreState) => state.suppers);
   const setSuppers = useStore((state: StoreState) => state.setSuppers);
 
@@ -77,10 +80,22 @@ export default function useSupper() {
     getAllSuppers();
   }, [getAllSuppers]);
 
+  const mySuppers = suppers
+    ? suppers.filter((item) => {
+        const createdById =
+          typeof item.createdBy === "string"
+            ? item.createdBy
+            : item.createdBy?._id;
+
+        return createdById === userId;
+      })
+    : [];
+
   return {
     createSupper,
     getAllSuppers,
     suppers,
-    setSuppers
+    setSuppers,
+    mySuppers
   };
 }
