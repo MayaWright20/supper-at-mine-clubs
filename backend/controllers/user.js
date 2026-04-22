@@ -99,6 +99,42 @@ export const getMyProfile = asyncError(async (req, res, next) => {
   });
 });
 
+export const updateMyAvatar = asyncError(async (req, res, next) => {
+  if (!req.file) {
+    return next(new ErrorHandler("Please upload an avatar", 400));
+  }
+
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  const uploadedAvatar = await uploadImageToCloudinary({
+    buffer: req.file.buffer,
+    folder: "supper-at-mine-clubs/avatars",
+    mimetype: req.file.mimetype,
+  });
+
+  if (user.avatarPublicId) {
+    await deleteImageFromCloudinary(user.avatarPublicId);
+  }
+
+  user.avatar = uploadedAvatar.secureUrl;
+  user.avatarPublicId = uploadedAvatar.publicId;
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Profile picture updated successfully",
+    user: {
+      ...user.toObject(),
+      avatarUrl: buildAvatarUrl(req, user.avatar),
+    },
+  });
+});
+
 export const deleteMyProfile = asyncError(async (req, res, next) => {
   const user = await User.findByIdAndDelete(req.user._id);
 

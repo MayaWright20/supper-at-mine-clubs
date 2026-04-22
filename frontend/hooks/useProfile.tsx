@@ -72,7 +72,7 @@ export default function useProfile() {
         const token = response.data.token;
         getProfile(token);
       }
-    } catch (err: any) {
+    } catch {
       // handle error
       console.log(" sing up error");
     }
@@ -100,6 +100,37 @@ export default function useProfile() {
         undefined,
         true,
         err.response?.data?.message
+      );
+    }
+  };
+
+  const updateProfilePicture = async (avatarUri: string) => {
+    const data = new FormData();
+
+    data.append("avatar", {
+      uri: avatarUri,
+      name: "avatar.jpg",
+      type: "image/jpeg"
+    } as any);
+
+    try {
+      const response = await axios.put(
+        `${process.env.EXPO_PUBLIC_URL}/user/profile/avatar`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionToken}`,
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
+
+      if (response.data.success) {
+        setUser(response.data.user);
+      }
+    } catch (err: any) {
+      throw new Error(
+        err.response?.data?.message || "Could not update profile picture"
       );
     }
   };
@@ -154,6 +185,7 @@ export default function useProfile() {
   return {
     signUp,
     login,
+    updateProfilePicture,
     logOut,
     deleteProfile,
     user

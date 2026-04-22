@@ -5,6 +5,7 @@ import {
   login,
   logout,
   signUp,
+  updateMyAvatar,
 } from "../controllers/user.js";
 import { isAuthenticated } from "../middleware/auth.js";
 import { upload } from "../middleware/upload.js";
@@ -15,6 +16,7 @@ router.post("/login", login);
 router.post("/signup", upload.single("avatar"), signUp);
 
 router.get("/profile", isAuthenticated, getMyProfile);
+router.put("/profile/avatar", isAuthenticated, upload.single("avatar"), updateMyAvatar);
 router.get("/logout", isAuthenticated, logout);
 
 router.delete("/delete", isAuthenticated, deleteMyProfile);
