@@ -9,7 +9,7 @@ import Card from "@/components/cards/card";
 import AnimatedTextInput from "@/components/inputs/text-input";
 import { COLORS } from "@/constants/colors";
 import { SCREEN_STYLES } from "@/constants/styles";
-import useSupper from "@/hooks/useSuppers";
+import useSuppers from "@/hooks/useSuppers";
 import { ROUTES } from "@/routes/routes";
 
 const AnimatedCard = ({ item, index }: { item: any; index: number }) => {
@@ -28,14 +28,14 @@ const AnimatedCard = ({ item, index }: { item: any; index: number }) => {
           toValue: 1,
           duration: 500,
           delay: index * 100,
-          useNativeDriver: true,
+          useNativeDriver: true
         }),
         Animated.timing(translateY, {
           toValue: 0,
           duration: 500,
           delay: index * 100,
-          useNativeDriver: true,
-        }),
+          useNativeDriver: true
+        })
       ]).start();
     }, [index, opacity, translateY])
   );
@@ -46,7 +46,7 @@ const AnimatedCard = ({ item, index }: { item: any; index: number }) => {
         opacity,
         transform: [{ translateY }],
         flex: 1,
-        maxWidth: "50%",
+        maxWidth: "50%"
       }}
     >
       <Card title={item.name} image={item.images?.[0]} />
@@ -63,7 +63,7 @@ export default function Index() {
     console.log("string", input);
   };
 
-  const { suppers } = useSupper();
+  const { suppers } = useSuppers();
 
   return (
     <SafeAreaView edges={["right", "top", "left"]} style={SCREEN_STYLES.screen}>
@@ -101,13 +101,13 @@ export default function Index() {
 const styles = StyleSheet.create({
   ctaWrapper: {
     flexDirection: "row",
-    width: "100%",
+    width: "100%"
   },
   headerItem: {
-    flex: 1,
+    flex: 1
   },
   searchBar: {
     flex: 2,
-    marginRight: 5,
-  },
+    marginRight: 5
+  }
 });

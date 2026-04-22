@@ -1,10 +1,10 @@
 import { Text, View } from "react-native";
 
 import { SCREEN_STYLES } from "@/constants/styles";
-import useSupper from "@/hooks/useSuppers";
+import useSuppers from "@/hooks/useSuppers";
 
 export default function Index() {
-  const { mySuppers } = useSupper();
+  const { mySuppers } = useSuppers();
 
   return (
     <View style={SCREEN_STYLES.screen}>

@@ -7,7 +7,7 @@ import { Supper } from "@/types/types";
 import useProfile from "./useProfile";
 import useSession from "./useSession";
 
-export default function useSupper() {
+export default function useSuppers() {
   const { sessionToken } = useSession();
   const { user } = useProfile();
   const userId = user?._id;

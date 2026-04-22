@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
-import { router } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
+import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,7 +9,7 @@ import CTA from "@/components/buttons/cta";
 import AnimatedTextInput from "@/components/inputs/text-input";
 import { COLORS } from "@/constants/colors";
 import { FONTS, SCREEN_STYLES } from "@/constants/styles";
-import useSupper from "@/hooks/useSuppers";
+import useSuppers from "@/hooks/useSuppers";
 
 export default function CreateSupper() {
   const backCta = () => {
@@ -21,7 +21,7 @@ export default function CreateSupper() {
   const [longDescription, setLongDescription] = useState("");
   const [images, setImages] = useState<string[]>([]);
 
-  const { createSupper } = useSupper();
+  const { createSupper } = useSuppers();
 
   const pickSupperImages = async () => {
     const permissionResult =
@@ -91,7 +91,11 @@ export default function CreateSupper() {
         {!!images.length && (
           <View style={styles.imagePreviewRow}>
             {images.map((image, index) => (
-              <Image key={image} source={{ uri: image }} style={styles.imagePreview} />
+              <Image
+                key={image}
+                source={{ uri: image }}
+                style={styles.imagePreview}
+              />
             ))}
           </View>
         )}
@@ -103,10 +107,7 @@ export default function CreateSupper() {
 
 const styles = StyleSheet.create({
   backCTA: {
-    alignSelf: "baseline",
-  },
-  scrollview: {
-    flex: 1,
+    alignSelf: "baseline"
   },
   imagePreview: {
     backgroundColor: COLORS.PINK_0,
@@ -119,5 +120,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 12,
     marginVertical: 16
+  },
+  scrollview: {
+    flex: 1
   }
 });
