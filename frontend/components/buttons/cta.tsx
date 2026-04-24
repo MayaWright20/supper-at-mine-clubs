@@ -13,6 +13,7 @@ import { PADDING } from "@/constants/styles";
 interface Props {
   title: string;
   backgroundColor?: string;
+  borderColor?: string;
   color?: string;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
@@ -23,6 +24,7 @@ interface Props {
 export default function CTA({
   title,
   backgroundColor = COLORS.PINK_0,
+  borderColor = COLORS.RED_0,
   color = COLORS.RED_0,
   onPress,
   style,
@@ -41,7 +43,7 @@ export default function CTA({
         style,
         {
           borderWidth: isTransparent ? 1 : 0,
-          borderColor: isTransparent ? COLORS.RED_0 : "transparent",
+          borderColor: isTransparent ? borderColor : "transparent",
           backgroundColor: isTransparent ? "transparent" : backgroundColor,
           paddingHorizontal: isSmall ? PADDING.SMALL_PADDING : "auto"
         }

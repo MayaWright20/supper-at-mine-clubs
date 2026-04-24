@@ -1,14 +1,14 @@
+import { Image } from "expo-image";
 import { router, Stack } from "expo-router";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { useEffect, useMemo, useRef } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
 import { SplashScreenController } from "@/components/splash-screen";
 import { COLORS } from "@/constants/colors";
 import { EMAIL_VALIDATOR } from "@/constants/regex";
-import { SHADOW } from "@/constants/styles";
 import useProfile from "@/hooks/useProfile";
 import { StoreState, usePersistStore, useStore } from "@/store/store";
 import { AuthForm, AuthRoutes } from "@/types/typess";
@@ -42,6 +42,7 @@ function RootNavigator() {
   const sessionToken = usePersistStore((state: any) => state.sessionToken);
 
   const { signUp, login } = useProfile();
+  const { height, width } = useWindowDimensions();
 
   const isReversed = useRef(false);
 
@@ -184,6 +185,21 @@ function RootNavigator() {
             nativeControls={false}
           />
           <SafeAreaView style={styles.safeAreaView}>
+            <View style={styles.titleWrapper}>
+              <Text style={styles.brandName}>{`Supper \nAt Mine Clubs`}</Text>
+              <Text
+                style={styles.tagline}
+              >{`Real people. Greate good. \nUnforgettable nights.`}</Text>
+            </View>
+
+            <View style={styles.imageWrapper}>
+              <Image
+                style={[styles.image, { width }]}
+                source={require("../assets/images/dinner-part1.png")}
+                contentFit="contain"
+                transition={1000}
+              />
+            </View>
             <CTA
               title={AuthRoutes.LOGIN}
               onPress={loginAuthHandler}
@@ -203,7 +219,20 @@ function RootNavigator() {
             style={!isAuthBgCol ? styles.cta : styles.ctaAuth}
             onPress={authBtnHandler}
             title={authCTATitle}
+            isTransparent={!isAuthBgCol ? true : false}
+            borderColor={!isAuthBgCol ? COLORS.CREAM_0 : undefined}
+            color={!isAuthBgCol ? COLORS.CREAM_0 : undefined}
           />
+          <View style={[styles.termsWrapper, styles.termsHeader]}>
+            <Text
+              style={styles.terms}
+            >{`By continuing, you agree to our`}</Text>
+            <Text style={[styles.terms, styles.bold]}>Terms of Service</Text>
+          </View>
+          <View style={styles.termsWrapper}>
+            <Text style={styles.terms}>and </Text>
+            <Text style={[styles.terms, styles.bold]}>Privacy Policy</Text>
+          </View>
         </SafeAreaView>
       )}
     </>
@@ -214,18 +243,67 @@ const styles = StyleSheet.create({
   authBtnSafeAreaView: {
     paddingTop: "-100%"
   },
+  bold: {
+    fontWeight: "bold"
+  },
+  brandName: {
+    alignSelf: "center",
+    color: COLORS.RED_0,
+    fontSize: 45,
+    fontWeight: "600",
+    textAlign: "center"
+  },
   cta: {
-    ...SHADOW,
     marginHorizontal: 6
   },
   ctaAuth: {
+    borderColor: COLORS.CREAM_0,
     marginHorizontal: 6
+  },
+  filter: {
+    backgroundColor: COLORS.RED_0,
+    height: "100%",
+    opacity: 0.1,
+    position: "absolute",
+    top: 0,
+    width: "100%",
+    zIndex: 1
+  },
+  image: {
+    alignSelf: "center",
+    aspectRatio: 1,
+    top: "17%"
+  },
+  imageWrapper: {
+    alignSelf: "center",
+    borderRadius: "150%",
+    overflow: "hidden",
+    top: "-5%",
+    width: "150%"
   },
   pictureContainer: {
     ...StyleSheet.absoluteFillObject
   },
   safeAreaView: {
-    // marginHorizontal: 12,
     paddingBottom: "-100%"
+  },
+  tagline: {
+    position: "relative",
+    textAlign: "center"
+  },
+  terms: {
+    color: "white",
+    fontSize: 12,
+    textAlign: "center"
+  },
+  termsHeader: {
+    marginTop: 5
+  },
+  termsWrapper: {
+    alignSelf: "center",
+    flexDirection: "row"
+  },
+  titleWrapper: {
+    position: "relative"
   }
 });
