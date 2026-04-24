@@ -8,8 +8,8 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: COLORS.PINK_0,
-        tabBarInactiveTintColor: COLORS.PINK_0,
+        tabBarActiveTintColor: COLORS.RED_0,
+        tabBarInactiveTintColor: COLORS.RED_0,
         tabBarStyle: {
           backgroundColor: PAGE_BACKGROUND_COL
         },
@@ -26,7 +26,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "search-sharp" : "search-outline"}
-              color={COLORS.PINK_1}
+              color={COLORS.RED_0}
               size={24}
             />
           )
@@ -39,7 +39,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "fast-food-sharp" : "fast-food-outline"}
-              color={COLORS.PINK_1}
+              color={COLORS.RED_0}
               size={24}
             />
           )
@@ -52,7 +52,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "heart-sharp" : "heart-outline"}
-              color={focused ? "red" : COLORS.PINK_1}
+              color={focused ? "red" : COLORS.RED_0}
               size={24}
             />
           )
@@ -67,7 +67,7 @@ export default function TabsLayout() {
             <Ionicons
               name={focused ? "person" : "person-outline"}
               size={24}
-              color={COLORS.PINK_1}
+              color={COLORS.RED_0}
             />
           )
         }}

@@ -30,7 +30,8 @@ export default function Index() {
             search(value);
           }}
           color={COLORS.RED_0}
-          backgroundColor={COLORS.PINK_0}
+          backgroundColor={COLORS.RED_0}
+          labelColor={COLORS.CREAM_0}
           label={"Search"}
           style={[styles.headerItem, styles.searchBar]}
         />
