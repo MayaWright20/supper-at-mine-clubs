@@ -69,7 +69,12 @@ export default function CreateSupper() {
   return (
     <SafeAreaView style={SCREEN_STYLES.screen}>
       <ScrollView contentContainerStyle={styles.scrollview}>
-        <CTA isSmall style={styles.backCTA} title={"Back"} onPress={backCta} />
+        <CTA
+          variant="back"
+          style={styles.backCTA}
+          title={"Back"}
+          onPress={backCta}
+        />
         <Text style={FONTS.LARGE}>host you own supper club</Text>
         <AnimatedTextInput
           value={name}

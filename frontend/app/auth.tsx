@@ -6,7 +6,9 @@ import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
+import { CustomFont } from "@/components/fonts/font";
 import AnimatedTextInput from "@/components/inputs/text-input";
+import Logo from "@/components/logo/logo";
 import { COLORS } from "@/constants/colors";
 import useImagePicker from "@/hooks/useImagePicker";
 import { StoreState, useStore } from "@/store/store";
@@ -65,13 +67,26 @@ export default function SignIn() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <CTA isSmall style={styles.backCTA} title={"Back"} onPress={backCta} />
+      <CTA
+        variant="back"
+        style={styles.backCTA}
+        title={"Back"}
+        onPress={backCta}
+      />
       <View style={styles.form}>
+        {image === defaultAvatar ? (
+          <Logo width={300} />
+        ) : (
+          <Image placeholder={image} source={image} style={styles.image} />
+        )}
+
+        <CustomFont style={styles.brandName}>
+          {isLogin === AuthRoutes.SING_UP
+            ? `Create your account`
+            : `Welcome back`}
+        </CustomFont>
         {isLogin === AuthRoutes.SING_UP && (
-          <>
-            <Image placeholder={image} source={image} style={styles.image} />
-            <CTA title="Add profile picture" onPress={pickImage} />
-          </>
+          <CTA title="Add profile picture" onPress={pickImage} />
         )}
 
         {AUTH_FORM &&
@@ -117,6 +132,13 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginLeft: 6
   },
+  brandName: {
+    alignSelf: "center",
+    color: COLORS.RED_0,
+    fontSize: 30,
+    marginBottom: 25,
+    textAlign: "center"
+  },
   form: {
     flex: 1,
     marginHorizontal: 5,
@@ -124,8 +146,7 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: "center",
-    // backgroundColor: "white",
-    borderColor: COLORS.RED_0,
+    borderColor: COLORS.PINK_0,
     borderRadius: "100%",
     borderWidth: 2,
     height: 200,

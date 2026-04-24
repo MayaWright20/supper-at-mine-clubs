@@ -6,12 +6,12 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  ViewStyle,
+  ViewStyle
 } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
 
 import { COLORS } from "@/constants/colors";
@@ -46,6 +46,7 @@ interface Props {
   secureTextEntry?: boolean;
   style?: StyleProp<ViewStyle>;
   isTextArea?: boolean;
+  textInputBgCol?: string;
 }
 
 export default function AnimatedTextInput({
@@ -64,6 +65,7 @@ export default function AnimatedTextInput({
   secureTextEntry,
   style,
   isTextArea,
+  textInputBgCol
 }: Props) {
   const inputRef = useRef<TextInput>(null);
 
@@ -80,25 +82,25 @@ export default function AnimatedTextInput({
       translateY.value = withTiming(
         toggled ? TRANSLATE_Y_ANIMATED : TRANSLATE_Y_NOT_ANIMATED,
         {
-          duration: ANIMATION_DURATION,
+          duration: ANIMATION_DURATION
         }
       );
       translateX.value = withTiming(
         toggled ? TRANSLATE_X_ANIMATED : TRANSLATE_X_NOT_ANIMATED,
         {
-          duration: ANIMATION_DURATION,
+          duration: ANIMATION_DURATION
         }
       );
       labelPadding.value = withTiming(
         toggled ? LABEL_PADDING_ANIMATED : LABEL_PADDING_NOT_ANIMATED,
         {
-          duration: ANIMATION_DURATION,
+          duration: ANIMATION_DURATION
         }
       );
       fontSize.value = withTiming(
         toggled ? FONT_SIZE_ANIMATED : FONT_SIZE_NOT_ANIMATED,
         {
-          duration: ANIMATION_DURATION,
+          duration: ANIMATION_DURATION
         }
       );
     },
@@ -108,13 +110,13 @@ export default function AnimatedTextInput({
   const animatedLabelWrapperStyle = useAnimatedStyle(() => ({
     transform: [
       { translateY: translateY.value },
-      { translateX: translateX.value },
+      { translateX: translateX.value }
     ],
-    padding: labelPadding.value,
+    padding: labelPadding.value
   }));
 
   const animatedTextStyle = useAnimatedStyle(() => ({
-    fontSize: fontSize.value,
+    fontSize: fontSize.value
   }));
 
   const onChangeTextHandler = (input: string) => {
@@ -173,7 +175,8 @@ export default function AnimatedTextInput({
             color,
             borderColor,
             borderRadius: isTextArea && isAnimated ? 15 : 100,
-          },
+            backgroundColor: textInputBgCol ? textInputBgCol : COLORS.CREAM_0
+          }
         ]}
         autoCapitalize={autoCapitalize}
         cursorColor={backgroundColor}
@@ -189,19 +192,19 @@ export default function AnimatedTextInput({
           styles.labelWrapper,
           {
             borderColor: color,
-            backgroundColor,
+            backgroundColor
           },
-          animatedLabelWrapperStyle,
+          animatedLabelWrapperStyle
         ]}
       >
         <Animated.Text
           style={[
             {
               color,
-              fontWeight: isAnimated ? "bold" : "500",
+              fontWeight: isAnimated ? "bold" : "500"
             },
             styles.label,
-            animatedTextStyle,
+            animatedTextStyle
           ]}
         >
           {label}
@@ -232,14 +235,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 2,
     marginRight: 20,
-    textAlign: "right",
+    textAlign: "right"
   },
   iconWrapper: {
-    paddingRight: 7,
+    paddingRight: 7
   },
   label: {
     paddingHorizontal: 5,
-    textTransform: "capitalize",
+    textTransform: "capitalize"
   },
   labelWrapper: {
     alignItems: "center",
@@ -247,7 +250,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: "row",
     overflow: "hidden",
-    position: "absolute",
+    position: "absolute"
   },
   textInput: {
     backgroundColor: "white",
@@ -258,6 +261,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     paddingHorizontal: 25,
     paddingVertical: 15,
-    position: "relative",
-  },
+    position: "relative"
+  }
 });
