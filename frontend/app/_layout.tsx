@@ -189,7 +189,7 @@ function RootNavigator() {
               <Text style={styles.brandName}>{`Supper \nAt Mine Clubs`}</Text>
               <Text
                 style={styles.tagline}
-              >{`Real people. Greate good. \nUnforgettable nights.`}</Text>
+              >{`Real people. Greate food. \nUnforgettable nights.`}</Text>
             </View>
 
             <View style={styles.imageWrapper}>
