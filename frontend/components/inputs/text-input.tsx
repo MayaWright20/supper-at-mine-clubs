@@ -51,9 +51,9 @@ interface Props {
 }
 
 export default function AnimatedTextInput({
-  backgroundColor = COLORS.PINK_0,
+  backgroundColor = COLORS.RED_0,
   borderColor = COLORS.RED_0,
-  color = COLORS.RED_0,
+  color = COLORS.CREAM_0,
   label,
   value,
   onChangeText,

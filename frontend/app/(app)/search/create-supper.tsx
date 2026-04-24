@@ -2,10 +2,11 @@ import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
+import { CustomFont } from "@/components/fonts/font";
 import AnimatedTextInput from "@/components/inputs/text-input";
 import { COLORS } from "@/constants/colors";
 import { FONTS, SCREEN_STYLES } from "@/constants/styles";
@@ -75,7 +76,9 @@ export default function CreateSupper() {
           title={"Back"}
           onPress={backCta}
         />
-        <Text style={FONTS.LARGE}>host you own supper club</Text>
+        <CustomFont
+          style={[FONTS.LARGE, FONTS.title]}
+        >{`Host you own Supper club`}</CustomFont>
         <AnimatedTextInput
           value={name}
           label={"Name"}
@@ -92,7 +95,11 @@ export default function CreateSupper() {
           onChangeText={(value) => setLongDescription(value)}
           isTextArea
         />
-        <CTA title={"Add Supper Images"} onPress={pickSupperImages} />
+        <CTA
+          isTransparent
+          title={"Add Supper Images"}
+          onPress={pickSupperImages}
+        />
         {!!images.length && (
           <View style={styles.imagePreviewRow}>
             {images.map((image, index) => (
