@@ -108,8 +108,9 @@ export default function SignIn() {
                 onChangeText={(value) => {
                   updateAuthFormField(item.id, value, false);
                 }}
+                labelColor={COLORS.CREAM_0}
                 key={index}
-                color={COLORS.CREAM_0}
+                color={COLORS.RED_0}
                 backgroundColor={COLORS.RED_0}
                 label={
                   isLogin === AuthRoutes.LOGIN && item.id === "username"

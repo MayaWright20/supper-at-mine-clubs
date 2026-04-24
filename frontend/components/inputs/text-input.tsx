@@ -47,6 +47,7 @@ interface Props {
   style?: StyleProp<ViewStyle>;
   isTextArea?: boolean;
   textInputBgCol?: string;
+  labelColor?: string;
 }
 
 export default function AnimatedTextInput({
@@ -65,7 +66,8 @@ export default function AnimatedTextInput({
   secureTextEntry,
   style,
   isTextArea,
-  textInputBgCol
+  textInputBgCol,
+  labelColor
 }: Props) {
   const inputRef = useRef<TextInput>(null);
 
@@ -200,7 +202,7 @@ export default function AnimatedTextInput({
         <Animated.Text
           style={[
             {
-              color,
+              color: labelColor ? labelColor : color,
               fontWeight: isAnimated ? "bold" : "500"
             },
             styles.label,
@@ -218,7 +220,7 @@ export default function AnimatedTextInput({
             <MaterialCommunityIcons
               name={isSecureTextHidden ? "eye-off-outline" : "eye-outline"}
               size={isAnimated ? 7 : FONT_SIZE_NOT_ANIMATED}
-              color={color}
+              color={labelColor ? labelColor : color}
             />
           </Pressable>
         )}
