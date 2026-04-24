@@ -7,7 +7,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
 import { CustomFont } from "@/components/fonts/font";
-import Logo from "@/components/logo/logo";
 import { SplashScreenController } from "@/components/splash-screen";
 import { COLORS } from "@/constants/colors";
 import { EMAIL_VALIDATOR } from "@/constants/regex";
@@ -186,29 +185,29 @@ function RootNavigator() {
             contentFit="cover"
             nativeControls={false}
           />
-          <View style={styles.headerContainer}>
-            <SafeAreaView style={styles.safeAreaView}>
-              <Logo />
-              <CustomFont
-                style={styles.brandName}
-              >{`Supper \nAt Mine Clubs`}</CustomFont>
-              <Text
-                style={styles.tagline}
-              >{`Real people. Greate food. \nUnforgettable nights.`}</Text>
-            </SafeAreaView>
+          {/* <SafeAreaView style={styles.safeAreaView}> */}
+          <View style={styles.titleWrapper}>
+            <CustomFont
+              style={styles.brandName}
+            >{`Supper \nAt Mine Clubs`}</CustomFont>
+            <Text
+              style={styles.tagline}
+            >{`Real people. Greate food. \nUnforgettable nights.`}</Text>
+          </View>
+          <View style={styles.imageWrapper}>
             <Image
               style={[styles.image, { width }]}
               source={require("../assets/images/dinner-party.png")}
               contentFit="cover"
               transition={1000}
             />
-            <View style={styles.overlay}></View>
           </View>
           <CTA
             title={AuthRoutes.LOGIN}
             onPress={loginAuthHandler}
             style={!isAuthBgCol && styles.cta}
           />
+          {/* </SafeAreaView> */}
         </>
       )}
       {!sessionToken && (
@@ -262,28 +261,16 @@ const styles = StyleSheet.create({
     borderColor: COLORS.CREAM_0,
     marginHorizontal: 6
   },
-  headerContainer: {
-    alignSelf: "center",
-    borderRadius: "150%",
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    height: "80%",
-    justifyContent: "space-between",
-    overflow: "hidden",
-    top: "-3%",
-    width: "210%"
-  },
   image: {
     alignSelf: "center",
-    aspectRatio: 1,
-    top: -35
+    aspectRatio: 1
   },
-  overlay: {
-    backgroundColor: COLORS.CREAM_0,
-    height: "100%",
-    opacity: 0.1,
-    position: "absolute",
-    width: "100%"
+  imageWrapper: {
+    alignSelf: "center",
+    borderRadius: "150%",
+    overflow: "hidden",
+    top: "-5%",
+    width: "150%"
   },
   pictureContainer: {
     ...StyleSheet.absoluteFillObject
@@ -307,5 +294,8 @@ const styles = StyleSheet.create({
   termsWrapper: {
     alignSelf: "center",
     flexDirection: "row"
+  },
+  titleWrapper: {
+    position: "relative"
   }
 });
