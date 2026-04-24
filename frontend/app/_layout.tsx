@@ -195,8 +195,8 @@ function RootNavigator() {
             <View style={styles.imageWrapper}>
               <Image
                 style={[styles.image, { width }]}
-                source={require("../assets/images/dinner-part1.png")}
-                contentFit="contain"
+                source={require("../assets/images/dinner-party.png")}
+                contentFit="cover"
                 transition={1000}
               />
             </View>
@@ -226,7 +226,7 @@ function RootNavigator() {
           <View style={[styles.termsWrapper, styles.termsHeader]}>
             <Text
               style={styles.terms}
-            >{`By continuing, you agree to our`}</Text>
+            >{`By continuing, you agree to our `}</Text>
             <Text style={[styles.terms, styles.bold]}>Terms of Service</Text>
           </View>
           <View style={styles.termsWrapper}>
@@ -271,8 +271,7 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: "center",
-    aspectRatio: 1,
-    top: "17%"
+    aspectRatio: 1
   },
   imageWrapper: {
     alignSelf: "center",
