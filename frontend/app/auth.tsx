@@ -86,7 +86,7 @@ export default function SignIn() {
             : `Welcome back`}
         </CustomFont>
         {isLogin === AuthRoutes.SING_UP && (
-          <CTA title="Add profile picture" onPress={pickImage} />
+          <CTA isTransparent title="Add profile picture" onPress={pickImage} />
         )}
 
         {AUTH_FORM &&
@@ -109,8 +109,8 @@ export default function SignIn() {
                   updateAuthFormField(item.id, value, false);
                 }}
                 key={index}
-                color={COLORS.RED_0}
-                backgroundColor={COLORS.PINK_0}
+                color={COLORS.CREAM_0}
+                backgroundColor={COLORS.RED_0}
                 label={
                   isLogin === AuthRoutes.LOGIN && item.id === "username"
                     ? "Username | Email"
