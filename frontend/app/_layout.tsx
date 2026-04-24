@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
   image: {
     alignSelf: "center",
     aspectRatio: 1,
-    top: -35
+    top: -50
   },
   overlay: {
     backgroundColor: COLORS.CREAM_0,
