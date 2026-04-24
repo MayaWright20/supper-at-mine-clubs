@@ -200,7 +200,6 @@ function RootNavigator() {
               style={[styles.image, { width }]}
               source={require("../assets/images/dinner-party.png")}
               contentFit="cover"
-              transition={1000}
             />
             <View style={styles.overlay}></View>
           </View>
