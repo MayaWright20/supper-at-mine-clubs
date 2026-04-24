@@ -6,6 +6,7 @@ import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
+import { CustomFont } from "@/components/fonts/font";
 import { SplashScreenController } from "@/components/splash-screen";
 import { COLORS } from "@/constants/colors";
 import { EMAIL_VALIDATOR } from "@/constants/regex";
@@ -186,12 +187,13 @@ function RootNavigator() {
           />
           <SafeAreaView style={styles.safeAreaView}>
             <View style={styles.titleWrapper}>
-              <Text style={styles.brandName}>{`Supper \nAt Mine Clubs`}</Text>
+              <CustomFont
+                style={styles.brandName}
+              >{`Supper \nAt Mine Clubs`}</CustomFont>
               <Text
                 style={styles.tagline}
               >{`Real people. Greate food. \nUnforgettable nights.`}</Text>
             </View>
-
             <View style={styles.imageWrapper}>
               <Image
                 style={[styles.image, { width }]}
@@ -249,8 +251,7 @@ const styles = StyleSheet.create({
   brandName: {
     alignSelf: "center",
     color: COLORS.RED_0,
-    fontSize: 45,
-    fontWeight: "600",
+    fontSize: 50,
     textAlign: "center"
   },
   cta: {
@@ -259,15 +260,6 @@ const styles = StyleSheet.create({
   ctaAuth: {
     borderColor: COLORS.CREAM_0,
     marginHorizontal: 6
-  },
-  filter: {
-    backgroundColor: COLORS.RED_0,
-    height: "100%",
-    opacity: 0.1,
-    position: "absolute",
-    top: 0,
-    width: "100%",
-    zIndex: 1
   },
   image: {
     alignSelf: "center",
@@ -287,6 +279,7 @@ const styles = StyleSheet.create({
     paddingBottom: "-100%"
   },
   tagline: {
+    marginTop: 30,
     position: "relative",
     textAlign: "center"
   },
