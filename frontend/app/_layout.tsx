@@ -194,7 +194,7 @@ function RootNavigator() {
               >{`Supper \nAt Mine Clubs`}</CustomFont>
               <Text
                 style={styles.tagline}
-              >{`Real people. Greate food. \nUnforgettable nights.`}</Text>
+              >{`Real people. Great food. \nUnforgettable nights.`}</Text>
             </SafeAreaView>
             <Image
               style={[styles.image, { width }]}
@@ -226,16 +226,22 @@ function RootNavigator() {
             borderColor={!isAuthBgCol ? COLORS.CREAM_0 : undefined}
             color={!isAuthBgCol ? COLORS.CREAM_0 : undefined}
           />
-          <View style={[styles.termsWrapper, styles.termsHeader]}>
-            <Text
-              style={styles.terms}
-            >{`By continuing, you agree to our `}</Text>
-            <Text style={[styles.terms, styles.bold]}>Terms of Service</Text>
-          </View>
-          <View style={styles.termsWrapper}>
-            <Text style={styles.terms}>and </Text>
-            <Text style={[styles.terms, styles.bold]}>Privacy Policy</Text>
-          </View>
+          {!isAuthBgCol && (
+            <>
+              <View style={[styles.termsWrapper, styles.termsHeader]}>
+                <Text
+                  style={styles.terms}
+                >{`By continuing, you agree to our `}</Text>
+                <Text style={[styles.terms, styles.bold]}>
+                  Terms of Service
+                </Text>
+              </View>
+              <View style={styles.termsWrapper}>
+                <Text style={styles.terms}>and </Text>
+                <Text style={[styles.terms, styles.bold]}>Privacy Policy</Text>
+              </View>
+            </>
+          )}
         </SafeAreaView>
       )}
     </>
