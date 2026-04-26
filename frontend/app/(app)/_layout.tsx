@@ -15,7 +15,8 @@ export default function TabsLayout() {
         },
         headerStyle: {
           backgroundColor: PAGE_BACKGROUND_COL
-        }
+        },
+        headerShown: false
       }}
     >
       <Tabs.Screen

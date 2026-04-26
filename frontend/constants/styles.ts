@@ -32,13 +32,13 @@ export const SCREEN_STYLES = StyleSheet.create({
   screen: {
     backgroundColor: PAGE_BACKGROUND_COL,
     flex: 1,
-    paddingHorizontal: 5
+    paddingHorizontal: 6
   }
 });
 
 export const FONTS = StyleSheet.create({
   LARGE: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
     marginTop: 15,

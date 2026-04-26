@@ -12,6 +12,7 @@ import {
 
 import CTA from "@/components/buttons/cta";
 import Card from "@/components/cards/card";
+import Header from "@/components/header/header";
 import { COLORS } from "@/constants/colors";
 import { SCREEN_STYLES } from "@/constants/styles";
 import useImagePicker from "@/hooks/useImagePicker";
@@ -76,6 +77,7 @@ export default function Index() {
 
   return (
     <View style={SCREEN_STYLES.screen}>
+      <Header title="Profile" />
       <View style={styles.card}>
         <Pressable onPress={pickImage}>
           <Image source={{ uri: user.avatarUrl }} style={styles.avatar} />

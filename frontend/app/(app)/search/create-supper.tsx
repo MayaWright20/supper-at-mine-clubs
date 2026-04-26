@@ -68,7 +68,7 @@ export default function CreateSupper() {
   };
 
   return (
-    <SafeAreaView style={SCREEN_STYLES.screen}>
+    <SafeAreaView edges={["top"]} style={SCREEN_STYLES.screen}>
       <ScrollView contentContainerStyle={styles.scrollview}>
         <CTA
           variant="back"

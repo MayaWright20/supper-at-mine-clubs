@@ -1,7 +1,9 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
 import AnimatedCard from "@/components/cards/animated-card";
-import { SCREEN_STYLES } from "@/constants/styles";
+import { CustomFont } from "@/components/fonts/font";
+import Header from "@/components/header/header";
+import { FONTS, SCREEN_STYLES } from "@/constants/styles";
 import useSuppers from "@/hooks/useSuppers";
 
 export default function Index() {
@@ -9,7 +11,10 @@ export default function Index() {
 
   return (
     <View style={SCREEN_STYLES.screen}>
-      <Text style={styles.name}>Your Suppers</Text>
+      <Header title="My Suppers" />
+      <CustomFont
+        style={[FONTS.LARGE, FONTS.title]}
+      >{`Supper clubs your hosting`}</CustomFont>
       <View style={styles.flatlistWrapper}>
         <FlatList
           data={mySuppers}
