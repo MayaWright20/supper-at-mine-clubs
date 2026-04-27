@@ -44,7 +44,7 @@ function RootNavigator() {
   const sessionToken = usePersistStore((state: any) => state.sessionToken);
 
   const { signUp, login } = useProfile();
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
   const isReversed = useRef(false);
 

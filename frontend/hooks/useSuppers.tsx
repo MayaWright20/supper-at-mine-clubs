@@ -17,7 +17,7 @@ export default function useSuppers() {
   const createSupper = async ({
     name,
     description,
-    imageUris = []
+    images = []
   }: components["schemas"]["Supper"]) => {
     const data = new FormData();
 
@@ -26,7 +26,7 @@ export default function useSuppers() {
     data.append("availableSeats", "5");
     data.append("price", "40");
 
-    imageUris.forEach((uri, index) => {
+    images.forEach((uri, index) => {
       data.append("images", {
         uri,
         name: `supper-image-${index + 1}.jpg`,

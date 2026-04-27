@@ -1,8 +1,6 @@
-import { Image } from "expo-image";
-import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Alert, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
@@ -10,7 +8,10 @@ import { CustomFont } from "@/components/fonts/font";
 import AnimatedTextInput from "@/components/inputs/text-input";
 import { COLORS } from "@/constants/colors";
 import { FONTS, SCREEN_STYLES } from "@/constants/styles";
+import useImagePicker from "@/hooks/useImagePicker";
 import useSuppers from "@/hooks/useSuppers";
+
+const defaultAvatar = require("../../../assets/images/masgot/masgot_wave.png");
 
 export default function CreateSupper() {
   const backCta = () => {
@@ -20,34 +21,42 @@ export default function CreateSupper() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
-  const [images, setImages] = useState<string[]>([]);
+  // const [images, setImages] = useState<
+  //   ImageSource[] | string[] | ImageSource[]
+  // >([]);
 
   const { createSupper } = useSuppers();
 
-  const pickSupperImages = async () => {
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const { image, pickImage } = useImagePicker(defaultAvatar, true, 5);
 
-    if (!permissionResult.granted) {
-      Alert.alert(
-        "Permission required",
-        "Permission to access the media library is required."
-      );
-      return;
-    }
+  // useEffect(() => {
+  //   console.log("image", typeof image[0]);
+  // }, [image]);
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      allowsMultipleSelection: true,
-      mediaTypes: ["images"],
-      quality: 1,
-      selectionLimit: 5
-    });
+  // const pickSupperImages = async () => {
+  //   const permissionResult =
+  //     await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (!result.canceled) {
-      setImages(result.assets.map((asset) => asset.uri));
-    }
-  };
+  //   if (!permissionResult.granted) {
+  //     Alert.alert(
+  //       "Permission required",
+  //       "Permission to access the media library is required."
+  //     );
+  //     return;
+  //   }
+
+  //   const result = await ImagePicker.launchImageLibraryAsync({
+  //     allowsEditing: true,
+  //     allowsMultipleSelection: true,
+  //     mediaTypes: ["images"],
+  //     quality: 1,
+  //     selectionLimit: 5
+  //   });
+
+  //   if (!result.canceled) {
+  //     setImages(result.assets.map((asset) => asset.uri));
+  //   }
+  // };
 
   const createSupperHandler = async () => {
     if (!name.trim() || !(longDescription || description).trim()) {
@@ -59,7 +68,7 @@ export default function CreateSupper() {
       await createSupper({
         name: name.trim(),
         description: (longDescription || description).trim(),
-        imageUris: images
+        images: image
       });
       router.back();
     } catch (error: any) {
@@ -106,14 +115,11 @@ export default function CreateSupper() {
             "A longer description for your event. Include your menu, the vibe of the event and the itinary."
           }
         />
-        <CTA
-          isTransparent
-          title={"Add Supper Images"}
-          onPress={pickSupperImages}
-        />
-        {!!images.length && (
+        <CTA isTransparent title={"Add Supper Images"} onPress={pickImage} />
+
+        {image.length && (
           <View style={styles.imagePreviewRow}>
-            {images.map((image, index) => (
+            {image.map((image, index) => (
               <Image
                 key={image}
                 source={{ uri: image }}

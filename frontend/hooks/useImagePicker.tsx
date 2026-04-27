@@ -1,10 +1,13 @@
-import type { ImageSource } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import { Alert } from "react-native";
 
-export default function useImagePicker(placeholder: ImageSource) {
-  const [image, setImage] = useState<ImageSource>(placeholder);
+export default function useImagePicker(
+  placeholder: string,
+  allowsMultipleSelection?: boolean,
+  selectionLimit?: number
+) {
+  const [image, setImage] = useState<string | string[]>(placeholder);
 
   const pickImage = async () => {
     const permissionResult =
@@ -20,13 +23,15 @@ export default function useImagePicker(placeholder: ImageSource) {
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images", "videos"],
-      allowsEditing: true,
+      allowsEditing: !allowsMultipleSelection,
       aspect: [4, 3],
-      quality: 1
+      quality: 1,
+      selectionLimit,
+      allowsMultipleSelection
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0]);
+      setImage(result.assets.map((asset) => asset.uri));
     }
   };
 

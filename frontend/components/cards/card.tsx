@@ -1,12 +1,22 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
-import { StyleProp, StyleSheet, Text, useWindowDimensions, View, ViewStyle } from "react-native";
+import { useState } from "react";
+import {
+  LayoutChangeEvent,
+  ScrollView,
+  StyleProp,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+  ViewStyle
+} from "react-native";
 
 import { COLORS } from "@/constants/colors";
 
 interface Props {
   title: string;
-  image?: string;
+  image?: string[];
   kicker?: string;
   meta?: string;
   showTag?: boolean;
@@ -24,19 +34,56 @@ export default function Card({
   variant = "default"
 }: Props) {
   const { height } = useWindowDimensions();
+  const [imageSize, setImageSize] = useState({ height: 0, width: 0 });
   const isHorizontal = variant === "horizontal";
   const containerStyle = isHorizontal
     ? [styles.container, styles.horizontalContainer, style]
     : [styles.container, { height: height / 3 }, style];
+  const images = image ?? [];
+  const hasImages = images.length > 0;
+
+  const handleImageWrapperLayout = (event: LayoutChangeEvent) => {
+    const { height: wrapperHeight, width } = event.nativeEvent.layout;
+    setImageSize({ height: wrapperHeight, width });
+  };
 
   return (
     <View style={containerStyle}>
-      <View style={[styles.imageWrapper, isHorizontal && styles.horizontalImageWrapper]}>
-        {image ? (
-          <Image source={{ uri: image }} style={styles.image} />
+      <View
+        onLayout={handleImageWrapperLayout}
+        style={[
+          styles.imageWrapper,
+          isHorizontal && styles.horizontalImageWrapper
+        ]}
+      >
+        {hasImages && imageSize.width > 0 && imageSize.height > 0 ? (
+          <ScrollView
+            contentContainerStyle={styles.imageListContent}
+            horizontal
+            pagingEnabled
+            scrollEnabled={images.length > 1}
+            showsHorizontalScrollIndicator={false}
+            style={styles.imageList}
+          >
+            {images.map((item, index) => (
+              <Image
+                key={`${item}-${index}`}
+                contentFit="cover"
+                source={{ uri: item }}
+                style={[
+                  {
+                    height: imageSize.height,
+                    width: "100%"
+                  }
+                ]}
+              />
+            ))}
+          </ScrollView>
         ) : (
           <View style={styles.imageFallback}>
-            <Text style={styles.imageFallbackText}>Gather around the table</Text>
+            <Text style={styles.imageFallbackText}>
+              {hasImages ? "" : "Gather around the table"}
+            </Text>
           </View>
         )}
         {showTag ? (
@@ -54,11 +101,17 @@ export default function Card({
         <Text style={[styles.kicker, isHorizontal && styles.horizontalKicker]}>
           {kicker}
         </Text>
-        <Text numberOfLines={2} style={[styles.title, isHorizontal && styles.horizontalTitle]}>
+        <Text
+          numberOfLines={2}
+          style={[styles.title, isHorizontal && styles.horizontalTitle]}
+        >
           {title}
         </Text>
         {meta ? (
-          <Text numberOfLines={2} style={[styles.meta, isHorizontal && styles.horizontalMeta]}>
+          <Text
+            numberOfLines={2}
+            style={[styles.meta, isHorizontal && styles.horizontalMeta]}
+          >
             {meta}
           </Text>
         ) : (
@@ -105,33 +158,6 @@ const styles = StyleSheet.create({
     height: 4,
     width: 4
   },
-  icon: {
-    alignSelf: "center"
-  },
-  image: {
-    height: "100%",
-    width: "100%"
-  },
-  imageFallback: {
-    alignItems: "center",
-    backgroundColor: COLORS.CREAM_1,
-    height: "100%",
-    justifyContent: "center",
-    width: "100%"
-  },
-  imageFallbackText: {
-    color: "#8A7568",
-    fontSize: 13,
-    fontWeight: "600"
-  },
-  imageWrapper: {
-    backgroundColor: COLORS.CREAM_1,
-    flex: 1.55,
-    justifyContent: "flex-start",
-    overflow: "hidden",
-    position: "relative",
-    width: "100%"
-  },
   horizontalContainer: {
     flexDirection: "row"
   },
@@ -159,6 +185,38 @@ const styles = StyleSheet.create({
   horizontalTitle: {
     fontSize: 13,
     lineHeight: 16
+  },
+  icon: {
+    alignSelf: "center"
+  },
+  imageFallback: {
+    alignItems: "center",
+    backgroundColor: COLORS.CREAM_1,
+    height: "100%",
+    justifyContent: "center",
+    width: "100%"
+  },
+  imageFallbackText: {
+    color: "#8A7568",
+    fontSize: 13,
+    fontWeight: "600"
+  },
+  imageList: {
+    height: "100%",
+    width: "100%"
+  },
+  imageListContent: {
+    backgroundColor: "pink",
+    height: "100%",
+    width: "100%"
+  },
+  imageWrapper: {
+    backgroundColor: COLORS.CREAM_1,
+    flex: 1.55,
+    justifyContent: "flex-start",
+    overflow: "hidden",
+    position: "relative",
+    width: "100%"
   },
   kicker: {
     color: "#7A685D",

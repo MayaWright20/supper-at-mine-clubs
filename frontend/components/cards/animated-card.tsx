@@ -52,7 +52,7 @@ export default function AnimatedCard({
         style
       ]}
     >
-      <Card title={item.name} image={item.images?.[0]} />
+      <Card title={item.name} image={item.images} />
     </Animated.View>
   );
 }

@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
   image: {
     ...StyleSheet.absoluteFillObject,
     height: "100%",
-    width: "100%",
-  },
+    width: "100%"
+  }
 });
