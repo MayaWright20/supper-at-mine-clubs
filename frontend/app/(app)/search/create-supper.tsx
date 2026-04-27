@@ -78,22 +78,33 @@ export default function CreateSupper() {
         />
         <CustomFont
           style={[FONTS.LARGE, FONTS.title]}
-        >{`Host you own Supper club`}</CustomFont>
+        >{`Create your own Supper club`}</CustomFont>
         <AnimatedTextInput
           value={name}
-          label={"Name"}
+          label={"Event Name"}
           onChangeText={(value) => setName(value)}
+          placeholder={"e.g. Around the World Supper"}
+          color={COLORS.RED_0}
+          labelColor={COLORS.CREAM_0}
         />
         <AnimatedTextInput
-          label={"Short Description"}
+          label={"Tagline"}
           value={description}
           onChangeText={(value) => setDescription(value)}
+          color={COLORS.RED_0}
+          labelColor={COLORS.CREAM_0}
+          placeholder={"A short description for your event"}
         />
         <AnimatedTextInput
           label={"Longer Description"}
           value={longDescription}
           onChangeText={(value) => setLongDescription(value)}
           isTextArea
+          color={COLORS.RED_0}
+          labelColor={COLORS.CREAM_0}
+          placeholder={
+            "A longer description for your event. Include your menu, the vibe of the event and the itinary."
+          }
         />
         <CTA
           isTransparent

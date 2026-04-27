@@ -174,9 +174,11 @@ export default function AnimatedTextInput({
         style={[
           styles.textInput,
           {
+            paddingTop:
+              isTextArea && isAnimated ? 15 : isTextArea ? 50 : undefined,
             color,
             borderColor,
-            borderRadius: isTextArea && isAnimated ? 15 : 100,
+            borderRadius: isTextArea && isAnimated ? 15 : isTextArea ? 20 : 100,
             backgroundColor: textInputBgCol ? textInputBgCol : COLORS.CREAM_0
           }
         ]}
