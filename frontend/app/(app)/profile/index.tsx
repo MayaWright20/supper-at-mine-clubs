@@ -11,6 +11,7 @@ import {
 
 import CTA from "@/components/buttons/cta";
 import Header from "@/components/header/header";
+import SupperAtMineClubsLogo from "@/components/logo/color-logo";
 import { COLORS } from "@/constants/colors";
 import { SCREEN_STYLES } from "@/constants/styles";
 import useImagePicker from "@/hooks/useImagePicker";
@@ -108,6 +109,12 @@ export default function Index() {
           /> */}
       {/* )} */}
       {/* /> */}
+      <SupperAtMineClubsLogo
+        size={200}
+        primaryColor="#0B2A1D"
+        secondaryColor="#FF8A00"
+        accentColor="#FF4FD8"
+      />
       <CTA
         title={"Sign Out"}
         onPress={() => {
