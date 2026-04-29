@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import { profileApi } from "@/api/profile";
 import { StoreState, usePersistStore, useStore } from "@/store/store";
 import { AuthForm, AuthRoutes } from "@/types/typess";
 
@@ -21,14 +20,7 @@ export default function useProfile() {
 
   const getProfile = async (token: string) => {
     try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_URL}/user/profile`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
+      const response = await profileApi.getProfile(token);
       if (response.status === 200) {
         setSessionToken(token);
         setUser(response.data.user);
@@ -58,19 +50,11 @@ export default function useProfile() {
     });
 
     try {
-      const response = await axios.post(
-        `${process.env.EXPO_PUBLIC_URL}/user/signup`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        }
-      );
+      const response = await profileApi.signUp(data);
 
       if (response.data.success) {
         const token = response.data.token;
-        getProfile(token);
+        await getProfile(token);
       }
     } catch {
       // handle error
@@ -80,19 +64,11 @@ export default function useProfile() {
 
   const login = async (formData: FormData) => {
     try {
-      const response = await axios.post(
-        `${process.env.EXPO_PUBLIC_URL}/user/login`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      );
+      const response = await profileApi.login(formData);
 
       if (response.data.success) {
         const token = response.data.token;
-        getProfile(token);
+        await getProfile(token);
       }
     } catch (err: any) {
       updateAuthFormField(
@@ -114,15 +90,9 @@ export default function useProfile() {
     } as any);
 
     try {
-      const response = await axios.put(
-        `${process.env.EXPO_PUBLIC_URL}/user/profile/avatar`,
+      const response = await profileApi.updateProfilePicture(
         data,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionToken}`,
-            "Content-Type": "multipart/form-data"
-          }
-        }
+        sessionToken
       );
 
       if (response.data.success) {
@@ -137,14 +107,7 @@ export default function useProfile() {
 
   const logOut = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_URL}/user/logout`,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionToken}`
-          }
-        }
-      );
+      const response = await profileApi.logOut(sessionToken);
       if (response.status === 200) {
         resetAuthForm();
         setIsAuthBgCol(false);
@@ -159,14 +122,7 @@ export default function useProfile() {
 
   const deleteProfile = async () => {
     try {
-      const response = await axios.delete(
-        `${process.env.EXPO_PUBLIC_URL}/user/delete`,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionToken}`
-          }
-        }
-      );
+      const response = await profileApi.deleteProfile(sessionToken);
 
       if (response.status === 200) {
         resetAuthForm();

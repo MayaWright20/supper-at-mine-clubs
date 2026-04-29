@@ -1,24 +1,27 @@
-import axios from "axios";
 import { useCallback, useEffect } from "react";
 
+import { suppersApi } from "@/api/suppers";
 import { StoreState, useStore } from "@/store/store";
 import type { components } from "@/types/types";
 
 import useProfile from "./useProfile";
 import useSession from "./useSession";
 
+type Supper = components["schemas"]["Supper"];
+type SupperWithCreatedBy = Omit<Supper, "createdBy"> & {
+  createdBy: string | { _id?: string };
+};
+
 export default function useSuppers() {
   const { sessionToken } = useSession();
   const { user } = useProfile();
   const userId = user?._id;
-  const suppers = useStore((state: StoreState) => state.suppers);
+  const suppers = useStore((state: StoreState) => state.suppers) as
+    | SupperWithCreatedBy[]
+    | undefined;
   const setSuppers = useStore((state: StoreState) => state.setSuppers);
 
-  const createSupper = async ({
-    name,
-    description,
-    images = []
-  }: components["schemas"]["Supper"]) => {
+  const createSupper = async ({ name, description, images = [] }: Supper) => {
     const data = new FormData();
 
     data.append("name", name);
@@ -35,16 +38,7 @@ export default function useSuppers() {
     });
 
     try {
-      const response = await axios.post(
-        `${process.env.EXPO_PUBLIC_URL}/suppers`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${sessionToken}`
-          }
-        }
-      );
+      const response = await suppersApi.create(data, sessionToken);
 
       if (response.data.success) {
         await getAllSuppers();
@@ -59,14 +53,7 @@ export default function useSuppers() {
 
   const getAllSuppers = useCallback(async () => {
     try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_URL}/suppers`,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionToken}`
-          }
-        }
-      );
+      const response = await suppersApi.getAll(sessionToken);
 
       if (response.data.success) {
         setSuppers(response.data.allSuppers);
@@ -80,7 +67,7 @@ export default function useSuppers() {
     getAllSuppers();
   }, [getAllSuppers]);
 
-  const mySuppers: components["schemas"]["Supper"][] = suppers
+  const mySuppers: SupperWithCreatedBy[] = suppers
     ? suppers.filter((item) => {
         const createdById =
           typeof item.createdBy === "string"
