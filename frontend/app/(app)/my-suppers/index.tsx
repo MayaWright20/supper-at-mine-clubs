@@ -22,14 +22,10 @@ export default function Index() {
           contentContainerStyle={styles.listContent}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item._id}
           renderItem={({ item, index }) => {
             return (
-              <AnimatedCard
-                item={item}
-                index={index}
-                key={index}
-                style={styles.card}
-              />
+              <AnimatedCard item={item} index={index} style={styles.card} />
             );
           }}
         />

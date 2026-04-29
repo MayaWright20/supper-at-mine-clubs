@@ -42,13 +42,14 @@ export default function Index() {
         />
       </View>
       <FlatList
-        data={suppers && suppers}
+        data={suppers}
         columnWrapperStyle={{ justifyContent: "space-between", gap: 10 }}
         numColumns={2}
+        keyExtractor={(item) => item._id}
         ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => {
-          return <AnimatedCard item={item} index={index} key={index} />;
+          return <AnimatedCard item={item} index={index} />;
         }}
       />
     </SafeAreaView>
