@@ -1,10 +1,9 @@
 import { useCallback, useEffect } from "react";
 
 import { suppersApi } from "@/api/suppers";
-import { StoreState, useStore } from "@/store/store";
+import { StoreState, usePersistStore, useStore } from "@/store/store";
 import type { components } from "@/types/types";
 
-import useProfile from "./useProfile";
 import useSession from "./useSession";
 
 type Supper = components["schemas"]["Supper"];
@@ -14,8 +13,8 @@ type SupperWithCreatedBy = Omit<Supper, "createdBy"> & {
 
 export default function useSuppers() {
   const { sessionToken } = useSession();
-  const { user } = useProfile();
-  const userId = user?._id;
+  const userId = usePersistStore((state: any) => state.user?._id);
+
   const suppers = useStore((state: StoreState) => state.suppers) as
     | SupperWithCreatedBy[]
     | undefined;
