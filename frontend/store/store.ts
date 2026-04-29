@@ -21,6 +21,10 @@ export interface StoreState {
     errorMessage?: string
   ) => void;
   resetAuthForm: () => void;
+  hasFetchedSuppers: boolean;
+  setHasFetchedSuppers: (hasFetchedSuppers: boolean) => void;
+  isFetchingSuppers: boolean;
+  setIsFetchingSuppers: (isFetchingSuppers: boolean) => void;
 }
 
 export const useStore = create<StoreState>((set, get) => ({
@@ -57,7 +61,13 @@ export const useStore = create<StoreState>((set, get) => ({
         value: "",
         showErrorMessage: false
       }))
-    }))
+    })),
+  hasFetchedSuppers: false,
+  setHasFetchedSuppers: (hasFetchedSuppers: boolean) =>
+    set(() => ({ hasFetchedSuppers })),
+  isFetchingSuppers: false,
+  setIsFetchingSuppers: (isFetchingSuppers: boolean) =>
+    set(() => ({ isFetchingSuppers }))
 }));
 
 const sessionStorage = {

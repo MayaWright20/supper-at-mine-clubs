@@ -21,6 +21,14 @@ export default function useSuppers() {
     | undefined;
   const setSuppers = useStore((state: StoreState) => state.setSuppers);
 
+  const setHasFetchedSuppers = useStore(
+    (state: StoreState) => state.setHasFetchedSuppers
+  );
+
+  const setIsFetchingSuppers = useStore(
+    (state: StoreState) => state.setIsFetchingSuppers
+  );
+
   const createSupper = async ({ name, description, images = [] }: Supper) => {
     const data = new FormData();
 
@@ -41,7 +49,7 @@ export default function useSuppers() {
       const response = await suppersApi.create(data, sessionToken);
 
       if (response.data.success) {
-        await getAllSuppers();
+        await getAllSuppers({ force: true });
         return response.data.supper;
       }
     } catch (err: any) {
@@ -51,17 +59,31 @@ export default function useSuppers() {
     }
   };
 
-  const getAllSuppers = useCallback(async () => {
-    try {
-      const response = await suppersApi.getAll(sessionToken);
+  const getAllSuppers = useCallback(
+    async ({ force = false }: { force?: boolean } = {}) => {
+      const { isFetchingSuppers, hasFetchedSuppers } = useStore.getState();
 
-      if (response.data.success) {
-        setSuppers(response.data.allSuppers);
+      if (!sessionToken || isFetchingSuppers || (!force && hasFetchedSuppers)) {
+        return;
       }
-    } catch (err: any) {
-      console.log("Unsuccessful geyt", err.message);
-    }
-  }, [sessionToken, setSuppers]);
+
+      setIsFetchingSuppers(true);
+
+      try {
+        const response = await suppersApi.getAll(sessionToken);
+
+        if (response.data.success) {
+          setSuppers(response.data.allSuppers);
+          setHasFetchedSuppers(true);
+        }
+      } catch (err: any) {
+        console.log("Unsuccessful get", err.message);
+      } finally {
+        setIsFetchingSuppers(false);
+      }
+    },
+    [sessionToken, setSuppers, setHasFetchedSuppers, setIsFetchingSuppers]
+  );
 
   useEffect(() => {
     getAllSuppers();
