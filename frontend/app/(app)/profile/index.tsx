@@ -2,7 +2,6 @@ import { Image } from "expo-image";
 import { useEffect, useRef } from "react";
 import {
   Alert,
-  FlatList,
   Pressable,
   StyleSheet,
   Text,
@@ -11,7 +10,6 @@ import {
 } from "react-native";
 
 import CTA from "@/components/buttons/cta";
-import Card from "@/components/cards/card";
 import Header from "@/components/header/header";
 import { COLORS } from "@/constants/colors";
 import { SCREEN_STYLES } from "@/constants/styles";
@@ -87,7 +85,7 @@ export default function Index() {
         <Text style={styles.memberSince}>Joined {memberSince}</Text>
       </View>
       <Text style={styles.sectionTitle}>Your Suppers</Text>
-      <FlatList
+      {/* <FlatList
         data={mySuppers}
         horizontal
         contentContainerStyle={styles.suppersList}
@@ -107,9 +105,9 @@ export default function Index() {
             ]}
             title={item.name}
             variant={"horizontal"}
-          />
-        )}
-      />
+          /> */}
+      {/* )} */}
+      {/* /> */}
       <CTA
         title={"Sign Out"}
         onPress={() => {

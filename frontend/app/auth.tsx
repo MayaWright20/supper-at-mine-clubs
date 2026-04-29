@@ -2,7 +2,7 @@ import { Asset } from "expo-asset";
 import { Image, ImageSource } from "expo-image";
 import { router } from "expo-router";
 import { useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
@@ -73,7 +73,7 @@ export default function SignIn() {
         title={"Back"}
         onPress={backCta}
       />
-      <View style={styles.form}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.form}>
         {image === defaultAvatar ? (
           <Logo width={300} />
         ) : (
@@ -123,7 +123,7 @@ export default function SignIn() {
               />
             );
           })}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
