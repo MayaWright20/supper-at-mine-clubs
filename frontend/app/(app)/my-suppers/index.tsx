@@ -14,7 +14,7 @@ export default function Index() {
       <Header title="My Suppers" />
       <CustomFont
         style={[FONTS.LARGE, FONTS.title]}
-      >{`Supper clubs your hosting`}</CustomFont>
+      >{`Supper clubs you're hosting`}</CustomFont>
       <View style={styles.flatlistWrapper}>
         <FlatList
           data={mySuppers}

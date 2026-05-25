@@ -1,5 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import { useState } from "react";
 import {
   LayoutChangeEvent,
@@ -7,6 +8,7 @@ import {
   StyleProp,
   StyleSheet,
   Text,
+  TouchableOpacity,
   useWindowDimensions,
   View,
   ViewStyle
@@ -15,6 +17,8 @@ import {
 import { COLORS } from "@/constants/colors";
 
 interface Props {
+  id: string;
+  item: any;
   title: string;
   image?: string[];
   kicker?: string;
@@ -25,6 +29,8 @@ interface Props {
 }
 
 export default function Card({
+  id,
+  item,
   title,
   image,
   kicker = "Hosted locally",
@@ -47,8 +53,19 @@ export default function Card({
     setImageSize({ height: wrapperHeight, width });
   };
 
+  const onPressCard = () => {
+    const supper = JSON.stringify(item);
+    router.push({
+      pathname: "/[id]",
+      params: {
+        id: id,
+        item: supper
+      }
+    });
+  };
+
   return (
-    <View style={containerStyle}>
+    <TouchableOpacity onPress={onPressCard} style={containerStyle}>
       <View
         onLayout={handleImageWrapperLayout}
         style={[
@@ -122,7 +139,7 @@ export default function Card({
           </View>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

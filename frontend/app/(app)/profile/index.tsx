@@ -2,7 +2,9 @@ import { Image } from "expo-image";
 import { useEffect, useRef } from "react";
 import {
   Alert,
+  FlatList,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -10,10 +12,11 @@ import {
 } from "react-native";
 
 import CTA from "@/components/buttons/cta";
+import Card from "@/components/cards/card";
+import { CustomFont } from "@/components/fonts/font";
 import Header from "@/components/header/header";
-import SupperAtMineClubsLogo from "@/components/logo/color-logo";
 import { COLORS } from "@/constants/colors";
-import { SCREEN_STYLES } from "@/constants/styles";
+import { FONTS, SCREEN_STYLES } from "@/constants/styles";
 import useImagePicker from "@/hooks/useImagePicker";
 import useProfile from "@/hooks/useProfile";
 import useSuppers from "@/hooks/useSuppers";
@@ -75,7 +78,7 @@ export default function Index() {
   };
 
   return (
-    <View style={SCREEN_STYLES.screen}>
+    <ScrollView style={SCREEN_STYLES.screen}>
       <Header title="Profile" />
       <View style={styles.card}>
         <Pressable onPress={pickImage}>
@@ -85,8 +88,10 @@ export default function Index() {
         <Text style={styles.label}>Member profile</Text>
         <Text style={styles.memberSince}>Joined {memberSince}</Text>
       </View>
-      <Text style={styles.sectionTitle}>Your Suppers</Text>
-      {/* <FlatList
+      <CustomFont
+        style={[FONTS.LARGE, FONTS.title]}
+      >{`Supper clubs you're hosting`}</CustomFont>
+      <FlatList
         data={mySuppers}
         horizontal
         contentContainerStyle={styles.suppersList}
@@ -95,8 +100,9 @@ export default function Index() {
         style={styles.suppersFlatList}
         renderItem={({ item, index }) => (
           <Card
+            id={item._id}
             key={index}
-            image={item.images?.[0]}
+            image={item.images ? item.images : undefined}
             kicker={"Your supper"}
             meta={"Shared table and local gathering"}
             showTag={false}
@@ -106,15 +112,10 @@ export default function Index() {
             ]}
             title={item.name}
             variant={"horizontal"}
-          /> */}
-      {/* )} */}
-      {/* /> */}
-      <SupperAtMineClubsLogo
-        size={200}
-        primaryColor="#0B2A1D"
-        secondaryColor="#FF8A00"
-        accentColor="#FF4FD8"
+          />
+        )}
       />
+
       <CTA
         title={"Sign Out"}
         onPress={() => {
@@ -127,7 +128,7 @@ export default function Index() {
         title={"Delete profile"}
         onPress={deleteProfileHandler}
       />
-    </View>
+    </ScrollView>
   );
 }
 

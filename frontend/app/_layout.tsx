@@ -176,6 +176,7 @@ function RootNavigator() {
         </Stack.Protected>
         <Stack.Protected guard={!!sessionToken}>
           <Stack.Screen name="(app)" />
+          <Stack.Screen name="[id]" />
         </Stack.Protected>
       </Stack>
       {!isAuthBgCol && !sessionToken && (
