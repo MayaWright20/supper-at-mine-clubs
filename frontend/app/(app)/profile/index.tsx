@@ -88,9 +88,7 @@ export default function Index() {
         <Text style={styles.label}>Member profile</Text>
         <Text style={styles.memberSince}>Joined {memberSince}</Text>
       </View>
-      <CustomFont
-        style={[FONTS.LARGE, FONTS.title]}
-      >{`Supper clubs you're hosting`}</CustomFont>
+      <CustomFont style={[FONTS.LARGE, FONTS.title]}>{`Hosting`}</CustomFont>
       <FlatList
         data={mySuppers}
         horizontal
@@ -100,6 +98,7 @@ export default function Index() {
         style={styles.suppersFlatList}
         renderItem={({ item, index }) => (
           <Card
+            item={item}
             id={item._id}
             key={index}
             image={item.images ? item.images : undefined}

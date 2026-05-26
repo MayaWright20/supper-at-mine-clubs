@@ -12,9 +12,7 @@ export default function Index() {
   return (
     <View style={SCREEN_STYLES.screen}>
       <Header title="My Suppers" />
-      <CustomFont
-        style={[FONTS.LARGE, FONTS.title]}
-      >{`Supper clubs you're hosting`}</CustomFont>
+      <CustomFont style={[FONTS.LARGE, FONTS.title]}>{`Hosting`}</CustomFont>
       <View style={styles.flatlistWrapper}>
         <FlatList
           data={mySuppers}

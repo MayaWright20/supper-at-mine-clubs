@@ -23,6 +23,7 @@ interface Props {
   isSmall?: boolean;
   isTransparent?: boolean;
   isLeftIconSmall?: boolean;
+  isDisabled?: boolean;
 }
 
 export default function CTA({
@@ -35,7 +36,8 @@ export default function CTA({
   style,
   isSmall,
   isTransparent,
-  isLeftIconSmall
+  isLeftIconSmall,
+  isDisabled
 }: Props) {
   const onPressHandler = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -56,8 +58,9 @@ export default function CTA({
               : isTransparent
                 ? borderColor
                 : "transparent",
-          backgroundColor:
-            variant === "back"
+          backgroundColor: isDisabled
+            ? COLORS.GREY_0
+            : variant === "back"
               ? "transparent"
               : isTransparent
                 ? "transparent"
@@ -72,12 +75,22 @@ export default function CTA({
           <View style={styles.backIconWrapper}>
             <Ionicons name="chevron-back" size={20} color={color} />
           </View>
-          <Text style={[styles.title, styles.backTitle, { color }]}>
+          <Text
+            style={[
+              styles.title,
+              styles.backTitle,
+              { color: isDisabled ? COLORS.GREY_1 : color }
+            ]}
+          >
             {title}
           </Text>
         </View>
       ) : (
-        <Text style={[styles.title, { color }]}>{title}</Text>
+        <Text
+          style={[styles.title, { color: isDisabled ? COLORS.GREY_1 : color }]}
+        >
+          {title}
+        </Text>
       )}
     </TouchableOpacity>
   );

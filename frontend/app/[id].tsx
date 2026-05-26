@@ -23,6 +23,14 @@ export default function DetailsCard() {
       setSupper(JSON.parse(itemString));
     }
   }, [id, item]);
+
+  const buyASeat = () => {
+    // if youre hosting the club you shouldnt be able to book you should see how many seats are purchased and who is attending how much revenue its bringing in, be able to change the price for seats not taken, discount all seats but not put the price up for seats taken, cancel the event
+    // payment page
+    // show confirmation
+    // booking should go under My suppers page - hosting
+  };
+
   return (
     <SafeAreaView style={styles.page} edges={["top"]}>
       <ScrollView style={styles.page}>
@@ -37,6 +45,7 @@ export default function DetailsCard() {
             <Text>{supper.name}</Text>
             <Text>{supper.availableSeats}</Text>
             <Text>{supper.description}</Text>
+            <CTA variant="default" title={"Book a set"} onPress={buyASeat} />
           </>
         )}
       </ScrollView>
