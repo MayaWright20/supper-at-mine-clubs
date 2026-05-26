@@ -45,7 +45,7 @@ export default function DetailsCard() {
             <Text>{supper.name}</Text>
             <Text>{supper.availableSeats}</Text>
             <Text>{supper.description}</Text>
-            <CTA variant="default" title={"Book a set"} onPress={buyASeat} />
+            <CTA variant="default" title={"Book a seat"} onPress={buyASeat} />
           </>
         )}
       </ScrollView>
