@@ -1,6 +1,7 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  KeyboardTypeOptions,
   Pressable,
   StyleProp,
   StyleSheet,
@@ -48,6 +49,7 @@ interface Props {
   isTextArea?: boolean;
   textInputBgCol?: string;
   labelColor?: string;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 export default function AnimatedTextInput({
@@ -67,7 +69,8 @@ export default function AnimatedTextInput({
   style,
   isTextArea,
   textInputBgCol,
-  labelColor
+  labelColor,
+  keyboardType
 }: Props) {
   const inputRef = useRef<TextInput>(null);
 
@@ -186,10 +189,11 @@ export default function AnimatedTextInput({
         cursorColor={backgroundColor}
         onPress={() => setIsAnimatingHandler(true)}
         placeholder={isAnimated ? undefined : placeholder}
-        textAlign={isAnimated ? "left" : "right"}
+        textAlign={isAnimated || isTextArea ? "left" : "right"}
         onBlur={onBlurAnimation}
         secureTextEntry={secureTextEntry && isSecureTextHidden}
         multiline={isTextArea}
+        keyboardType={keyboardType}
       />
       <Animated.View
         style={[

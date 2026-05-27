@@ -1,7 +1,9 @@
 import { useStripe } from "@stripe/stripe-react-native";
 import * as Linking from "expo-linking";
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Alert, Button } from "react-native";
+
+import CTA from "../buttons/cta";
 
 async function fetchPaymentSheetParams(amount: number): Promise<{
   paymentIntent: string;
@@ -17,7 +19,13 @@ async function fetchPaymentSheetParams(amount: number): Promise<{
   }).then((res) => res.json());
 }
 
-export default function CheckoutForm({ amount }: { amount: number }) {
+export default function CheckoutForm({
+  amount,
+  isDisabled
+}: {
+  amount: number;
+  isDisabled: boolean;
+}) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [loading, setLoading] = useState(false);
 
@@ -57,15 +65,26 @@ export default function CheckoutForm({ amount }: { amount: number }) {
     const { error } = await presentPaymentSheet();
 
     if (error) {
-      Alert.alert(`Error code: ${error.code}`, error.message);
+      // Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
-      Alert.alert("Success", "Your order is confirmed!");
+      // Alert.alert("Success", "Your order is confirmed!");
+      router.navigate(`/(app)/my-suppers`);
+      // SEND TO SUCCESS SCREEN
+      // SEND INFOMATION TO BACKEND THAT THERE IS A BOOKING
     }
   };
 
   useEffect(() => {
+    if (isDisabled) return;
     initializePaymentSheet();
-  }, []);
+  }, [isDisabled]);
 
-  return <Button title="Open payment sheet" onPress={openPaymentSheet} />;
+  return (
+    <CTA
+      isDisabled={isDisabled}
+      variant="default"
+      title={"Pay"}
+      onPress={openPaymentSheet}
+    />
+  );
 }

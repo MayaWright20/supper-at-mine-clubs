@@ -1,4 +1,3 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Haptics from "expo-haptics";
 import {
   StyleProp,
@@ -11,6 +10,8 @@ import {
 
 import { COLORS } from "@/constants/colors";
 import { PADDING } from "@/constants/styles";
+
+import { IconCircle } from "../icons/icons";
 
 interface Props {
   title: string;
@@ -45,6 +46,7 @@ export default function CTA({
   };
   return (
     <TouchableOpacity
+      disabled={isDisabled}
       onPress={onPressHandler}
       style={[
         styles.container,
@@ -72,9 +74,11 @@ export default function CTA({
     >
       {variant === "back" ? (
         <View style={styles.backContent}>
-          <View style={styles.backIconWrapper}>
-            <Ionicons name="chevron-back" size={20} color={color} />
-          </View>
+          <IconCircle
+            name="chevron-back"
+            onPress={onPressHandler}
+            color={color}
+          />
           <Text
             style={[
               styles.title,
@@ -106,14 +110,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8
   },
-  backIconWrapper: {
-    alignItems: "center",
-    aspectRatio: 1,
-    backgroundColor: COLORS.PINK_0,
-    borderRadius: 999,
-    height: 35,
-    justifyContent: "center"
-  },
+  // backIconWrapper: {
+  //   alignItems: "center",
+  //   aspectRatio: 1,
+  //   backgroundColor: COLORS.PINK_0,
+  //   borderRadius: 999,
+  //   height: 35,
+  //   justifyContent: "center"
+  // },
   backTitle: {
     fontSize: 20
   },

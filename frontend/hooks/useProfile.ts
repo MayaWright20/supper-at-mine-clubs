@@ -144,6 +144,7 @@ export default function useProfile() {
     updateProfilePicture,
     logOut,
     deleteProfile,
-    user
+    user,
+    currentUserId: user && user._id
   };
 }

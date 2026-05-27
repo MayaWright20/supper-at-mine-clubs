@@ -6,6 +6,8 @@ export const PADDING = {
   SMALL_PADDING: 30
 };
 
+export const PAGE_PADDING_HORIZONTAL = 6;
+
 export const SHADOW = {
   shadowColor: "rgba(0, 0, 0, 0.532)",
   shadowOffset: { width: 6, height: 6 },
@@ -32,13 +34,13 @@ export const SCREEN_STYLES = StyleSheet.create({
   screen: {
     backgroundColor: PAGE_BACKGROUND_COL,
     flex: 1,
-    paddingHorizontal: 6
+    paddingHorizontal: PAGE_PADDING_HORIZONTAL
   }
 });
 
 export const FONTS = StyleSheet.create({
   LARGE: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
     marginBottom: 10,
     marginTop: 15,
@@ -49,8 +51,6 @@ export const FONTS = StyleSheet.create({
     fontWeight: "bold"
   },
   title: {
-    alignSelf: "center",
-    color: COLORS.RED_0,
-    textAlign: "center"
+    color: COLORS.RED_0
   }
 });

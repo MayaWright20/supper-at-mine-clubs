@@ -1,6 +1,6 @@
+import { DEFAULT_PRICE } from "@/constants/supper-defaults";
 import { stripe } from "@/stripe-server";
 //38:34
-const DEFAULT_PRICE = 30;
 
 export async function POST(req: Request) {
   const { amount } = await req.json();

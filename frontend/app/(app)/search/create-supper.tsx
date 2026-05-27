@@ -21,46 +21,19 @@ export default function CreateSupper() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
-  // const [images, setImages] = useState<
-  //   ImageSource[] | string[] | ImageSource[]
-  // >([]);
+  const [price, setPrice] = useState("");
+  const [availableSeats, setAvailableSeats] = useState("");
 
   const { createSupper } = useSuppers();
-
   const { image, pickImage } = useImagePicker(defaultAvatar, true, 5);
 
-  // useEffect(() => {
-  //   console.log("image", typeof image[0]);
-  // }, [image]);
-
-  // const pickSupperImages = async () => {
-  //   const permissionResult =
-  //     await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-  //   if (!permissionResult.granted) {
-  //     Alert.alert(
-  //       "Permission required",
-  //       "Permission to access the media library is required."
-  //     );
-  //     return;
-  //   }
-
-  //   const result = await ImagePicker.launchImageLibraryAsync({
-  //     allowsEditing: true,
-  //     allowsMultipleSelection: true,
-  //     mediaTypes: ["images"],
-  //     quality: 1,
-  //     selectionLimit: 5
-  //   });
-
-  //   if (!result.canceled) {
-  //     setImages(result.assets.map((asset) => asset.uri));
-  //   }
-  // };
-
   const createSupperHandler = async () => {
-    if (!name.trim() || !(longDescription || description).trim()) {
-      Alert.alert("Missing details", "Please add a name and description.");
+    if (
+      !price.trim() ||
+      !name.trim() ||
+      !(longDescription || description).trim()
+    ) {
+      Alert.alert("Missing details", "Please add missing details.");
       return;
     }
 
@@ -68,7 +41,9 @@ export default function CreateSupper() {
       await createSupper({
         name: name.trim(),
         description: (longDescription || description).trim(),
-        images: image
+        images: image,
+        price: Number(price),
+        availableSeats: Number(availableSeats)
       });
       router.back();
     } catch (error: any) {
@@ -77,8 +52,14 @@ export default function CreateSupper() {
   };
 
   return (
-    <SafeAreaView edges={["top"]} style={SCREEN_STYLES.screen}>
-      <ScrollView contentContainerStyle={styles.scrollview}>
+    <SafeAreaView
+      edges={["top"]}
+      style={[SCREEN_STYLES.screen, styles.scrollview]}
+    >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollview}
+      >
         <CTA
           variant="back"
           style={styles.backCTA}
@@ -95,6 +76,25 @@ export default function CreateSupper() {
           placeholder={"e.g. Around the World Supper"}
           color={COLORS.RED_0}
           labelColor={COLORS.CREAM_0}
+        />
+        {/* Authentic creole food make with recipe learned in the Seychelles */}
+        <AnimatedTextInput
+          label={"Price per seat"}
+          value={price}
+          onChangeText={(value) => setPrice(value)}
+          color={COLORS.RED_0}
+          labelColor={COLORS.CREAM_0}
+          placeholder={"£30"}
+          keyboardType="numeric"
+        />
+        <AnimatedTextInput
+          label={"Number of seats"}
+          value={availableSeats}
+          onChangeText={(value) => setAvailableSeats(value)}
+          color={COLORS.RED_0}
+          labelColor={COLORS.CREAM_0}
+          placeholder={"5"}
+          keyboardType="number-pad"
         />
         <AnimatedTextInput
           label={"Tagline"}
@@ -151,6 +151,6 @@ const styles = StyleSheet.create({
     marginVertical: 16
   },
   scrollview: {
-    flex: 1
+    flexGrow: 1
   }
 });
