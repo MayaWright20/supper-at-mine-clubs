@@ -61,3 +61,35 @@ export const getSupper = asyncError(async (req, res, next) => {
     supper,
   });
 });
+
+export const bookSeats = asyncError(async (req, res, next) => {
+  const supper = await Supper.findById(req.params.id);
+
+  if (!supper) {
+    return next(new ErrorHandler("Supper not found", 404));
+  }
+
+  const seatsRequested = req.body.seats;
+
+  if (seatsRequested < 0 || !seatsRequested) {
+    return next(new ErrorHandler("Invalid number of seats requested", 404));
+  }
+
+  const customerId = req.user._id;
+
+  const availableSeats = supper.availableSeats - supper.attendies.length;
+
+  if (availableSeats < seatsRequested)
+    return next(new ErrorHandler("Not enough seats available", 400));
+
+  for (let index = 0; index < seatsRequested; index++) {
+    supper.attendies.push(customerId);
+  }
+
+  await supper.save();
+
+  res.status(200).json({
+    success: true,
+    supper,
+  });
+});

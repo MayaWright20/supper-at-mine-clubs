@@ -138,7 +138,7 @@ export default function DetailsCard() {
               </CustomFont>
               <CounterInput
                 value={(value) => setSeats(value)}
-                maxValue={supper.availableSeats}
+                maxValue={supper.availableSeats - supper.attendies.length}
               />
 
               <View style={styles.priceWrapper}>
@@ -153,6 +153,8 @@ export default function DetailsCard() {
               <CheckoutForm
                 isDisabled={currentUserId === supper.createdBy || seats === 0}
                 amount={supper.price * seats}
+                supperId={supper._id}
+                seats={seats}
               />
             </View>
           </View>
