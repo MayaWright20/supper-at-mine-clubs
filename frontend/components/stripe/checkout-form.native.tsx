@@ -1,7 +1,9 @@
 import { useStripe } from "@stripe/stripe-react-native";
 import * as Linking from "expo-linking";
 import { useEffect, useState } from "react";
-import { Alert, Button } from "react-native";
+import { Alert } from "react-native";
+
+import CTA from "../buttons/cta";
 
 async function fetchPaymentSheetParams(amount: number): Promise<{
   paymentIntent: string;
@@ -57,7 +59,7 @@ export default function CheckoutForm({ amount }: { amount: number }) {
     const { error } = await presentPaymentSheet();
 
     if (error) {
-      Alert.alert(`Error code: ${error.code}`, error.message);
+      // Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
       Alert.alert("Success", "Your order is confirmed!");
     }
@@ -67,5 +69,5 @@ export default function CheckoutForm({ amount }: { amount: number }) {
     initializePaymentSheet();
   }, []);
 
-  return <Button title="Open payment sheet" onPress={openPaymentSheet} />;
+  return <CTA variant="default" title={"Pay"} onPress={openPaymentSheet} />;
 }

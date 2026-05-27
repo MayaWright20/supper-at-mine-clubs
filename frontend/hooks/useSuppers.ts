@@ -32,13 +32,14 @@ export default function useSuppers() {
     name,
     description,
     images = [],
-    price
+    price,
+    availableSeats
   }: Supper) => {
     const data = new FormData();
 
     data.append("name", name);
     data.append("description", description);
-    data.append("availableSeats", "5");
+    data.append("availableSeats", String(availableSeats));
     data.append("price", String(price));
 
     images.forEach((uri, index) => {
