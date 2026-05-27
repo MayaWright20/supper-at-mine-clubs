@@ -75,7 +75,7 @@ export default function useSuppers() {
       setIsFetchingSuppers(true);
 
       try {
-        const response = await suppersApi.getAll(sessionToken);
+        const response = await suppersApi.getAllSuppers(sessionToken);
 
         if (response.data.success) {
           setSuppers(response.data.allSuppers);

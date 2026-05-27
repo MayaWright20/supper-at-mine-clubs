@@ -2,6 +2,10 @@ import { useStripe } from "@stripe/stripe-react-native";
 import * as Linking from "expo-linking";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
+import { Alert } from "react-native";
+
+import { suppersApi } from "@/api/suppers";
+import useSession from "@/hooks/useSession";
 
 import CTA from "../buttons/cta";
 
@@ -20,13 +24,18 @@ async function fetchPaymentSheetParams(amount: number): Promise<{
 }
 
 export default function CheckoutForm({
+  supperId,
+  seats,
   amount,
   isDisabled
 }: {
+  supperId: string;
+  seats: number;
   amount: number;
   isDisabled: boolean;
 }) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const { sessionToken } = useSession();
   const [loading, setLoading] = useState(false);
 
   const initializePaymentSheet = async () => {
@@ -67,10 +76,27 @@ export default function CheckoutForm({
     if (error) {
       // Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
+      try {
+        const response = await suppersApi.updateSupper(
+          supperId,
+          seats,
+          sessionToken
+        );
+
+        if (response.status === 200) {
+          router.navigate(`/(app)/my-suppers`);
+        }
+      } catch (e: any) {
+        console.error("Booking failed after payment:", e);
+        Alert.alert(
+          "Booking failed",
+          e.response?.data?.message ||
+            "Your payment was successful but we couldn't complete your booking. Please contact support."
+        );
+      }
       // Alert.alert("Success", "Your order is confirmed!");
-      router.navigate(`/(app)/my-suppers`);
+
       // SEND TO SUCCESS SCREEN
-      // SEND INFOMATION TO BACKEND THAT THERE IS A BOOKING
     }
   };
 
