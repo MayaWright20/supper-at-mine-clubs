@@ -28,13 +28,18 @@ export default function useSuppers() {
     (state: StoreState) => state.setIsFetchingSuppers
   );
 
-  const createSupper = async ({ name, description, images = [] }: Supper) => {
+  const createSupper = async ({
+    name,
+    description,
+    images = [],
+    price
+  }: Supper) => {
     const data = new FormData();
 
     data.append("name", name);
     data.append("description", description);
     data.append("availableSeats", "5");
-    data.append("price", "40");
+    data.append("price", String(price));
 
     images.forEach((uri, index) => {
       data.append("images", {

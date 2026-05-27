@@ -1,6 +1,6 @@
 import { asyncError } from "../middleware/error.js";
-import { uploadImageToCloudinary } from "../utils/cloudinary.js";
 import { Supper } from "../models/supper.js";
+import { uploadImageToCloudinary } from "../utils/cloudinary.js";
 import ErrorHandler from "../utils/error.js";
 
 export const createSupper = asyncError(async (req, res, next) => {
@@ -10,8 +10,8 @@ export const createSupper = asyncError(async (req, res, next) => {
     return next(
       new ErrorHandler(
         "Please provide name, description, price and how many seats are available",
-        400
-      )
+        400,
+      ),
     );
   }
 
@@ -22,8 +22,8 @@ export const createSupper = asyncError(async (req, res, next) => {
             buffer: file.buffer,
             folder: "supper-at-mine-clubs/suppers",
             mimetype: file.mimetype,
-          })
-        )
+          }),
+        ),
       )
     : [];
 
@@ -31,7 +31,7 @@ export const createSupper = asyncError(async (req, res, next) => {
     name,
     description,
     availableSeats,
-    price: price || 0,
+    price: price || 30,
     images: uploadedImages.map((image) => image.secureUrl),
     createdBy: req.user._id,
     attendies: [],

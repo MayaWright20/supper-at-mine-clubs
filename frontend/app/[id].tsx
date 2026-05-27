@@ -46,7 +46,7 @@ export default function DetailsCard() {
             <Text>{supper.name}</Text>
             <Text>{supper.availableSeats}</Text>
             <Text>{supper.description}</Text>
-            <Text>price{supper.price}</Text>
+            <Text>price: {supper.price}</Text>
             <CTA
               variant="default"
               title={"Book a seat"}

@@ -21,6 +21,7 @@ export default function CreateSupper() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
+  const [price, setPrice] = useState("");
   // const [images, setImages] = useState<
   //   ImageSource[] | string[] | ImageSource[]
   // >([]);
@@ -59,8 +60,12 @@ export default function CreateSupper() {
   // };
 
   const createSupperHandler = async () => {
-    if (!name.trim() || !(longDescription || description).trim()) {
-      Alert.alert("Missing details", "Please add a name and description.");
+    if (
+      !price.trim() ||
+      !name.trim() ||
+      !(longDescription || description).trim()
+    ) {
+      Alert.alert("Missing details", "Please add missing details.");
       return;
     }
 
@@ -68,7 +73,8 @@ export default function CreateSupper() {
       await createSupper({
         name: name.trim(),
         description: (longDescription || description).trim(),
-        images: image
+        images: image,
+        price: Number(price)
       });
       router.back();
     } catch (error: any) {
@@ -95,6 +101,14 @@ export default function CreateSupper() {
           placeholder={"e.g. Around the World Supper"}
           color={COLORS.RED_0}
           labelColor={COLORS.CREAM_0}
+        />
+        <AnimatedTextInput
+          label={"Price"}
+          value={price}
+          onChangeText={(value) => setPrice(value)}
+          color={COLORS.RED_0}
+          labelColor={COLORS.CREAM_0}
+          placeholder={"£30"}
         />
         <AnimatedTextInput
           label={"Tagline"}
