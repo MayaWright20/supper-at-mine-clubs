@@ -23,10 +23,15 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.mayagwright20.supperatmineclubs"
     },
     "web": {
-      "output": "static",
+      "output": "server",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
@@ -36,7 +41,19 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ],
-      "expo-router",
+      [
+        "expo-router",
+        {
+          "origin": "https://supper-at-mine-clubs.expo.app"
+        }
+      ],
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.supperatmineclubs",
+          "publishableKey": "pk_test_51TbHYcPQ7WnFSQCw7wzsJUUrxkABiPiZJ6LzR3ehZP7JoobKAOyZWXs6iXVxpSlt4ZtY1WiGUQJRtUXqrGJBFX7Y00UqR4KIuW"
+        }
+      ],
       [
         "expo-splash-screen",
         {
@@ -52,16 +69,19 @@
       "expo-secure-store",
       "expo-video",
       "expo-font",
-      "expo-web-browser"
+      "expo-web-browser",
+      "@stripe/stripe-react-native"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
     },
     "extra": {
-      "router": {},
+      "router": {
+        "origin": "https://supper-at-mine-clubs.expo.app"
+      },
       "eas": {
-        "projectId": "081941a1-5e5a-4be3-97fb-8c168a14a1ce"
+        "projectId": "84d9b693-f001-457d-baa6-809a9ee88478"
       }
     }
   }
