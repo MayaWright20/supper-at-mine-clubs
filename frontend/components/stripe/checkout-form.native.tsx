@@ -1,9 +1,9 @@
 import { useStripe } from "@stripe/stripe-react-native";
 import * as Linking from "expo-linking";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Button } from "react-native";
 
-async function fetchPaymentSheetParams(): Promise<{
+async function fetchPaymentSheetParams(amount: number): Promise<{
   paymentIntent: string;
   ephemeralKey: string;
   customer: string;
@@ -12,7 +12,8 @@ async function fetchPaymentSheetParams(): Promise<{
     method: "POST",
     headers: {
       "Content-Type": "application/json"
-    }
+    },
+    body: JSON.stringify({ amount })
   }).then((res) => res.json());
 }
 
@@ -22,7 +23,7 @@ export default function CheckoutForm({ amount }: { amount: number }) {
 
   const initializePaymentSheet = async () => {
     const { paymentIntent, ephemeralKey, customer } =
-      await fetchPaymentSheetParams();
+      await fetchPaymentSheetParams(amount);
 
     // Use Mock payment data: https://docs.stripe.com/payments/accept-a-payment?platform=react-native&ui=payment-sheet#react-native-test
     const { error } = await initPaymentSheet({
@@ -44,7 +45,7 @@ export default function CheckoutForm({ amount }: { amount: number }) {
       // Enable Apple Pay:
       // https://docs.stripe.com/payments/accept-a-payment?platform=react-native&ui=payment-sheet#add-apple-pay
       applePay: {
-        merchantCountryCode: "US"
+        merchantCountryCode: "GB"
       }
     });
     if (!error) {
@@ -62,13 +63,9 @@ export default function CheckoutForm({ amount }: { amount: number }) {
     }
   };
 
-  return (
-    <>
-      <Button
-        title="Initialise payment sheet"
-        onPress={initializePaymentSheet}
-      />
-      <Button title="Open payment sheet" onPress={openPaymentSheet} />
-    </>
-  );
+  useEffect(() => {
+    initializePaymentSheet();
+  }, []);
+
+  return <Button title="Open payment sheet" onPress={openPaymentSheet} />;
 }

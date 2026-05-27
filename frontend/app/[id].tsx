@@ -46,12 +46,13 @@ export default function DetailsCard() {
             <Text>{supper.name}</Text>
             <Text>{supper.availableSeats}</Text>
             <Text>{supper.description}</Text>
+            <Text>price{supper.price}</Text>
             <CTA
               variant="default"
               title={"Book a seat"}
               onPress={navigateToPayment}
             />
-            <CheckoutForm amount={5} />
+            <CheckoutForm amount={supper.price} />
           </>
         )}
       </ScrollView>

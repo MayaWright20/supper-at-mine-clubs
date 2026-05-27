@@ -1,6 +1,9 @@
 import { stripe } from "@/stripe-server";
+//38:34
+const DEFAULT_PRICE = 30;
 
 export async function POST(req: Request) {
+  const { amount } = await req.json();
   const customer = await stripe.customers.create();
   const ephemeralKey = await stripe.ephemeralKeys.create(
     { customer: customer.id },
@@ -8,8 +11,8 @@ export async function POST(req: Request) {
   );
 
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 5 * 100,
-    currency: "usd",
+    amount: amount ? Math.floor(amount * 100) : DEFAULT_PRICE,
+    currency: "gbp",
     customer: customer.id,
     automatic_payment_methods: {
       enabled: true
