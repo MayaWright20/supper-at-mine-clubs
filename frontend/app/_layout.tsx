@@ -11,6 +11,7 @@ import Logo from "@/components/logo/logo";
 import { SplashScreenController } from "@/components/splash-screen";
 import { COLORS } from "@/constants/colors";
 import { EMAIL_VALIDATOR } from "@/constants/regex";
+import { BORDER_RADIUS } from "@/constants/styles";
 import useProfile from "@/hooks/useProfile";
 import { StoreState, usePersistStore, useStore } from "@/store/store";
 import { AuthForm, AuthRoutes } from "@/types/typess";
@@ -270,7 +271,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignSelf: "center",
-    borderRadius: "150%",
+    borderRadius: BORDER_RADIUS.X_LARGE,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     height: "80%",

@@ -19,6 +19,7 @@ import CounterInput from "@/components/inputs/counter-input";
 import CheckoutForm from "@/components/stripe/checkout-form.native";
 import { COLORS } from "@/constants/colors";
 import {
+  BORDER_RADIUS,
   FONTS,
   PAGE_BACKGROUND_COL,
   PAGE_PADDING_HORIZONTAL
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   image: {
-    borderRadius: 15,
+    borderRadius: BORDER_RADIUS.SMALL,
     height: "100%",
     width: "95%"
   },

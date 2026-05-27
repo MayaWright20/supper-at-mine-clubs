@@ -16,7 +16,7 @@ import Card from "@/components/cards/card";
 import { CustomFont } from "@/components/fonts/font";
 import Header from "@/components/header/header";
 import { COLORS } from "@/constants/colors";
-import { FONTS, SCREEN_STYLES } from "@/constants/styles";
+import { BORDER_RADIUS, FONTS, SCREEN_STYLES } from "@/constants/styles";
 import useImagePicker from "@/hooks/useImagePicker";
 import useProfile from "@/hooks/useProfile";
 import useSuppers from "@/hooks/useSuppers";
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "white",
     borderColor: COLORS.PINK_1,
-    borderRadius: 100,
+    borderRadius: BORDER_RADIUS.X_LARGE,
     borderWidth: 1,
     height: 200,
     marginBottom: 18,
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
     borderColor: COLORS.RED_0,
-    borderRadius: 28,
+    borderRadius: BORDER_RADIUS.SMALL,
     borderWidth: 1,
     marginTop: 24,
     padding: 24

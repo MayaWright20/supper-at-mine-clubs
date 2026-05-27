@@ -16,6 +16,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { COLORS } from "@/constants/colors";
+import { BORDER_RADIUS } from "@/constants/styles";
 
 const ANIMATION_DURATION = 600;
 
@@ -254,7 +255,7 @@ const styles = StyleSheet.create({
   },
   labelWrapper: {
     alignItems: "center",
-    borderRadius: 100,
+    borderRadius: BORDER_RADIUS.X_LARGE,
     borderWidth: 1,
     flexDirection: "row",
     overflow: "hidden",
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: "white",
-    borderRadius: 50,
+    borderRadius: BORDER_RADIUS.X_LARGE,
     borderWidth: 1,
     flexDirection: "row",
     marginBottom: 5,

@@ -10,6 +10,7 @@ import { CustomFont } from "@/components/fonts/font";
 import AnimatedTextInput from "@/components/inputs/text-input";
 import Logo from "@/components/logo/logo";
 import { COLORS } from "@/constants/colors";
+import { BORDER_RADIUS } from "@/constants/styles";
 import useImagePicker from "@/hooks/useImagePicker";
 import { StoreState, useStore } from "@/store/store";
 import { AuthRoutes } from "@/types/typess";
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
   image: {
     alignSelf: "center",
     borderColor: COLORS.PINK_0,
-    borderRadius: "100%",
+    borderRadius: BORDER_RADIUS.X_LARGE,
     borderWidth: 2,
     height: 200,
     width: 200

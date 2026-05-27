@@ -8,6 +8,11 @@ export const PADDING = {
 
 export const PAGE_PADDING_HORIZONTAL = 6;
 
+export const BORDER_RADIUS = {
+  SMALL: 15,
+  X_LARGE: 999
+};
+
 export const SHADOW = {
   shadowColor: "rgba(0, 0, 0, 0.532)",
   shadowOffset: { width: 6, height: 6 },

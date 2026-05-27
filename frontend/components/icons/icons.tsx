@@ -2,6 +2,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { OpaqueColorValue, StyleSheet, TouchableOpacity } from "react-native";
 
 import { COLORS } from "@/constants/colors";
+import { BORDER_RADIUS } from "@/constants/styles";
 
 interface Props {
   isDisabled?: boolean;
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
   circleIconWrapper: {
     alignItems: "center",
     aspectRatio: 1,
-    borderRadius: 999,
+    borderRadius: BORDER_RADIUS.X_LARGE,
     height: 35,
     justifyContent: "center"
   }

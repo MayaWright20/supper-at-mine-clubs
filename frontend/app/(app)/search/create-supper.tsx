@@ -7,7 +7,7 @@ import CTA from "@/components/buttons/cta";
 import { CustomFont } from "@/components/fonts/font";
 import AnimatedTextInput from "@/components/inputs/text-input";
 import { COLORS } from "@/constants/colors";
-import { FONTS, SCREEN_STYLES } from "@/constants/styles";
+import { BORDER_RADIUS, FONTS, SCREEN_STYLES } from "@/constants/styles";
 import useImagePicker from "@/hooks/useImagePicker";
 import useSuppers from "@/hooks/useSuppers";
 
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   imagePreview: {
     backgroundColor: COLORS.PINK_0,
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.SMALL,
     height: 110,
     width: 110
   },

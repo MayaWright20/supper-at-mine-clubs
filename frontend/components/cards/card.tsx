@@ -15,6 +15,7 @@ import {
 } from "react-native";
 
 import { COLORS } from "@/constants/colors";
+import { BORDER_RADIUS } from "@/constants/styles";
 
 interface Props {
   id: string;
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFFDF9",
     borderColor: COLORS.RED_0,
-    borderRadius: 24,
+    borderRadius: BORDER_RADIUS.SMALL,
     borderWidth: 1,
     elevation: 6,
     flex: 1,
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
   },
   dot: {
     backgroundColor: "#B7A89A",
-    borderRadius: 999,
+    borderRadius: BORDER_RADIUS.X_LARGE,
     height: 4,
     width: 4
   },
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     aspectRatio: 1,
     backgroundColor: "rgba(255, 253, 249, 0.92)",
-    borderRadius: 999,
+    borderRadius: BORDER_RADIUS.X_LARGE,
     height: 36,
     justifyContent: "center",
     position: "absolute",

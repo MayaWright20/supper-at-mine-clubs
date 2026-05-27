@@ -110,14 +110,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8
   },
-  // backIconWrapper: {
-  //   alignItems: "center",
-  //   aspectRatio: 1,
-  //   backgroundColor: COLORS.PINK_0,
-  //   borderRadius: 999,
-  //   height: 35,
-  //   justifyContent: "center"
-  // },
   backTitle: {
     fontSize: 20
   },
