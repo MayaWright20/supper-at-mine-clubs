@@ -1,3 +1,4 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CTA from "@/components/buttons/cta";
 import Header from "@/components/header/header";
 import CheckoutForm from "@/components/stripe/checkout-form.native";
+import { COLORS } from "@/constants/colors";
 import {
   PAGE_BACKGROUND_COL,
   PAGE_PADDING_HORIZONTAL
@@ -70,12 +72,16 @@ export default function DetailsCard() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}
       >
-        <CTA
-          variant="back"
-          style={styles.backCTA}
-          title={"Back"}
-          onPress={navigateBack}
-        />
+        <View style={styles.backFavouriteWrapper}>
+          <CTA
+            variant="back"
+            style={styles.backCTA}
+            title={"Back"}
+            onPress={navigateBack}
+          />
+          <Ionicons name={"heart-outline"} color={COLORS.RED_0} size={40} />
+        </View>
+
         {supper && (
           <View>
             <Header title={supper.name} />
@@ -114,6 +120,11 @@ const styles = StyleSheet.create({
   backCTA: {
     alignSelf: "flex-start",
     marginLeft: 6
+  },
+  backFavouriteWrapper: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginRight: 10
   },
   descriptionContainer: {
     marginVertical: 40,
