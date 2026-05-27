@@ -13,13 +13,17 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
+import { CustomFont } from "@/components/fonts/font";
 import Header from "@/components/header/header";
+import CounterInput from "@/components/inputs/counter-input";
 import CheckoutForm from "@/components/stripe/checkout-form.native";
 import { COLORS } from "@/constants/colors";
 import {
+  FONTS,
   PAGE_BACKGROUND_COL,
   PAGE_PADDING_HORIZONTAL
 } from "@/constants/styles";
+import useProfile from "@/hooks/useProfile";
 import { components } from "@/types/types";
 
 export default function DetailsCard() {
@@ -31,7 +35,9 @@ export default function DetailsCard() {
   const [supper, setSupper] = useState<components["schemas"]["Supper"] | null>(
     null
   );
-  const { height, width } = useWindowDimensions();
+  const [seats, setSeats] = useState<number>(0);
+  const { width } = useWindowDimensions();
+  const { currentUserId } = useProfile();
 
   useEffect(() => {
     const itemString = Array.isArray(item) ? item[0] : item;
@@ -85,7 +91,6 @@ export default function DetailsCard() {
         {supper && (
           <View>
             <Header title={supper.name} />
-
             {supper.images && supper.images.length > 0 && (
               <View style={styles.flatlist}>
                 <FlatList
@@ -94,20 +99,61 @@ export default function DetailsCard() {
                   renderItem={renderImage}
                   keyExtractor={(item, index) => `${item}-${index}`}
                   scrollEnabled={true}
-                  // showsHorizontalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}
                 />
               </View>
             )}
-            <View style={styles.descriptionContainer}>
-              <Text>Description: {supper.description}</Text>
-              <Text>Price per seat: {supper.price}</Text>
-              <Text>
-                Number of seats left:{" "}
-                {`${supper.availableSeats - supper.attendies.length} / `}
-                {supper.availableSeats}
-              </Text>
 
-              <CheckoutForm amount={supper.price} />
+            <View style={styles.descriptionContainer}>
+              <CustomFont
+                style={[FONTS.LARGE, FONTS.title]}
+              >{`Hosted by`}</CustomFont>
+              <CustomFont
+                style={[FONTS.LARGE, FONTS.title]}
+              >{`Description`}</CustomFont>
+              <Text style={styles.text}>{supper.description}</Text>
+              <View style={styles.priceWrapper}>
+                <CustomFont
+                  style={[FONTS.LARGE, FONTS.title]}
+                >{`Price per seat:`}</CustomFont>
+                <CustomFont
+                  style={[FONTS.X_LARGE, FONTS.title, { color: "black" }]}
+                >{`£${supper.price}`}</CustomFont>
+              </View>
+              <View style={styles.priceWrapper}>
+                <CustomFont
+                  style={[FONTS.LARGE, FONTS.title]}
+                >{`Number of seats left:`}</CustomFont>
+                <CustomFont
+                  style={[FONTS.LARGE, FONTS.title, { color: "black" }]}
+                >
+                  {`${supper.availableSeats - supper.attendies.length} / `}
+                  {supper.availableSeats}
+                </CustomFont>
+              </View>
+
+              <Header title={`Booking`} />
+              <CustomFont style={[FONTS.LARGE, FONTS.title]}>
+                Number of seats:
+              </CustomFont>
+              <CounterInput
+                value={(value) => setSeats(value)}
+                maxValue={supper.availableSeats}
+              />
+
+              <View style={styles.priceWrapper}>
+                <CustomFont
+                  style={[FONTS.LARGE, FONTS.title]}
+                >{`Total:`}</CustomFont>
+                <CustomFont
+                  style={[FONTS.X_LARGE, FONTS.title, { color: "black" }]}
+                >{`£${supper.price * seats}`}</CustomFont>
+              </View>
+
+              <CheckoutForm
+                isDisabled={currentUserId === supper.createdBy || seats === 0}
+                amount={supper.price * seats}
+              />
             </View>
           </View>
         )}
@@ -144,6 +190,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 2
   },
+  priceWrapper: {
+    alignItems: "baseline",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
   screen: {
     backgroundColor: PAGE_BACKGROUND_COL,
     flex: 1
@@ -151,5 +202,8 @@ const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
     paddingBottom: 50
+  },
+  text: {
+    fontSize: 18
   }
 });

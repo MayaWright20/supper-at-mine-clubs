@@ -40,7 +40,7 @@ export const SCREEN_STYLES = StyleSheet.create({
 
 export const FONTS = StyleSheet.create({
   LARGE: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
     marginBottom: 10,
     marginTop: 15,
@@ -51,8 +51,6 @@ export const FONTS = StyleSheet.create({
     fontWeight: "bold"
   },
   title: {
-    alignSelf: "center",
-    color: COLORS.RED_0,
-    textAlign: "center"
+    color: COLORS.RED_0
   }
 });
