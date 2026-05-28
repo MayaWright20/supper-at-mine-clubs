@@ -1,7 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   LayoutChangeEvent,
   ScrollView,
@@ -16,6 +16,15 @@ import {
 
 import { COLORS } from "@/constants/colors";
 import { BORDER_RADIUS } from "@/constants/styles";
+
+function SoldOutOverlay({ isSoldOut }: { isSoldOut: boolean }) {
+  if (!isSoldOut) return;
+  return (
+    <View style={styles.soldOutWrapper}>
+      <Text style={styles.soldOutText}>Sold out</Text>
+    </View>
+  );
+}
 
 interface Props {
   id: string;
@@ -65,6 +74,12 @@ export default function Card({
     });
   };
 
+  console.log("item", item);
+  const isClubSoldOut = useMemo(
+    () => item.attendies.length >= item.availableSeats,
+    [item]
+  );
+
   return (
     <TouchableOpacity onPress={onPressCard} style={containerStyle}>
       <View
@@ -83,18 +98,22 @@ export default function Card({
             showsHorizontalScrollIndicator={false}
             style={styles.imageList}
           >
-            {images.map((item, index) => (
-              <Image
-                key={`${item}-${index}`}
-                contentFit="cover"
-                source={{ uri: item }}
-                style={[
-                  {
-                    height: imageSize.height,
-                    width: "100%"
-                  }
-                ]}
-              />
+            {images.map((image, index) => (
+              <View style={{ width: "100%" }} key={`${image}-${index}`}>
+                <>
+                  <Image
+                    contentFit="cover"
+                    source={{ uri: image }}
+                    style={[
+                      {
+                        height: imageSize.height,
+                        width: "100%"
+                      }
+                    ]}
+                  />
+                  {<SoldOutOverlay isSoldOut={isClubSoldOut} />}
+                </>
+              </View>
             ))}
           </ScrollView>
         ) : (
@@ -255,6 +274,20 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 6,
     marginTop: 8
+  },
+  soldOutText: {
+    color: "white",
+    fontSize: 30,
+    fontWeight: "800",
+    textAlign: "center"
+  },
+  soldOutWrapper: {
+    backgroundColor: "black",
+    height: "100%",
+    justifyContent: "center",
+    opacity: 0.5,
+    position: "absolute",
+    width: "100%"
   },
   tag: {
     alignItems: "center",
