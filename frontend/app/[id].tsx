@@ -1,7 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
-import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   FlatList,
   ScrollView,
@@ -25,7 +25,9 @@ import {
   PAGE_PADDING_HORIZONTAL
 } from "@/constants/styles";
 import useProfile from "@/hooks/useProfile";
-import { components } from "@/types/types";
+import useSuppers from "@/hooks/useSuppers";
+
+const DETAIL_POLL_INTERVAL_MS = 15000; // 15 seconds
 
 export default function DetailsCard() {
   const navigateBack = () => {
@@ -33,19 +35,38 @@ export default function DetailsCard() {
   };
 
   const { id, item } = useLocalSearchParams();
-  const [supper, setSupper] = useState<components["schemas"]["Supper"] | null>(
-    null
-  );
+  const { supper, setSupper, getSupper } = useSuppers();
   const [seats, setSeats] = useState<number>(0);
   const { width } = useWindowDimensions();
   const { currentUserId } = useProfile();
+  const isFocused = useRef(false);
 
   useEffect(() => {
     const itemString = Array.isArray(item) ? item[0] : item;
     if (itemString) {
       setSupper(JSON.parse(itemString));
     }
-  }, [id, item]);
+  }, [id, item, setSupper]);
+
+  useFocusEffect(
+    useCallback(() => {
+      isFocused.current = true;
+      const supperId = Array.isArray(id) ? id[0] : id;
+      getSupper(supperId);
+
+      // Poll for updates while this screen is in focus
+      const intervalId = setInterval(() => {
+        if (isFocused.current) {
+          getSupper(supperId);
+        }
+      }, DETAIL_POLL_INTERVAL_MS);
+
+      return () => {
+        isFocused.current = false;
+        clearInterval(intervalId);
+      };
+    }, [id, getSupper])
+  );
 
   const renderImage = ({
     item: imageUri,
