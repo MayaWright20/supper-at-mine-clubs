@@ -6,6 +6,7 @@ import { Alert } from "react-native";
 
 import { suppersApi } from "@/api/suppers";
 import useSession from "@/hooks/useSession";
+import { useStore } from "@/store/store";
 
 import CTA from "../buttons/cta";
 
@@ -37,6 +38,8 @@ export default function CheckoutForm({
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const { sessionToken } = useSession();
   const [loading, setLoading] = useState(false);
+  const setSuppers = useStore((state) => state.setSuppers);
+  const currentSuppers = useStore.getState().suppers;
 
   const initializePaymentSheet = async () => {
     const { paymentIntent, ephemeralKey, customer } =
@@ -85,6 +88,12 @@ export default function CheckoutForm({
 
         if (response.status === 200) {
           router.navigate(`/(app)/my-suppers`);
+          if (currentSuppers) {
+            const updatedSuppers = currentSuppers.map((s: any) =>
+              s._id === supperId ? response.data.supper : s
+            );
+            setSuppers(updatedSuppers);
+          }
         }
       } catch (e: any) {
         console.error("Booking failed after payment:", e);

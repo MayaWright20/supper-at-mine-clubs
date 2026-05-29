@@ -54,7 +54,11 @@ export const getAllSuppers = asyncError(async (req, res, next) => {
 });
 
 export const getSupper = asyncError(async (req, res, next) => {
-  const supper = await Supper.findById(req.supper._id);
+  const supper = await Supper.findById(req.params.id);
+
+  if (!supper) {
+    return next(new ErrorHandler("Supper not found", 404));
+  }
 
   res.status(200).json({
     success: true,

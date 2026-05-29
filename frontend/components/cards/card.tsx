@@ -74,7 +74,7 @@ export default function Card({
     });
   };
 
-  console.log("item", item);
+  // console.log("item", item);
   const isClubSoldOut = useMemo(
     () => item.attendies.length >= item.availableSeats,
     [item]

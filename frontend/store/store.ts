@@ -8,6 +8,8 @@ import { AUTH_FORM } from "@/utils/auth";
 export interface StoreState {
   suppers?: any;
   setSuppers: (suppers: any) => void;
+  supper?: any;
+  setSupper: (suppers: any) => void;
   authCTATitle: AuthRoutes;
   setAuthCTATitle: (authCTATitle: AuthRoutes) => void;
   isAuthBgCol: boolean;
@@ -28,6 +30,8 @@ export interface StoreState {
 }
 
 export const useStore = create<StoreState>((set, get) => ({
+  supper: undefined,
+  setSupper: (supper: any) => set(() => ({ supper })),
   suppers: undefined,
   setSuppers: (suppers: any) => set(() => ({ suppers })),
   authCTATitle: AuthRoutes.SING_UP,

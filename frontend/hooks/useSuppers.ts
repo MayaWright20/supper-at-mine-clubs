@@ -15,6 +15,11 @@ export default function useSuppers() {
   const { sessionToken } = useSession();
   const userId = usePersistStore((state: any) => state.user?._id);
 
+  const supper = useStore((state: StoreState) => state.supper) as
+    | SupperWithCreatedBy
+    | undefined;
+  const setSupper = useStore((state: StoreState) => state.setSupper);
+
   const suppers = useStore((state: StoreState) => state.suppers) as
     | SupperWithCreatedBy[]
     | undefined;
@@ -64,6 +69,26 @@ export default function useSuppers() {
     }
   };
 
+  const getSupper = useCallback(
+    (id: string) => {
+      const fetchSupper = async () => {
+        try {
+          const response = await suppersApi.getSupper(id, sessionToken);
+          if (response.data.success) {
+            setSupper(response.data.supper);
+          }
+        } catch (err) {
+          console.log("Failed to fetch supper details", err);
+        }
+      };
+
+      if (id && sessionToken) {
+        fetchSupper();
+      }
+    },
+    [sessionToken, setSupper]
+  );
+
   const getAllSuppers = useCallback(
     async ({ force = false }: { force?: boolean } = {}) => {
       const { isFetchingSuppers, hasFetchedSuppers } = useStore.getState();
@@ -92,6 +117,12 @@ export default function useSuppers() {
 
   useEffect(() => {
     getAllSuppers();
+
+    const intervalId = setInterval(() => {
+      getAllSuppers({ force: true });
+    }, 30000);
+
+    return () => clearInterval(intervalId);
   }, [getAllSuppers]);
 
   const mySuppers: SupperWithCreatedBy[] = suppers
@@ -110,6 +141,9 @@ export default function useSuppers() {
     getAllSuppers,
     suppers,
     setSuppers,
-    mySuppers
+    mySuppers,
+    getSupper,
+    supper,
+    setSupper
   };
 }

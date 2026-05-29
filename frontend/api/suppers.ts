@@ -12,6 +12,15 @@ export const suppersApi = {
     });
   },
 
+  getSupper(supperId: string, token?: string | null) {
+    return apiClient.get<{
+      success: boolean;
+      supper: components["schemas"]["Supper"];
+    }>(`/suppers/${supperId}`, {
+      headers: getAuthHeaders(token)
+    });
+  },
+
   getAllSuppers(token?: string | null) {
     return apiClient.get<{
       success: boolean;
