@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 
 import { suppersApi } from "@/api/suppers";
+import useProfile from "@/hooks/useProfile";
 import useSession from "@/hooks/useSession";
 import { useStore } from "@/store/store";
 
@@ -37,6 +38,7 @@ export default function CheckoutForm({
 }) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const { sessionToken } = useSession();
+  const { getProfile } = useProfile();
   const [loading, setLoading] = useState(false);
   const setSuppers = useStore((state) => state.setSuppers);
   const currentSuppers = useStore.getState().suppers;
@@ -88,6 +90,7 @@ export default function CheckoutForm({
 
         if (response.status === 200) {
           router.navigate(`/(app)/my-suppers`);
+          await getProfile(sessionToken);
           if (currentSuppers) {
             const updatedSuppers = currentSuppers.map((s: any) =>
               s._id === supperId ? response.data.supper : s

@@ -1,5 +1,6 @@
 import { asyncError } from "../middleware/error.js";
 import { Supper } from "../models/supper.js";
+import { User } from "../models/user.js";
 import { uploadImageToCloudinary } from "../utils/cloudinary.js";
 import ErrorHandler from "../utils/error.js";
 
@@ -80,6 +81,7 @@ export const bookSeats = asyncError(async (req, res, next) => {
   }
 
   const customerId = req.user._id;
+  const user = await User.findById(customerId);
 
   const availableSeats = supper.availableSeats - supper.attendies.length;
 
@@ -88,9 +90,11 @@ export const bookSeats = asyncError(async (req, res, next) => {
 
   for (let index = 0; index < seatsRequested; index++) {
     supper.attendies.push(customerId);
+    user.bookedSuppers.push(supper);
   }
 
   await supper.save();
+  await user.save();
 
   res.status(200).json({
     success: true,

@@ -7,21 +7,21 @@ import type { components } from "@/types/types";
 import useSession from "./useSession";
 
 type Supper = components["schemas"]["Supper"];
-type SupperWithCreatedBy = Omit<Supper, "createdBy"> & {
-  createdBy: string | { _id?: string };
-};
+// type SupperWithCreatedBy = Omit<Supper, "createdBy"> & {
+//   createdBy: string | { _id?: string };
+// };
 
 export default function useSuppers() {
   const { sessionToken } = useSession();
   const userId = usePersistStore((state: any) => state.user?._id);
 
   const supper = useStore((state: StoreState) => state.supper) as
-    | SupperWithCreatedBy
+    | Supper
     | undefined;
   const setSupper = useStore((state: StoreState) => state.setSupper);
 
   const suppers = useStore((state: StoreState) => state.suppers) as
-    | SupperWithCreatedBy[]
+    | Supper[]
     | undefined;
   const setSuppers = useStore((state: StoreState) => state.setSuppers);
 
@@ -32,6 +32,8 @@ export default function useSuppers() {
   const setIsFetchingSuppers = useStore(
     (state: StoreState) => state.setIsFetchingSuppers
   );
+
+  const user = usePersistStore((state: any) => state.user);
 
   const createSupper = async ({
     name,
@@ -117,33 +119,41 @@ export default function useSuppers() {
 
   useEffect(() => {
     getAllSuppers();
+    console.log("My suppers", user.bookedSuppers);
 
     const intervalId = setInterval(() => {
       getAllSuppers({ force: true });
     }, 30000);
 
     return () => clearInterval(intervalId);
-  }, [getAllSuppers]);
+  }, [getAllSuppers, user]);
 
-  const mySuppers: SupperWithCreatedBy[] = suppers
+  const myHostingSuppers: Supper[] = suppers
     ? suppers.filter((item) => {
-        const createdById =
-          typeof item.createdBy === "string"
-            ? item.createdBy
-            : item.createdBy?._id;
+        const createdById = item.createdBy;
 
         return createdById === userId;
       })
     : [];
+
+  const myBookedSuppers: Supper[] = suppers
+    ? suppers.filter((item) => {
+        const supper = item.attendies.includes(user._id);
+        return supper;
+      })
+    : [];
+
+  // const myBookedSuppers: Supper[] = user.bookedSuppers;
 
   return {
     createSupper,
     getAllSuppers,
     suppers,
     setSuppers,
-    mySuppers,
+    myHostingSuppers,
     getSupper,
     supper,
-    setSupper
+    setSupper,
+    myBookedSuppers
   };
 }

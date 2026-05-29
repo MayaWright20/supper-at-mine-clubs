@@ -28,7 +28,7 @@ export default function Index() {
   const supperCardWidth = width * 0.7;
 
   const { deleteProfile, logOut, updateProfilePicture, user } = useProfile();
-  const { mySuppers } = useSuppers();
+  const { myHostingSuppers } = useSuppers();
   const { image, pickImage } = useImagePicker({ uri: user?.avatarUrl });
   const memberSince = formatMemberSince(user?.createdAt, user?._id);
   const currentAvatarRef = useRef(user?.avatarUrl);
@@ -90,7 +90,7 @@ export default function Index() {
       </View>
       <CustomFont style={[FONTS.LARGE, FONTS.title]}>{`Hosting`}</CustomFont>
       <FlatList
-        data={mySuppers}
+        data={myHostingSuppers}
         horizontal
         contentContainerStyle={styles.suppersList}
         ItemSeparatorComponent={() => <View style={styles.supperGap} />}
