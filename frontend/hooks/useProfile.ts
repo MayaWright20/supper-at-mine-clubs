@@ -145,6 +145,7 @@ export default function useProfile() {
     logOut,
     deleteProfile,
     user,
-    currentUserId: user && user._id
+    currentUserId: user && user._id,
+    getProfile
   };
 }

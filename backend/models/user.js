@@ -36,10 +36,16 @@ const schema = new mongoose.Schema(
       ],
       select: false,
     },
+    bookedSuppers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Supper",
+      },
+    ],
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 schema.pre("save", async function () {
