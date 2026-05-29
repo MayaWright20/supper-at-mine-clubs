@@ -119,7 +119,6 @@ export default function useSuppers() {
 
   useEffect(() => {
     getAllSuppers();
-    console.log("My suppers", user.bookedSuppers);
 
     const intervalId = setInterval(() => {
       getAllSuppers({ force: true });
