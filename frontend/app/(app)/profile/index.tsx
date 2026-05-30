@@ -29,18 +29,18 @@ export default function Index() {
 
   const { deleteProfile, logOut, updateProfilePicture, user } = useProfile();
   const { myHostingSuppers } = useSuppers();
-  const { image, pickImage } = useImagePicker({ uri: user?.avatarUrl });
+  const { image, pickImage } = useImagePicker(user?.avatarUrl, false);
   const memberSince = formatMemberSince(user?.createdAt, user?._id);
   const currentAvatarRef = useRef(user?.avatarUrl);
 
   useEffect(() => {
-    if (typeof image !== "object" || !("uri" in image) || !image.uri) return;
-    if (image.uri === currentAvatarRef.current) return;
+    if (!image || typeof image !== "string") return;
+    if (image === currentAvatarRef.current) return;
 
     const saveProfilePicture = async () => {
       try {
-        await updateProfilePicture(image.uri!);
-        currentAvatarRef.current = image.uri!;
+        await updateProfilePicture(image);
+        currentAvatarRef.current = image;
       } catch (error: any) {
         Alert.alert("Could not update profile picture", error.message);
       }

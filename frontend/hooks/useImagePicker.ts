@@ -31,7 +31,11 @@ export default function useImagePicker(
     });
 
     if (!result.canceled) {
-      setImage(result.assets.map((asset) => asset.uri));
+      setImage(
+        allowsMultipleSelection
+          ? result.assets.map((asset) => asset.uri)
+          : result.assets[0].uri
+      );
     }
   };
 
