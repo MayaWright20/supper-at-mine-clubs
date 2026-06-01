@@ -29,12 +29,14 @@ export default function CheckoutForm({
   supperId,
   seats,
   amount,
-  isDisabled
+  isDisabled,
+  isSoldout
 }: {
   supperId: string;
   seats: number;
   amount: number;
   isDisabled: boolean;
+  isSoldout: boolean;
 }) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const { sessionToken } = useSession();
@@ -119,9 +121,9 @@ export default function CheckoutForm({
 
   return (
     <CTA
-      isDisabled={isDisabled}
+      isDisabled={isDisabled || isSoldout}
       variant="default"
-      title={"Pay"}
+      title={isSoldout ? "Sold out" : "Pay"}
       onPress={openPaymentSheet}
     />
   );

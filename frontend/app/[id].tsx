@@ -1,7 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   FlatList,
   ScrollView,
@@ -67,6 +67,11 @@ export default function DetailsCard() {
         clearInterval(intervalId);
       };
     }, [id, getSupper])
+  );
+
+  const seatsLeft = useMemo(
+    () => supper && supper.availableSeats - supper.attendies.length,
+    [supper]
   );
 
   const renderImage = ({
@@ -146,7 +151,7 @@ export default function DetailsCard() {
                 <CustomFont
                   style={[FONTS.LARGE, FONTS.title, { color: "black" }]}
                 >
-                  {`${supper.availableSeats - supper.attendies.length} / `}
+                  {`${seatsLeft} / `}
                   {supper.availableSeats}
                 </CustomFont>
               </View>
@@ -186,6 +191,7 @@ export default function DetailsCard() {
                 >{`£${supper.price * seats}`}</CustomFont>
               </View>
               <CheckoutForm
+                isSoldout={seatsLeft === 0}
                 isDisabled={
                   user.username === supper.createdBy.username || seats === 0
                 }
