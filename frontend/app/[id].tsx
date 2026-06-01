@@ -185,7 +185,6 @@ export default function DetailsCard() {
                   style={[FONTS.X_LARGE, FONTS.title, { color: "black" }]}
                 >{`£${supper.price * seats}`}</CustomFont>
               </View>
-              <Text>{user.username}</Text>
               <CheckoutForm
                 isDisabled={
                   user.username === supper.createdBy.username || seats === 0
