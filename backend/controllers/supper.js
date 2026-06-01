@@ -55,7 +55,13 @@ export const getAllSuppers = asyncError(async (req, res, next) => {
 });
 
 export const getSupper = asyncError(async (req, res, next) => {
-  const supper = await Supper.findById(req.params.id);
+  const supper = await Supper.findById(req.params.id).populate([
+    "attendies",
+    "name avatar avatarPublicId username",
+    ,
+    "createdBy",
+    "name avatar avatarPublicId username",
+  ]);
 
   if (!supper) {
     return next(new ErrorHandler("Supper not found", 404));

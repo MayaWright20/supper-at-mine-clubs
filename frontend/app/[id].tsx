@@ -15,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CTA from "@/components/buttons/cta";
 import { CustomFont } from "@/components/fonts/font";
 import Header from "@/components/header/header";
+import UserIcon from "@/components/icons/user-icon";
 import CounterInput from "@/components/inputs/counter-input";
 import CheckoutForm from "@/components/stripe/checkout-form.native";
 import { COLORS } from "@/constants/colors";
@@ -38,7 +39,7 @@ export default function DetailsCard() {
   const { supper, setSupper, getSupper } = useSuppers();
   const [seats, setSeats] = useState<number>(0);
   const { width } = useWindowDimensions();
-  const { currentUserId } = useProfile();
+  const { user } = useProfile();
   const isFocused = useRef(false);
 
   useEffect(() => {
@@ -109,9 +110,8 @@ export default function DetailsCard() {
           />
           <Ionicons name={"heart-outline"} color={COLORS.RED_0} size={40} />
         </View>
-
         {supper && (
-          <View>
+          <>
             <Header title={supper.name} />
             {supper.images && supper.images.length > 0 && (
               <View style={styles.flatlist}>
@@ -127,9 +127,6 @@ export default function DetailsCard() {
             )}
 
             <View style={styles.descriptionContainer}>
-              <CustomFont
-                style={[FONTS.LARGE, FONTS.title]}
-              >{`Hosted by`}</CustomFont>
               <CustomFont
                 style={[FONTS.LARGE, FONTS.title]}
               >{`Description`}</CustomFont>
@@ -153,6 +150,23 @@ export default function DetailsCard() {
                   {supper.availableSeats}
                 </CustomFont>
               </View>
+              <CustomFont
+                style={[FONTS.LARGE, FONTS.title]}
+              >{`Hosted By:`}</CustomFont>
+              <UserIcon size={80} uri={supper.createdBy.avatar} />
+              <CustomFont
+                style={[FONTS.LARGE, FONTS.title]}
+              >{`Attendies:`}</CustomFont>
+              <FlatList
+                horizontal
+                data={supper.attendies}
+                renderItem={(item) => (
+                  <UserIcon size={35} uri={item.item.avatar} />
+                )}
+                keyExtractor={(item, index) => `${item}-${index}`}
+                scrollEnabled={true}
+                showsHorizontalScrollIndicator={false}
+              />
 
               <Header title={`Booking`} />
               <CustomFont style={[FONTS.LARGE, FONTS.title]}>
@@ -171,15 +185,17 @@ export default function DetailsCard() {
                   style={[FONTS.X_LARGE, FONTS.title, { color: "black" }]}
                 >{`£${supper.price * seats}`}</CustomFont>
               </View>
-
+              <Text>{user.username}</Text>
               <CheckoutForm
-                isDisabled={currentUserId === supper.createdBy || seats === 0}
+                isDisabled={
+                  user.username === supper.createdBy.username || seats === 0
+                }
                 amount={supper.price * seats}
                 supperId={supper._id}
                 seats={seats}
               />
             </View>
-          </View>
+          </>
         )}
       </ScrollView>
     </SafeAreaView>
@@ -195,6 +211,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginRight: 10
+  },
+  createdByIcon: {
+    alignItems: "flex-end",
+    margin: PAGE_PADDING_HORIZONTAL
   },
   descriptionContainer: {
     marginVertical: 40,

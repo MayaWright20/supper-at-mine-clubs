@@ -51,7 +51,7 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: string
+          type: object
         attendies:
           type: array
           items:
