@@ -28,7 +28,7 @@ import {
 import useProfile from "@/hooks/useProfile";
 import useSuppers from "@/hooks/useSuppers";
 
-const DETAIL_POLL_INTERVAL_MS = 15000; // 15 seconds
+const DETAIL_POLL_INTERVAL_MS = 30000; // 15 seconds
 
 export default function DetailsCard() {
   const navigateBack = () => {
@@ -36,7 +36,7 @@ export default function DetailsCard() {
   };
 
   const { id, item } = useLocalSearchParams();
-  const { supper, setSupper, getSupper } = useSuppers();
+  const { supper, setSupper, getSupper, isAttendingSupper } = useSuppers();
   const [seats, setSeats] = useState<number>(0);
   const { width } = useWindowDimensions();
   const { user } = useProfile();
@@ -74,6 +74,11 @@ export default function DetailsCard() {
     [supper]
   );
 
+  const isAttendingCurrentSupper = useMemo(
+    () => isAttendingSupper(id),
+    [id, isAttendingSupper]
+  );
+
   const renderImage = ({
     item: imageUri,
     index
@@ -98,6 +103,13 @@ export default function DetailsCard() {
       />
     </View>
   );
+
+  // console.log(id);
+
+  // myBookedSuppers.map((item) => {
+  //   console.log("id", id);
+  //   return console.log(item._id);
+  // });
 
   return (
     <SafeAreaView edges={["top"]} style={styles.screen}>
@@ -158,15 +170,29 @@ export default function DetailsCard() {
               <CustomFont
                 style={[FONTS.LARGE, FONTS.title]}
               >{`Hosted By:`}</CustomFont>
-              <UserIcon size={80} uri={supper.createdBy.avatar} />
+              <UserIcon
+                isBlurred={false}
+                size={80}
+                uri={supper.createdBy.avatar}
+              />
               <CustomFont
                 style={[FONTS.LARGE, FONTS.title]}
               >{`Attendies:`}</CustomFont>
               <FlatList
                 horizontal
                 data={supper.attendies}
-                renderItem={(item) => (
-                  <UserIcon size={35} uri={item.item.avatar} />
+                renderItem={({ item }) => (
+                  <UserIcon
+                    // isBlurred={!(user.username === supper.createdBy.username) }
+                    isBlurred={
+                      !(
+                        isAttendingCurrentSupper ||
+                        user.username === supper.createdBy.username
+                      )
+                    }
+                    size={35}
+                    uri={item.avatar}
+                  />
                 )}
                 keyExtractor={(item, index) => `${item}-${index}`}
                 scrollEnabled={true}
@@ -191,7 +217,7 @@ export default function DetailsCard() {
                 >{`£${supper.price * seats}`}</CustomFont>
               </View>
               <CheckoutForm
-                isSoldout={seatsLeft === 0}
+                isSoldout={seatsLeft && seatsLeft <= 0 ? true : false}
                 isDisabled={
                   user.username === supper.createdBy.username || seats === 0
                 }

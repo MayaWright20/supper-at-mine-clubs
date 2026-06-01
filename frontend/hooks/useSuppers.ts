@@ -142,7 +142,17 @@ export default function useSuppers() {
       })
     : [];
 
-  // const myBookedSuppers: Supper[] = user.bookedSuppers;
+  const isAttendingSupper = (supperId: string): boolean => {
+    let isAttending = false;
+    for (let index = 0; index < myBookedSuppers.length; index++) {
+      const myBookedSupperClubId = myBookedSuppers[index]._id;
+
+      isAttending = myBookedSupperClubId === supperId;
+
+      if (isAttending) return isAttending;
+    }
+    return isAttending;
+  };
 
   return {
     createSupper,
@@ -153,6 +163,7 @@ export default function useSuppers() {
     getSupper,
     supper,
     setSupper,
-    myBookedSuppers
+    myBookedSuppers,
+    isAttendingSupper
   };
 }
