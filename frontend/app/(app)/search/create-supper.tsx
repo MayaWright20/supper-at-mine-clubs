@@ -25,6 +25,7 @@ export default function CreateSupper() {
   const [price, setPrice] = useState("");
   const [availableSeats, setAvailableSeats] = useState("");
   const [dateOfEvent, setDateOfEvent] = useState(new Date());
+  const [location, setLocation] = useState("");
 
   const { createSupper } = useSuppers();
   const { image, pickImage } = useImagePicker(defaultAvatar, true, 5);
@@ -46,7 +47,8 @@ export default function CreateSupper() {
         images: image,
         price: Number(price),
         availableSeats: Number(availableSeats),
-        dateOfEvent: dateOfEvent.toISOString()
+        dateOfEvent: dateOfEvent.toISOString(),
+        location: location.trim()
       });
       router.back();
     } catch (error: any) {
@@ -79,6 +81,14 @@ export default function CreateSupper() {
           labelColor={COLORS.CREAM_0}
         />
         <DateTimeInput date={dateOfEvent} onChangeDate={setDateOfEvent} />
+        <AnimatedTextInput
+          label={"Location"}
+          value={location}
+          onChangeText={(value) => setLocation(value)}
+          color={COLORS.RED_0}
+          labelColor={COLORS.CREAM_0}
+          placeholder={"e.g. 123 Example Street, London"}
+        />
         {/* Authentic creole food make with recipe learned in the Seychelles */}
         <AnimatedTextInput
           label={"Price per seat"}

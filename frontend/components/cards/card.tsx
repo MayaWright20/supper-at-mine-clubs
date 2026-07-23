@@ -148,13 +148,29 @@ export default function Card({
         >
           {title}
         </Text>
-        {formattedDate && (
-          <Text
-            style={[styles.dateText, isHorizontal && styles.horizontalDateText]}
-          >
-            {formattedDate}
-          </Text>
-        )}
+        <View style={styles.infoRow}>
+          {formattedDate && (
+            <Text
+              style={[
+                styles.infoText,
+                isHorizontal && styles.horizontalInfoText
+              ]}
+            >
+              {formattedDate}
+            </Text>
+          )}
+          {item.location ? (
+            <Text
+              style={[
+                styles.infoText,
+                isHorizontal && styles.horizontalInfoText
+              ]}
+              numberOfLines={1}
+            >
+              {item.location}
+            </Text>
+          ) : null}
+        </View>
         {meta ? (
           <Text
             numberOfLines={2}
@@ -231,6 +247,10 @@ const styles = StyleSheet.create({
     flex: undefined,
     width: "36%"
   },
+  horizontalInfoText: {
+    fontSize: 10,
+    lineHeight: 13
+  },
   horizontalKicker: {
     fontSize: 9,
     letterSpacing: 0.4,
@@ -276,6 +296,17 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     position: "relative",
     width: "100%"
+  },
+  infoRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginTop: 4
+  },
+  infoText: {
+    color: "#7A685D",
+    fontSize: 12,
+    fontWeight: "500"
   },
   kicker: {
     color: "#7A685D",

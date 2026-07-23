@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   useWindowDimensions,
   View
 } from "react-native";
@@ -17,6 +18,7 @@ import { CustomFont } from "@/components/fonts/font";
 import Header from "@/components/header/header";
 import UserIcon from "@/components/icons/user-icon";
 import CounterInput from "@/components/inputs/counter-input";
+import LocationModal from "@/components/map/location-modal";
 import CheckoutForm from "@/components/stripe/checkout-form.native";
 import { COLORS } from "@/constants/colors";
 import {
@@ -42,6 +44,7 @@ export default function DetailsCard() {
   const { width } = useWindowDimensions();
   const { user } = useProfile();
   const isFocused = useRef(false);
+  const [locationModalVisible, setLocationModalVisible] = useState(false);
 
   useEffect(() => {
     const itemString = Array.isArray(item) ? item[0] : item;
@@ -169,6 +172,23 @@ export default function DetailsCard() {
                   {formattedTime}
                 </CustomFont>
               </View>
+              <TouchableOpacity
+                onPress={() => setLocationModalVisible(true)}
+                style={styles.backFavouriteWrapper}
+              >
+                <CustomFont style={[FONTS.MEDIUM, FONTS.title]}>
+                  Location:
+                </CustomFont>
+                <CustomFont
+                  style={[
+                    FONTS.MEDIUM,
+                    FONTS.title,
+                    { color: "black", textDecorationLine: "underline" }
+                  ]}
+                >
+                  {supper.location || "TBC"}
+                </CustomFont>
+              </TouchableOpacity>
 
               <CustomFont
                 style={[FONTS.LARGE, FONTS.title]}
@@ -255,6 +275,11 @@ export default function DetailsCard() {
           </>
         )}
       </ScrollView>
+      <LocationModal
+        visible={locationModalVisible}
+        location={supper?.location || "TBC"}
+        onClose={() => setLocationModalVisible(false)}
+      />
     </SafeAreaView>
   );
 }
