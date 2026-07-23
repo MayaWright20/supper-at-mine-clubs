@@ -5,7 +5,8 @@ import { uploadImageToCloudinary } from "../utils/cloudinary.js";
 import ErrorHandler from "../utils/error.js";
 
 export const createSupper = asyncError(async (req, res, next) => {
-  const { name, description, availableSeats, price, dateOfEvent } = req.body;
+  const { name, description, availableSeats, price, dateOfEvent, location } =
+    req.body;
 
   if (!name || !description || !availableSeats || !price) {
     return next(
@@ -34,6 +35,7 @@ export const createSupper = asyncError(async (req, res, next) => {
     availableSeats,
     price: price || 30,
     dateOfEvent: dateOfEvent || new Date(),
+    location: location || "",
     images: uploadedImages.map((image) => image.secureUrl),
     createdBy: req.user._id,
     attendies: [],
@@ -56,13 +58,9 @@ export const getAllSuppers = asyncError(async (req, res, next) => {
 });
 
 export const getSupper = asyncError(async (req, res, next) => {
-  const supper = await Supper.findById(req.params.id).populate([
-    "attendies",
-    "name avatar avatarPublicId username",
-    ,
-    "createdBy",
-    "name avatar avatarPublicId username",
-  ]);
+  const supper = await Supper.findById(req.params.id)
+    .populate("attendies", "name avatar avatarPublicId username")
+    .populate("createdBy", "name avatar avatarPublicId username");
 
   if (!supper) {
     return next(new ErrorHandler("Supper not found", 404));

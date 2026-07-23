@@ -2,7 +2,7 @@
 
 ## Current Ticket (Active)
 - [x] **Show date of event on cards** - Display `dateOfEvent` on the card component
-- [ ] **Show location of where it's being hosted roughly** - Add location field to backend model, create form, and display on cards
+- [x] **Show location of where it's being hosted roughly** - Add location field to backend model, create form, and display on cards
 
 ## TODO (Backlog)
 - [ ] **Favourite** - Add ability to favourite supper clubs

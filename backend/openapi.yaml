@@ -47,6 +47,11 @@ components:
           type: number
         reviewCount:
           type: number
+        dateOfEvent:
+          type: string
+          format: date-time
+        location:
+          type: string
         dateCreated:
           type: string
           format: date-time
@@ -142,6 +147,11 @@ components:
         availableSeats:
           type: string
         price:
+          type: string
+        dateOfEvent:
+          type: string
+          format: date-time
+        location:
           type: string
         images:
           type: array

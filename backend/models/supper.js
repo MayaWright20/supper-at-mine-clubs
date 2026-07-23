@@ -36,6 +36,10 @@ const schema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  location: {
+    type: String,
+    default: "",
+  },
   dateCreated: {
     type: Date,
     default: Date.now,
