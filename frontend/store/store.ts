@@ -27,6 +27,8 @@ export interface StoreState {
   setHasFetchedSuppers: (hasFetchedSuppers: boolean) => void;
   isFetchingSuppers: boolean;
   setIsFetchingSuppers: (isFetchingSuppers: boolean) => void;
+  favouriteVersion: number;
+  incrementFavouriteVersion: () => void;
 }
 
 export const useStore = create<StoreState>((set, get) => ({
@@ -71,7 +73,10 @@ export const useStore = create<StoreState>((set, get) => ({
     set(() => ({ hasFetchedSuppers })),
   isFetchingSuppers: false,
   setIsFetchingSuppers: (isFetchingSuppers: boolean) =>
-    set(() => ({ isFetchingSuppers }))
+    set(() => ({ isFetchingSuppers })),
+  favouriteVersion: 0,
+  incrementFavouriteVersion: () =>
+    set((state) => ({ favouriteVersion: state.favouriteVersion + 1 }))
 }));
 
 const sessionStorage = {

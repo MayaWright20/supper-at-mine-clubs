@@ -1,7 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   LayoutChangeEvent,
   ScrollView,
@@ -16,6 +16,8 @@ import {
 
 import { COLORS } from "@/constants/colors";
 import { BORDER_RADIUS } from "@/constants/styles";
+import useSuppers from "@/hooks/useSuppers";
+import { StoreState, usePersistStore, useStore } from "@/store/store";
 import { formatDate } from "@/utils/dates";
 
 function SoldOutOverlay({ isSoldOut }: { isSoldOut: boolean }) {
@@ -59,6 +61,14 @@ export default function Card({
   const images = image ?? [];
   const hasImages = images.length > 0;
 
+  const { toggleFavourite } = useSuppers();
+  const user = usePersistStore((state: any) => state.user);
+  const favouriteSupperIds: string[] = user?.favouriteSuppers || [];
+  const isFavourite = favouriteSupperIds.includes(id);
+
+  // Subscribe to favouriteVersion to force re-render when favourites change
+  useStore((state: StoreState) => state.favouriteVersion);
+
   const handleImageWrapperLayout = (event: LayoutChangeEvent) => {
     const { height: wrapperHeight, width } = event.nativeEvent.layout;
     setImageSize({ height: wrapperHeight, width });
@@ -74,6 +84,10 @@ export default function Card({
       }
     });
   };
+
+  const onPressFavourite = useCallback(() => {
+    toggleFavourite(id);
+  }, [id, toggleFavourite]);
 
   const isClubSoldOut = useMemo(
     () => item.attendies.length >= item.availableSeats,
@@ -128,14 +142,14 @@ export default function Card({
           </View>
         )}
         {showTag ? (
-          <View style={styles.tag}>
+          <TouchableOpacity onPress={onPressFavourite} style={styles.tag}>
             <Ionicons
               style={styles.icon}
-              name={"heart-outline"}
-              color={"black"}
+              name={isFavourite ? "heart" : "heart-outline"}
+              color={COLORS.RED_0}
               size={20}
             />
-          </View>
+          </TouchableOpacity>
         ) : null}
       </View>
       <View style={[styles.content, isHorizontal && styles.horizontalContent]}>

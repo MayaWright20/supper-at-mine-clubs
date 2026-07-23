@@ -39,5 +39,17 @@ export const suppersApi = {
       { seats },
       { headers: getAuthHeaders(token) }
     );
+  },
+
+  toggleFavourite(supperId: string, token?: string | null) {
+    return apiClient.patch<{
+      success: boolean;
+      isFavourited: boolean;
+      favouriteSuppers: string[];
+    }>(
+      `/suppers/${supperId}/favourite`,
+      {},
+      { headers: getAuthHeaders(token) }
+    );
   }
 };

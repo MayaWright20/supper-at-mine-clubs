@@ -4,6 +4,39 @@ import { User } from "../models/user.js";
 import { uploadImageToCloudinary } from "../utils/cloudinary.js";
 import ErrorHandler from "../utils/error.js";
 
+export const toggleFavourite = asyncError(async (req, res, next) => {
+  const supper = await Supper.findById(req.params.id);
+
+  if (!supper) {
+    return next(new ErrorHandler("Supper not found", 404));
+  }
+
+  const user = await User.findById(req.user._id);
+
+  if (!user.favouriteSuppers) {
+    user.favouriteSuppers = [];
+  }
+
+  const supperIndex = user.favouriteSuppers.indexOf(supper._id);
+
+  let isFavourited = false;
+
+  if (supperIndex === -1) {
+    user.favouriteSuppers.push(supper._id);
+    isFavourited = true;
+  } else {
+    user.favouriteSuppers.splice(supperIndex, 1);
+  }
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    isFavourited,
+    favouriteSuppers: user.favouriteSuppers,
+  });
+});
+
 export const createSupper = asyncError(async (req, res, next) => {
   const { name, description, availableSeats, price, dateOfEvent, location } =
     req.body;

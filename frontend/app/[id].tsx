@@ -29,6 +29,7 @@ import {
 } from "@/constants/styles";
 import useProfile from "@/hooks/useProfile";
 import useSuppers from "@/hooks/useSuppers";
+import { StoreState, usePersistStore, useStore } from "@/store/store";
 import { formatDate } from "@/utils/dates";
 
 const DETAIL_POLL_INTERVAL_MS = 30000; // 15 seconds
@@ -39,12 +40,22 @@ export default function DetailsCard() {
   };
 
   const { id, item } = useLocalSearchParams();
-  const { supper, setSupper, getSupper, isAttendingSupper } = useSuppers();
+  const supperId = Array.isArray(id) ? id[0] : id;
+
+  const { supper, setSupper, getSupper, isAttendingSupper, toggleFavourite } =
+    useSuppers();
   const [seats, setSeats] = useState<number>(0);
   const { width } = useWindowDimensions();
   const { user } = useProfile();
   const isFocused = useRef(false);
   const [locationModalVisible, setLocationModalVisible] = useState(false);
+
+  const currentUser = usePersistStore((state: any) => state.user);
+  const favouriteSupperIds: string[] = currentUser?.favouriteSuppers || [];
+  const isFavourite = favouriteSupperIds.includes(supperId);
+
+  // Subscribe to favouriteVersion to force re-render when favourites change
+  useStore((state: StoreState) => state.favouriteVersion);
 
   useEffect(() => {
     const itemString = Array.isArray(item) ? item[0] : item;
@@ -56,7 +67,6 @@ export default function DetailsCard() {
   useFocusEffect(
     useCallback(() => {
       isFocused.current = true;
-      const supperId = Array.isArray(id) ? id[0] : id;
       getSupper(supperId);
 
       // Poll for updates while this screen is in focus
@@ -70,7 +80,7 @@ export default function DetailsCard() {
         isFocused.current = false;
         clearInterval(intervalId);
       };
-    }, [id, getSupper])
+    }, [supperId, getSupper])
   );
 
   const seatsLeft = useMemo(
@@ -79,8 +89,8 @@ export default function DetailsCard() {
   );
 
   const isAttendingCurrentSupper = useMemo(
-    () => isAttendingSupper(id),
-    [id, isAttendingSupper]
+    () => isAttendingSupper(supperId),
+    [supperId, isAttendingSupper]
   );
 
   const renderImage = ({
@@ -133,7 +143,15 @@ export default function DetailsCard() {
             title={"Back"}
             onPress={navigateBack}
           />
-          <Ionicons name={"heart-outline"} color={COLORS.RED_0} size={40} />
+          <TouchableOpacity
+            onPress={() => toggleFavourite(supper?._id || supperId)}
+          >
+            <Ionicons
+              name={isFavourite ? "heart" : "heart-outline"}
+              color={COLORS.RED_0}
+              size={40}
+            />
+          </TouchableOpacity>
         </View>
         {supper && (
           <>

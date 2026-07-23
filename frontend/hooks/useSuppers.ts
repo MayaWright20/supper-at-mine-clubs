@@ -162,6 +162,42 @@ export default function useSuppers() {
     return isAttending;
   };
 
+  const isFavouriteSupper = (supperId: string): boolean => {
+    const currentUser = usePersistStore.getState().user;
+    const ids: string[] = currentUser?.favouriteSuppers || [];
+    return ids.includes(supperId);
+  };
+
+  const setUser = usePersistStore((state: any) => state.setUser);
+  const incrementFavouriteVersion = useStore(
+    (state: StoreState) => state.incrementFavouriteVersion
+  );
+
+  const toggleFavourite = async (supperId: string) => {
+    try {
+      const token = usePersistStore.getState().sessionToken;
+      const response = await suppersApi.toggleFavourite(supperId, token);
+      if (response.data.success) {
+        // Update the user's favouriteSuppers in the store
+        const currentUser = usePersistStore.getState().user;
+        const updatedUser = {
+          ...currentUser,
+          favouriteSuppers: response.data.favouriteSuppers
+        };
+        setUser(updatedUser);
+        incrementFavouriteVersion();
+      }
+    } catch (err) {
+      console.log("Failed to toggle favourite", err);
+    }
+  };
+
+  const myFavouriteSuppers: Supper[] = suppers
+    ? suppers.filter((item) => {
+        return isFavouriteSupper(item._id);
+      })
+    : [];
+
   return {
     createSupper,
     getAllSuppers,
@@ -172,6 +208,9 @@ export default function useSuppers() {
     supper,
     setSupper,
     myBookedSuppers,
-    isAttendingSupper
+    isAttendingSupper,
+    toggleFavourite,
+    isFavouriteSupper,
+    myFavouriteSuppers
   };
 }

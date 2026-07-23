@@ -42,6 +42,15 @@ const schema = new mongoose.Schema(
         ref: "Supper",
       },
     ],
+    favouriteSuppers: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Supper",
+        },
+      ],
+      default: [],
+    },
   },
   {
     timestamps: true,
