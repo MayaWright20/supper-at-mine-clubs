@@ -32,6 +32,10 @@ const schema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  dateOfEvent: {
+    type: Date,
+    required: true,
+  },
   dateCreated: {
     type: Date,
     default: Date.now,

@@ -16,6 +16,7 @@ import {
 
 import { COLORS } from "@/constants/colors";
 import { BORDER_RADIUS } from "@/constants/styles";
+import { formatDate } from "@/utils/dates";
 
 function SoldOutOverlay({ isSoldOut }: { isSoldOut: boolean }) {
   if (!isSoldOut) return;
@@ -74,11 +75,14 @@ export default function Card({
     });
   };
 
-  // console.log("item", item);
   const isClubSoldOut = useMemo(
     () => item.attendies.length >= item.availableSeats,
     [item]
   );
+
+  const formattedDate = item.dateOfEvent
+    ? formatDate(new Date(item.dateOfEvent))
+    : "Date TBC";
 
   return (
     <TouchableOpacity onPress={onPressCard} style={containerStyle}>
@@ -144,6 +148,29 @@ export default function Card({
         >
           {title}
         </Text>
+        <View style={styles.infoRow}>
+          {formattedDate && (
+            <Text
+              style={[
+                styles.infoText,
+                isHorizontal && styles.horizontalInfoText
+              ]}
+            >
+              {formattedDate}
+            </Text>
+          )}
+          {item.location ? (
+            <Text
+              style={[
+                styles.infoText,
+                isHorizontal && styles.horizontalInfoText
+              ]}
+              numberOfLines={1}
+            >
+              {item.location}
+            </Text>
+          ) : null}
+        </View>
         {meta ? (
           <Text
             numberOfLines={2}
@@ -189,6 +216,12 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     width: "100%"
   },
+  dateText: {
+    color: "#7A685D",
+    fontSize: 12,
+    fontWeight: "500",
+    marginTop: 4
+  },
   dot: {
     backgroundColor: "#B7A89A",
     borderRadius: BORDER_RADIUS.X_LARGE,
@@ -205,9 +238,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingTop: 10
   },
+  horizontalDateText: {
+    fontSize: 10,
+    lineHeight: 13,
+    marginTop: 2
+  },
   horizontalImageWrapper: {
     flex: undefined,
     width: "36%"
+  },
+  horizontalInfoText: {
+    fontSize: 10,
+    lineHeight: 13
   },
   horizontalKicker: {
     fontSize: 9,
@@ -254,6 +296,17 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     position: "relative",
     width: "100%"
+  },
+  infoRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginTop: 4
+  },
+  infoText: {
+    color: "#7A685D",
+    fontSize: 12,
+    fontWeight: "500"
   },
   kicker: {
     color: "#7A685D",

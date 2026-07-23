@@ -51,6 +51,13 @@ export const FONTS = StyleSheet.create({
     marginTop: 15,
     textTransform: "uppercase"
   },
+  MEDIUM: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+    marginTop: 15,
+    textTransform: "uppercase"
+  },
   X_LARGE: {
     fontSize: 50,
     fontWeight: "bold"

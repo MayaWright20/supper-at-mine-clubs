@@ -1,3 +1,16 @@
+/**
+ * Format a date to a short readable string.
+ * Example: "Thu, 6 Mar 2026"
+ */
+export function formatDate(date: Date): string {
+  return date.toLocaleDateString("en-GB", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
+}
+
 export function formatMemberSince(createdAt?: string, userId?: string) {
   const date = createdAt ? new Date(createdAt) : getDateFromObjectId(userId);
 

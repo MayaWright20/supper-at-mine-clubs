@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   useWindowDimensions,
   View
 } from "react-native";
@@ -17,6 +18,7 @@ import { CustomFont } from "@/components/fonts/font";
 import Header from "@/components/header/header";
 import UserIcon from "@/components/icons/user-icon";
 import CounterInput from "@/components/inputs/counter-input";
+import LocationModal from "@/components/map/location-modal";
 import CheckoutForm from "@/components/stripe/checkout-form.native";
 import { COLORS } from "@/constants/colors";
 import {
@@ -27,6 +29,7 @@ import {
 } from "@/constants/styles";
 import useProfile from "@/hooks/useProfile";
 import useSuppers from "@/hooks/useSuppers";
+import { formatDate } from "@/utils/dates";
 
 const DETAIL_POLL_INTERVAL_MS = 30000; // 15 seconds
 
@@ -41,6 +44,7 @@ export default function DetailsCard() {
   const { width } = useWindowDimensions();
   const { user } = useProfile();
   const isFocused = useRef(false);
+  const [locationModalVisible, setLocationModalVisible] = useState(false);
 
   useEffect(() => {
     const itemString = Array.isArray(item) ? item[0] : item;
@@ -104,12 +108,16 @@ export default function DetailsCard() {
     </View>
   );
 
-  // console.log(id);
+  const formattedDate = supper?.dateOfEvent
+    ? formatDate(new Date(supper.dateOfEvent))
+    : "";
 
-  // myBookedSuppers.map((item) => {
-  //   console.log("id", id);
-  //   return console.log(item._id);
-  // });
+  const formattedTime = supper?.dateOfEvent
+    ? new Date(supper.dateOfEvent).toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit"
+      })
+    : "";
 
   return (
     <SafeAreaView edges={["top"]} style={styles.screen}>
@@ -144,6 +152,44 @@ export default function DetailsCard() {
             )}
 
             <View style={styles.descriptionContainer}>
+              <View style={styles.backFavouriteWrapper}>
+                <CustomFont style={[FONTS.MEDIUM, FONTS.title]}>
+                  Date:
+                </CustomFont>
+                <CustomFont
+                  style={[FONTS.MEDIUM, FONTS.title, { color: "black" }]}
+                >
+                  {formattedDate}
+                </CustomFont>
+              </View>
+              <View style={styles.backFavouriteWrapper}>
+                <CustomFont style={[FONTS.MEDIUM, FONTS.title]}>
+                  Time:
+                </CustomFont>
+                <CustomFont
+                  style={[FONTS.MEDIUM, FONTS.title, { color: "black" }]}
+                >
+                  {formattedTime}
+                </CustomFont>
+              </View>
+              <TouchableOpacity
+                onPress={() => setLocationModalVisible(true)}
+                style={styles.backFavouriteWrapper}
+              >
+                <CustomFont style={[FONTS.MEDIUM, FONTS.title]}>
+                  Location:
+                </CustomFont>
+                <CustomFont
+                  style={[
+                    FONTS.MEDIUM,
+                    FONTS.title,
+                    { color: "black", textDecorationLine: "underline" }
+                  ]}
+                >
+                  {supper.location || "TBC"}
+                </CustomFont>
+              </TouchableOpacity>
+
               <CustomFont
                 style={[FONTS.LARGE, FONTS.title]}
               >{`Description`}</CustomFont>
@@ -229,6 +275,11 @@ export default function DetailsCard() {
           </>
         )}
       </ScrollView>
+      <LocationModal
+        visible={locationModalVisible}
+        location={supper?.location || "TBC"}
+        onClose={() => setLocationModalVisible(false)}
+      />
     </SafeAreaView>
   );
 }
