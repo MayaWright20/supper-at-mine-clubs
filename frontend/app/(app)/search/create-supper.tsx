@@ -4,10 +4,11 @@ import { Alert, Image, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CTA from "@/components/buttons/cta";
-import { CustomFont } from "@/components/fonts/font";
+import Header from "@/components/header/header";
+import { DateTimeInput } from "@/components/inputs/date-time-input";
 import AnimatedTextInput from "@/components/inputs/text-input";
 import { COLORS } from "@/constants/colors";
-import { BORDER_RADIUS, FONTS, SCREEN_STYLES } from "@/constants/styles";
+import { BORDER_RADIUS, SCREEN_STYLES } from "@/constants/styles";
 import useImagePicker from "@/hooks/useImagePicker";
 import useSuppers from "@/hooks/useSuppers";
 
@@ -23,6 +24,7 @@ export default function CreateSupper() {
   const [longDescription, setLongDescription] = useState("");
   const [price, setPrice] = useState("");
   const [availableSeats, setAvailableSeats] = useState("");
+  const [dateOfEvent, setDateOfEvent] = useState(new Date());
 
   const { createSupper } = useSuppers();
   const { image, pickImage } = useImagePicker(defaultAvatar, true, 5);
@@ -43,7 +45,8 @@ export default function CreateSupper() {
         description: (longDescription || description).trim(),
         images: image,
         price: Number(price),
-        availableSeats: Number(availableSeats)
+        availableSeats: Number(availableSeats),
+        dateOfEvent: dateOfEvent.toISOString()
       });
       router.back();
     } catch (error: any) {
@@ -66,9 +69,7 @@ export default function CreateSupper() {
           title={"Back"}
           onPress={backCta}
         />
-        <CustomFont
-          style={[FONTS.LARGE, FONTS.title]}
-        >{`Create your own Supper club`}</CustomFont>
+        <Header title="Create your own Supper Club" />
         <AnimatedTextInput
           value={name}
           label={"Event Name"}
@@ -77,6 +78,7 @@ export default function CreateSupper() {
           color={COLORS.RED_0}
           labelColor={COLORS.CREAM_0}
         />
+        <DateTimeInput date={dateOfEvent} onChangeDate={setDateOfEvent} />
         {/* Authentic creole food make with recipe learned in the Seychelles */}
         <AnimatedTextInput
           label={"Price per seat"}

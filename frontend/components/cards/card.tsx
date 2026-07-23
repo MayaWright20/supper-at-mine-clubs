@@ -16,6 +16,7 @@ import {
 
 import { COLORS } from "@/constants/colors";
 import { BORDER_RADIUS } from "@/constants/styles";
+import { formatDate } from "@/utils/dates";
 
 function SoldOutOverlay({ isSoldOut }: { isSoldOut: boolean }) {
   if (!isSoldOut) return;
@@ -74,11 +75,14 @@ export default function Card({
     });
   };
 
-  // console.log("item", item);
   const isClubSoldOut = useMemo(
     () => item.attendies.length >= item.availableSeats,
     [item]
   );
+
+  const formattedDate = item.dateOfEvent
+    ? formatDate(new Date(item.dateOfEvent))
+    : "Date TBC";
 
   return (
     <TouchableOpacity onPress={onPressCard} style={containerStyle}>
@@ -144,6 +148,13 @@ export default function Card({
         >
           {title}
         </Text>
+        {formattedDate && (
+          <Text
+            style={[styles.dateText, isHorizontal && styles.horizontalDateText]}
+          >
+            {formattedDate}
+          </Text>
+        )}
         {meta ? (
           <Text
             numberOfLines={2}
@@ -189,6 +200,12 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     width: "100%"
   },
+  dateText: {
+    color: "#7A685D",
+    fontSize: 12,
+    fontWeight: "500",
+    marginTop: 4
+  },
   dot: {
     backgroundColor: "#B7A89A",
     borderRadius: BORDER_RADIUS.X_LARGE,
@@ -204,6 +221,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingHorizontal: 12,
     paddingTop: 10
+  },
+  horizontalDateText: {
+    fontSize: 10,
+    lineHeight: 13,
+    marginTop: 2
   },
   horizontalImageWrapper: {
     flex: undefined,

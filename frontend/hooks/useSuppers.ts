@@ -40,14 +40,18 @@ export default function useSuppers() {
     description,
     images = [],
     price,
-    availableSeats
-  }: Supper) => {
+    availableSeats,
+    dateOfEvent
+  }: Supper & { dateOfEvent?: string }) => {
     const data = new FormData();
 
     data.append("name", name);
     data.append("description", description);
     data.append("availableSeats", String(availableSeats));
     data.append("price", String(price));
+    if (dateOfEvent) {
+      data.append("dateOfEvent", dateOfEvent);
+    }
 
     images.forEach((uri, index) => {
       data.append("images", {

@@ -5,7 +5,7 @@ import { uploadImageToCloudinary } from "../utils/cloudinary.js";
 import ErrorHandler from "../utils/error.js";
 
 export const createSupper = asyncError(async (req, res, next) => {
-  const { name, description, availableSeats, price } = req.body;
+  const { name, description, availableSeats, price, dateOfEvent } = req.body;
 
   if (!name || !description || !availableSeats || !price) {
     return next(
@@ -33,6 +33,7 @@ export const createSupper = asyncError(async (req, res, next) => {
     description,
     availableSeats,
     price: price || 30,
+    dateOfEvent: dateOfEvent || new Date(),
     images: uploadedImages.map((image) => image.secureUrl),
     createdBy: req.user._id,
     attendies: [],

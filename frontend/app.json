@@ -70,7 +70,8 @@
       "expo-video",
       "expo-font",
       "expo-web-browser",
-      "@stripe/stripe-react-native"
+      "@stripe/stripe-react-native",
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true,
